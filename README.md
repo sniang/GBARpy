@@ -3,7 +3,7 @@
 This library is made to work with python 3.
 ## Table of Contents
 * (Installation)[Installation]
-* (MCPpicture library)[GBARpy#mcppicture-library]
+* [MCPpicture library](#mcppicture-library)
     * (Basic code for an analysis)[#Basic-code-for-an-analysis]
 ## Installation
 ## MCPpicture library
