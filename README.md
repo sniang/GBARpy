@@ -37,8 +37,9 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
-or to plot a summary of the fit:
 ![Example_2](example/fig_example_2.png)
+
+or to plot a summary of the fit:
 ```python
 #plot all
 pic.plot("fig_example_3.pdf")
