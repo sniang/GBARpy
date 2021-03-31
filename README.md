@@ -40,3 +40,45 @@ fig2.savefig("fig_example_2.pdf")
 pic.plot("fig_example_3.pdf","plot analysis")
 ```
 ![Example_3](example/fig_example_3.png)
+### More examples
+```python
+### Import the Picture
+img = mcp.import_image("IMG0008.bmp")
+fig4 = plt.figure(figsize=(5,5))
+plt.imshow(img)
+fig4.savefig("fig_example_4.png")
+```
+![Example_4](example/fig_example_4.png)
+```python
+### Import the Picture and reshape
+img = mcp.import_image("IMG0008.bmp",reshape=[1250,1000,600])
+fig5 = plt.figure(figsize=(5,5))
+plt.imshow(img)
+fig5.savefig("fig_example_5.png")
+```
+![Example_5](example/fig_example_5.png)
+```python
+### Integrals along the X and Y axis
+Px,Ix = mcp.integrate_picture_along_X(img)
+Py,Iy = mcp.integrate_picture_along_Y(img)
+fig6 = plt.figure(figsize=(10,5))
+plt.subplot(121)
+plt.imshow(img)
+plt.subplot(122)
+plt.plot(Px,Ix)
+plt.plot(Py,Iy)
+fig6.savefig("fig_example_6.png")
+```
+![Example_6](example/fig_example_6.png)
+```python
+### Fit of the integrals
+poptX,perrX=mcp.fit_gaussian_offset_filtered(Px,Ix)
+poptY,perrY=mcp.fit_gaussian_offset_filtered(Py,Iy)
+fig7 = plt.figure(figsize=(5,5))
+plt.plot(Px,Ix,'.',color='tab:red',ms=1)
+plt.plot(Px,mcp.gaussian_offset(Px,*poptX),color='tab:red')
+plt.plot(Py,Iy,'.',color='tab:blue',ms=1)
+plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
+fig7.savefig("fig_example_7.png")
+```
+![Example_7](example/fig_example_7.png)
