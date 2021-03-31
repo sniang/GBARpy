@@ -14,10 +14,10 @@ Basic elements
 For more details use help(mcp)
 """
 
-# analyse the beam spot
+# reshape analyse the beam spot
 #pic = mcp.BeamSpot("IMG0008.bmp",reshape=[1250,1000,600])
-
-# or if you don't want to reshape
+# the reshape array is a made of 3 elements: positionX, positionY, length (in pixel)
+# if you don't want to reshape
 pic = mcp.BeamSpot("IMG0008.bmp")
 
 # The fit will fail is the reshaping is too important, see the result with
