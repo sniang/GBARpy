@@ -32,6 +32,7 @@ print(pic)
 fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
+fig1.savefig("fig_example_1.png")
 
 
 #plot the fit
@@ -39,8 +40,10 @@ fig2 = plt.figure(figsize=(5,5))
 pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
+fig2.savefig("fig_example_2.png")
 
 
 #plot all
-pic.plot("fig_example_3.pdf","plot analysis")
+pic.plot("fig_example_3.pdf")
+pic.plot("fig_example_3.png")
 

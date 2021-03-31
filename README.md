@@ -26,7 +26,7 @@ fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
-![Example_1](example/fig_example_1.pdf)
+![Example_1](example/fig_example_1.png)
 ```python
 #plot the fit
 fig2 = plt.figure(figsize=(5,5))
@@ -34,9 +34,9 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
-![Example_2](example/fig_example_2.pdf)
+![Example_2](example/fig_example_2.png)
 ```python
 #plot all
 pic.plot("fig_example_3.pdf","plot analysis")
 ```
-![Example_3](example/fig_example_3.pdf)
+![Example_3](example/fig_example_3.png)
