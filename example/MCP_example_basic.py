@@ -15,7 +15,7 @@ For more details use help(mcp)
 """
 
 # reshape analyse the beam spot
-#pic = mcp.BeamSpot("IMG0008.bmp",reshape=[1250,1000,600])
+pic = mcp.BeamSpot("IMG0008.bmp",reshape=[1250,1000,600])
 # the reshape array is a made of 3 elements: positionX, positionY, length (in pixel)
 # if you don't want to reshape
 pic = mcp.BeamSpot("IMG0008.bmp")
@@ -29,16 +29,18 @@ print(pic)
 
 
 #plot the image
-plt.figure()
+fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
+fig1.savefig("fig_example_1.pdf")
 
 
 #plot the fit
-plt.figure()
+fig2 = plt.figure(figsize=(5,5))
 pic.plot_X_int()
 pic.plot_Y_int()
+fig2.savefig("fig_example_2.pdf")
 
 
 #plot all
-pic.plot()
+pic.plot("fig_example_3.pdf","plot analysis")
 
