@@ -1,5 +1,7 @@
 # How to use the library
 
+This library is made to work with python 3.
+
 ## Installation
 ## MCPpicture library
 ### Basic code for an analysis
@@ -19,13 +21,14 @@ pic = mcp.BeamSpot("IMG0008.bmp",reshape=[1250,1000,600])
 pic = mcp.BeamSpot("IMG0008.bmp")
 ```
 With this minimal code, the picture is analysed and the parameters of the fit can be obtained usign ```print(img)```.
-
+If it then possible to see and save the pictures as in the following example:
 ```python
 #plot the image
 fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
+Even if it can be written manually, there are line codes to plot the intgrals along the x-axis and the y-axis:
 ![Example_1](example/fig_example_1.png)
 ```python
 #plot the fit
@@ -34,13 +37,22 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
+or to plot a summary of the fit:
 ![Example_2](example/fig_example_2.png)
 ```python
 #plot all
-pic.plot("fig_example_3.pdf","plot analysis")
+pic.plot("fig_example_3.pdf")
 ```
 ![Example_3](example/fig_example_3.png)
 ### More examples
+To import the required librairies for the following examples:
+```python
+# Import the library
+import GBARpy.MCPPicture as mcp
+import matplotlib.pyplot as plt
+```
+
+For some reasons, you might desire to import the picture without analysing it:
 ```python
 ### Import the Picture
 img = mcp.import_image("IMG0008.bmp")
@@ -56,6 +68,7 @@ fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig5.savefig("fig_example_5.png")
 ```
+Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ![Example_5](example/fig_example_5.png)
 ```python
 ### Integrals along the X and Y axis
@@ -70,6 +83,7 @@ plt.plot(Py,Iy)
 fig6.savefig("fig_example_6.png")
 ```
 ![Example_6](example/fig_example_6.png)
+and then, using the fit function defined in the library
 ```python
 ### Fit of the integrals
 poptX,perrX=mcp.fit_gaussian_offset_filtered(Px,Ix)
