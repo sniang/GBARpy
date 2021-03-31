@@ -1,7 +1,10 @@
 # How to use the library
 
 This library is made to work with python 3.
-
+## Table of Contents
+    *(Installation)[#Installation]
+    *(MCPpicture library)[#MCPpicture-library]
+        *(Basic code for an analysis)[#Basic-code-for-an-analysis]
 ## Installation
 ## MCPpicture library
 ### Basic code for an analysis
