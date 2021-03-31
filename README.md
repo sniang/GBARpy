@@ -68,8 +68,9 @@ fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig5.savefig("fig_example_5.png")
 ```
-Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ![Example_5](example/fig_example_5.png)
+
+Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ```python
 ### Integrals along the X and Y axis
 Px,Ix = mcp.integrate_picture_along_X(img)
@@ -83,6 +84,7 @@ plt.plot(Py,Iy)
 fig6.savefig("fig_example_6.png")
 ```
 ![Example_6](example/fig_example_6.png)
+
 and then, using the fit function defined in the library
 ```python
 ### Fit of the integrals
