@@ -2,10 +2,14 @@
 
 This library is made to work with python 3.
 ## Table of Contents
-* (Installation)[Installation]
+* [Installation](#installation)
 * [MCPpicture library](#mcppicture-library)
-    * (Basic code for an analysis)[#Basic-code-for-an-analysis]
+    * [Basic code for an analysis](#basic-code-for-an-analysis)
+    * [More examples](#more-examples)
+    
 ## Installation
+
+
 ## MCPpicture library
 ### Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](https://github.com/sniang/GBARpy/blob/3be859b67a0037ad0769b641c9f237496ce881ea/example/MCP_example_basic.py) and [MCP_example_small_functions.py](https://github.com/sniang/GBARpy/blob/3be859b67a0037ad0769b641c9f237496ce881ea/example/MCP_example_small_functions.py).
