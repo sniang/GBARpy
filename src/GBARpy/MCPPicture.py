@@ -194,7 +194,7 @@ class BeamSpot:
         if not(np.isnan(self.popty[0])):
             plt.ylim([0,self.Ay/self.sigy/np.sqrt(2*np.pi)])
         plt.tight_layout()
-        if fname != None
+        if fname != None:
             fig.savefig(fname)
         return fig
         
