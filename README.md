@@ -3,6 +3,8 @@
 This library is made to work with python 3.
 ## Table of Contents
 * [Installation](#installation)
+    * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
+    * [Procedure for Windows](#procedure-for-windows)
 * [MCPpicture library](#mcppicture-library)
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
@@ -173,74 +175,74 @@ fig7.savefig("fig_example_7.png")
 #### Methods
 ```__init__(self,fname,reshape=[])```:
 Constructor of the class
-##### Parameters
-* fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
-* reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-```
+* Parameters
+    * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
+    * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
+* Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    ```
 
 ```__repr__(self)```:
 To represent the object as a string
-##### Returns
-* a string variable
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-repr = bs.__repr__()
-#or to print it in the python console
-print(bs)
-```
+* Returns
+    * a string variable
+* Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    repr = bs.__repr__()
+    #or to print it in the python console
+    print(bs)
+    ```
 
 ``` plot_Y_int(self,label="")```:
 To plot the integral of the picture along the "y" axis
-##### Parameters
-* label: (optional) a string
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-bs.plot_Y_int("Integral along the y-axis")
-```
+* Parameters
+    * label: (optional) a string
+* Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    bs.plot_Y_int("Integral along the y-axis")
+    ```
 
 ```plot_X_int(self,label="")```:
 To plot the integral of the picture along the "x" axis
-##### Parameters
-* label: (optional) a string
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-bs.plot_X_int("Integral along the x-axis")
-```
+* Parameters
+    * label: (optional) a string
+* Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    bs.plot_X_int("Integral along the x-axis")
+    ```
     
 ```plot_X_int_revert(self)```:
 To plot the integral of the picture along the "x" axis and reverse the picture
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-bs.plot_X_int("Integral along the x-axis")
-```
+*  Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    bs.plot_X_int("Integral along the x-axis")
+    ```
 
 ```plot(self,fname="",figsize=(12,10),fontsize=12,ftsizeticks=12)```:
 To plot the picture and the analysis
-##### Parameters
-* fname: string (optional), the name of the file to save the plot
-* figsize: tuple (size in inch X, Y) (optional), size of the figure
-* fontsize: int (optional), size of the font
-* ftsizeticks: int (optional), size of the ticks' font
-##### Returns
-* fig: a matplotlib.pyplot.figure
-##### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-fig = bs.plot("analysis.pdf")
-# or
-fig = bs.plot()
-fig.savefig("analysis.pdf")
-```
+*  Parameters
+    * fname: string (optional), the name of the file to save the plot
+    * figsize: tuple (size in inch X, Y) (optional), size of the figure
+    * fontsize: int (optional), size of the font
+    * ftsizeticks: int (optional), size of the ticks' font
+* Returns
+    * fig: a matplotlib.pyplot.figure
+* Example
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    fig = bs.plot("analysis.pdf")
+    # or
+    fig = bs.plot()
+    fig.savefig("analysis.pdf")
+    ```
