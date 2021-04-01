@@ -62,6 +62,16 @@ class BeamSpot:
     def __repr__(self):
         """
         To represent the object as a string
+        ##### Returns
+        * a string variable
+        ##### Example
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        repr = bs.__repr__()
+        #or to print it in the python console
+        print(bs)
+        ```
         """
         res = "Original picture: "+self.fname+'\n\n'
         res += "Integral along the x-axis\n"
@@ -80,6 +90,11 @@ class BeamSpot:
     def plot_Y_int(self,label=""):
         """
         To plot the integral of the picture along the "y" axis
+        ##### Example
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        ```
         """
         popt = self.popty
         if np.any(np.isnan(popt)):
@@ -96,6 +111,11 @@ class BeamSpot:
     def plot_X_int(self,label=""):
         """
         To plot the integral of the picture along the "x" axis
+        ##### Example
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        ```
         """
         popt = self.poptx
         if np.any(np.isnan(popt)):
@@ -119,6 +139,11 @@ class BeamSpot:
             the index of the picture
         center: boolean (optional)
             to only show the pixel on the middle of the spot
+        ##### Example
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        ```
         """
         pix, Ix = self.pix,self.Ix
         popt = self.poptx
@@ -134,6 +159,11 @@ class BeamSpot:
     def plot(self,fname="",title="",figsize=(12,10),fontsize=12,ftsizeticks=12):
         """
         To plot the picture and the analysis
+        ##### Example
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        ```
         """
         
         if len(fname) == 0:

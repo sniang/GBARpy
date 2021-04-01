@@ -131,8 +131,9 @@ fig7.savefig("fig_example_7.png")
 * BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
 * BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
 * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
+
 #### Methods
-```def __init__(self,fname,reshape=[]):```
+```__init__(self,fname,reshape=[])```:
 Constructor of the class
 ##### Parameters
 * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
@@ -141,4 +142,17 @@ Constructor of the class
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
+```
+
+```__repr__(self)```:
+To represent the object as a string
+##### Returns
+* a string variable
+##### Example
+```python
+import GBARpy.MCPPicture as mcp
+bs = mcp.BeamSpot("name.tif")
+repr = bs.__repr__()
+#or to print it in the python console
+print(bs)
 ```
