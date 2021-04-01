@@ -11,7 +11,44 @@ This library is made to work with python 3.
         * [Methods](#methods)
     
 ## Installation
-
+### Procedure for Unix and MacOS
+1. Install [python 3](https://www.python.org/downloads/)
+2. Check if pip if install by entrering in the terminal
+    ```
+    python3 -m pip -V
+    ```
+    This command will give you the version of pip already installed. If not, [install it](https://pip.pypa.io/en/stable/installing/)
+3. Install GBARpy
+    ```
+    python3 -m pip install GBARpy
+    ```
+4. If in the future, you need to update the version of GBARpy
+    ```
+    python3 -m pip install --upgrade GBARpy
+    ```
+    or to remove GBARpy
+    ```
+    python3 -m pip uninstall GBARpy
+    ```
+### Procedure for Windows
+1. Install [python 3](https://www.python.org/downloads/)
+2. Check if pip if install by entrering in the command prompt
+    ```
+    py -m pip -V
+    ```
+    This command will give you the version of pip already installed. If not, [install it](https://pip.pypa.io/en/stable/installing/)
+3. Install GBARpy
+    ```
+    py -m pip install GBARpy
+    ```
+4. If in the future, you need to update the version of GBARpy
+    ```
+    py -m pip install --upgrade GBARpy
+    ```
+    or to remove GBARpy
+    ```
+    py -m pip uninstall GBARpy
+    ```
 
 ## MCPpicture library
 ### Basic code for an analysis
