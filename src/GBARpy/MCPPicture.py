@@ -40,18 +40,11 @@ class BeamSpot:
     def __init__(self,fname,reshape=[]):
         """
         Constructor of the class
-        
-        Parameters
-        ----------
-        fname: string
-            file name of the picture
-            The file format accept
-            
-        reshape: array of 3 integers (optional)
-            to reshape the pictures (square): x,y,length
-            
-        ```
-        #example
+        ##### Parameters
+        * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
+        * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
+        ##### Example
+        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
         ```
