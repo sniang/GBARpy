@@ -7,6 +7,8 @@ This library is made to work with python 3.
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
     * [BeamSpot class](#beamspot-class)
+        * [Attributes](#attributes)
+        * [Methods](#methods)
     
 ## Installation
 
@@ -129,7 +131,7 @@ fig7.savefig("fig_example_7.png")
 * BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
 * BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
 * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
-
+#### Methods
 ```def __init__(self,fname,reshape=[]):```
 Constructor of the class
 ##### Parameters
