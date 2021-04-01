@@ -44,10 +44,8 @@ class BeamSpot:
         * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
         * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
-        ```
         """
         self.fname = fname
         self.reshape = reshape
@@ -65,13 +63,11 @@ class BeamSpot:
         ##### Returns
         * a string variable
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
         repr = bs.__repr__()
         #or to print it in the python console
         print(bs)
-        ```
         """
         res = "Original picture: "+self.fname+'\n\n'
         res += "Integral along the x-axis\n"
@@ -90,11 +86,12 @@ class BeamSpot:
     def plot_Y_int(self,label=""):
         """
         To plot the integral of the picture along the "y" axis
+        ##### Parameters
+        * label: (optional) a string
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
-        ```
+        bs.plot_Y_int("Integral along the y-axis")
         """
         popt = self.popty
         if np.any(np.isnan(popt)):
@@ -111,11 +108,12 @@ class BeamSpot:
     def plot_X_int(self,label=""):
         """
         To plot the integral of the picture along the "x" axis
+        ##### Parameters
+        * label: (optional) a string
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
-        ```
+        bs.plot_X_int("Integral along the x-axis")
         """
         popt = self.poptx
         if np.any(np.isnan(popt)):
@@ -130,20 +128,11 @@ class BeamSpot:
         
     def plot_X_int_revert(self):
         """
-        To plot the integral of the picture "i" along the "x" axis
-        and reverse the picture
-        
-        Parameters
-        ----------
-        i: int
-            the index of the picture
-        center: boolean (optional)
-            to only show the pixel on the middle of the spot
+        To plot the integral of the picture along the "x" axis and reverse the picture
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
-        ```
+        bs.plot_X_int("Integral along the x-axis")
         """
         pix, Ix = self.pix,self.Ix
         popt = self.poptx
@@ -156,18 +145,27 @@ class BeamSpot:
             plt.plot(G,pix,color=p[0].get_color())
         plt.ylim([np.max(pix),0])
     
-    def plot(self,fname="",title="",figsize=(12,10),fontsize=12,ftsizeticks=12):
+    def plot(self,fname="",figsize=(12,10),fontsize=12,ftsizeticks=12):
         """
         To plot the picture and the analysis
+        ##### Parameters
+        * fname: string (optional), the name of the file to save the plot
+        * figsize: tuple (size in inch X, Y) (optional), size of the figure
+        * fontsize: int (optional), size of the font
+        * ftsizeticks: int (optional), size of the ticks' font
+        ##### Returns
+        * fig: a matplotlib.pyplot.figure
         ##### Example
-        ```python
         import GBARpy.MCPPicture as mcp
         bs = mcp.BeamSpot("name.tif")
-        ```
+        fig = bs.plot("analysis.pdf")
+        # or
+        fig = bs.plot()
+        fig.savefig("analysis.pdf")
         """
         
         if len(fname) == 0:
-            fname = self.fname+"-analaysis.pdf"
+            fname = None
         
         fig = plt.figure(figsize=figsize)
         
@@ -196,8 +194,9 @@ class BeamSpot:
         if not(np.isnan(self.popty[0])):
             plt.ylim([0,self.Ay/self.sigy/np.sqrt(2*np.pi)])
         plt.tight_layout()
-        fig.savefig(fname)
-        return fig,fname
+        if fname != None
+            fig.savefig(fname)
+        return fig
         
 def normal_distribution(x,s0,x0):
     """
