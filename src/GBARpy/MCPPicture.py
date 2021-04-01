@@ -15,46 +15,26 @@ class BeamSpot:
     """
     Class to analyse the pictures comming from the MCP
     
-    Attributes
-    ----------
-    self.fname: string
-        file name of the picture
-    self.img: 2D array
-        picture as an array
-    self.pix: 
-        the pixels along the x axis
-    self.piy:
-        the pixels along the y axis
-    self.Ix: array of floats
-        integral along the x axis
-    self.Iy: array of floats
-        integral along the y axis
-    self.Ax: float
-        Amplitude, fit along the x axis
-    self.Ay: float
-        Amplitude, fit along the y axis
-    self.sigx: float
-        Sigma, fit along the x axis
-    self.sigy: float
-        Sigma, fit along the x axis
-    self.r0x: float
-        Center, fit along the x axis
-    self.r0y: float
-        Center, fit along the x axis
-    self.offsetx: float
-        offset, fit along the x axis
-    self.offsety: float
-        offset, fit along the x axis
-    self.poptx: array of floats
-        The parameters of the fit along the x-axis
-    self.perrx: array of floats
-        Errors on the parameters of the fit along the x-axis
-    self.popty: array of floats
-        The parameters of the fit along the y-axis
-    self.perry: array of floats
-        Errors on the parameters of the fit along the y-axis
-    self.reshape: array of int
-        The parameters to reshape, see help(import_image)
+    #### Attributes
+    * BeamSpot.fname: string, file name of the picture
+    * BeamSpot.img: 2D array, picture as an array
+    * BeamSpot.pix: the pixels along the x axis
+    * BeamSpot.piy: the pixels along the y axis
+    * BeamSpot.Ix: array of floats, integral along the x axis
+    * BeamSpot.Iy: array of floatt, integral along the y axis
+    * BeamSpot.Ax: float, Amplitude, fit along the x axis
+    * BeamSpot.Ay: float, Amplitude, fit along the y axis
+    * BeamSpot.sigx: float, Sigma, fit along the x axis
+    * BeamSpot.sigy: float, Sigma, fit along the x axis
+    * BeamSpot.r0x: float, Center, fit along the x axis
+    * BeamSpot.r0y: float, Center, fit along the x axis
+    * BeamSpot.offsetx: float, offset, fit along the x axis
+    * BeamSpot.offsety: float, offset, fit along the x axis
+    * BeamSpot.poptx: array of floats, the parameters of the fit along the x-axis
+    * BeamSpot.perrx: array of floats, errors on the parameters of the fit along the x-axis
+    * BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
+    * BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
+    * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
     """
     
     def __init__(self,fname,reshape=[]):
@@ -65,8 +45,16 @@ class BeamSpot:
         ----------
         fname: string
             file name of the picture
+            The file format accept
+            
         reshape: array of 3 integers (optional)
             to reshape the pictures (square): x,y,length
+            
+        ```
+        #example
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        ```
         """
         self.fname = fname
         self.reshape = reshape

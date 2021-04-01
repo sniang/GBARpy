@@ -6,6 +6,7 @@ This library is made to work with python 3.
 * [MCPpicture library](#mcppicture-library)
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
+    * [BeamSpot class](#beamspot-class)
     
 ## Installation
 
@@ -106,3 +107,25 @@ plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
 fig7.savefig("fig_example_7.png")
 ```
 ![Example_7](example/fig_example_7.png)
+
+### BeamSpot class
+#### Attributes
+* BeamSpot.fname: string, file name of the picture
+* BeamSpot.img: 2D array, picture as an array
+* BeamSpot.pix: the pixels along the x axis
+* BeamSpot.piy: the pixels along the y axis
+* BeamSpot.Ix: array of floats, integral along the x axis
+* BeamSpot.Iy: array of floatt, integral along the y axis
+* BeamSpot.Ax: float, Amplitude, fit along the x axis
+* BeamSpot.Ay: float, Amplitude, fit along the y axis
+* BeamSpot.sigx: float, Sigma, fit along the x axis
+* BeamSpot.sigy: float, Sigma, fit along the x axis
+* BeamSpot.r0x: float, Center, fit along the x axis
+* BeamSpot.r0y: float, Center, fit along the x axis
+* BeamSpot.offsetx: float, offset, fit along the x axis
+* BeamSpot.offsety: float, offset, fit along the x axis
+* BeamSpot.poptx: array of floats, the parameters of the fit along the x-axis
+* BeamSpot.perrx: array of floats, errors on the parameters of the fit along the x-axis
+* BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
+* BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
+* BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
