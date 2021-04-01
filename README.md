@@ -39,6 +39,7 @@ plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
 ![Example_1](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_1.png)
+
 Even if it can be written manually, there are line codes to plot the intgrals along the x-axis and the y-axis:
 ```python
 #plot the fit
@@ -71,7 +72,7 @@ fig4 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig4.savefig("fig_example_4.png")
 ```
-![Example_4](example/fig_example_4.png)
+![Example_4](https://github.com/sniang/GBARpy/blob/4d0b6cd8872ffc7e506e8eeaf029f8a87abf9a77/example/fig_example_4.png)
 ```python
 ### Import the Picture and reshape
 img = mcp.import_image("IMG0008.bmp",reshape=[1250,1000,600])
@@ -79,7 +80,7 @@ fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig5.savefig("fig_example_5.png")
 ```
-![Example_5](example/fig_example_5.png)
+![Example_5](https://github.com/sniang/GBARpy/blob/4d0b6cd8872ffc7e506e8eeaf029f8a87abf9a77/example/fig_example_5.png)
 
 Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ```python
@@ -94,7 +95,7 @@ plt.plot(Px,Ix)
 plt.plot(Py,Iy)
 fig6.savefig("fig_example_6.png")
 ```
-![Example_6](example/fig_example_6.png)
+![Example_6](https://github.com/sniang/GBARpy/blob/4d0b6cd8872ffc7e506e8eeaf029f8a87abf9a77/example/fig_example_6.png)
 
 and then, using the fit function defined in the library
 ```python
@@ -108,7 +109,7 @@ plt.plot(Py,Iy,'.',color='tab:blue',ms=1)
 plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
 fig7.savefig("fig_example_7.png")
 ```
-![Example_7](example/fig_example_7.png)
+![Example_7](https://github.com/sniang/GBARpy/blob/4d0b6cd8872ffc7e506e8eeaf029f8a87abf9a77/example/fig_example_7.png)
 
 ### BeamSpot class
 #### Attributes
