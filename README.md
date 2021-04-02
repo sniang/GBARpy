@@ -77,10 +77,8 @@ fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
-[Example_1](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_1.png)
-
-![Example_1](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_1.png)
-
+[Example_1](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_1.png)
+![Example_1](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_1.png)
 Even if it can be written manually, there are line codes to plot the intgrals along the x-axis and the y-axis:
 ```python
 #plot the fit
@@ -89,18 +87,18 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
-[Example_2](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_2.png)
+[Example_2](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_2.png)
 
-![Example_2](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_2.png)
+![Example_2](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_2.png)
 
 or to plot a summary of the fit:
 ```python
 #plot all
 pic.plot("fig_example_3.pdf")
 ```
-[Example_3](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_3.png)
+[Example_3](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_3.png)
 
-![Example_3](https://github.com/sniang/GBARpy/blob/15b357f722aae460442ae80f6d02581a2c5d3742/example/fig_example_3.png)
+![Example_3](https://github.com/sniang/GBARpy/blob/7becab52a2800d5d1d56e7182ab5dd7830b50815/example/fig_example_3.png)
 
 ### More examples
 To import the required librairies for the following examples:
