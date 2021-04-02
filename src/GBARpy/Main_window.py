@@ -51,17 +51,19 @@ class MainWindow(tkinter.Tk):
         self.picnamelabel.grid(row=0,column=1)
         self.btn_analysis = tkinter.Button(self.frame0_c, text='Analyse the picture', command=self.analyse)
         self.btn_analysis.grid(row=1,column=0)
+        """
         self.export = tkinter.Button(self.frame0_c, text='Export as PDF', command=self.exportAsPDF)
         self.export.grid(row=2,column=0)
         self.savedAs = tkinter.Label(self.frame0_c, textvariable=self.savedAsText)
         self.savedAs.grid(row=2,column=1)
         
-        img = Image.open("GBAR_logo.png")
+        img = Image.open("img/GBAR_logo.png")
         img = img.resize((100, 100), Image.ANTIALIAS)
         img = ImageTk.PhotoImage(img)
         panel = tkinter.Label(self.frame0, image=img)
         panel.image = img
         panel.pack(side='right')
+        """
         
         ### Cadre 1 Importation de l'image
         self.frame1 = tkinter.Frame(self, width=400, height=400,
