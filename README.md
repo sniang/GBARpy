@@ -28,14 +28,14 @@ This library is made to work with python 3.
     ```
     python3 -m GBARpy
     ```
-5. If in the future, you need to update the version of GBARpy
-    ```
-    python3 -m pip install --upgrade GBARpy
-    ```
-    or to remove GBARpy
-    ```
-    python3 -m pip uninstall GBARpy
-    ```
+If in the future, you need to update the version of GBARpy
+```
+python3 -m pip install --upgrade GBARpy
+```
+or to remove GBARpy
+```
+python3 -m pip uninstall GBARpy
+```
 ### Procedure for Windows
 1. Install [python 3](https://www.python.org/downloads/)
 2. Check if pip if install by entrering in the command prompt
@@ -51,14 +51,14 @@ This library is made to work with python 3.
     ```
     py -m GBARpy
     ```
-5. If in the future, you need to update the version of GBARpy
-    ```
-    py -m pip install --upgrade GBARpy
-    ```
-    or to remove GBARpy
-    ```
-    py -m pip uninstall GBARpy
-    ```
+If in the future, you need to update the version of GBARpy
+```
+py -m pip install --upgrade GBARpy
+```
+or to remove GBARpy
+```
+py -m pip uninstall GBARpy
+```
 
 ## MCPpicture library
 ### Basic code for an analysis
