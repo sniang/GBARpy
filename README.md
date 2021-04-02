@@ -24,7 +24,11 @@ This library is made to work with python 3.
     ```
     python3 -m pip install GBARpy
     ```
-4. If in the future, you need to update the version of GBARpy
+4. Lauch GBARpy
+    ```
+    python3 -m GBARpy
+    ```
+5. If in the future, you need to update the version of GBARpy
     ```
     python3 -m pip install --upgrade GBARpy
     ```
@@ -43,7 +47,11 @@ This library is made to work with python 3.
     ```
     py -m pip install GBARpy
     ```
-4. If in the future, you need to update the version of GBARpy
+4. Lauch GBARpy
+    ```
+    py -m GBARpy
+    ```
+5. If in the future, you need to update the version of GBARpy
     ```
     py -m pip install --upgrade GBARpy
     ```
