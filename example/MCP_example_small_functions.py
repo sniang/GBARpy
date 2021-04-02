@@ -19,16 +19,18 @@ More details
 
 ### Import the Picture
 img = mcp.import_image("IMG0008.bmp")
-fig4 = plt.figure(figsize=(5,5))
+fig4 = plt.figure()
 plt.imshow(img)
+plt.tight_layout()
 fig4.savefig("fig_example_4.pdf")
 fig4.savefig("fig_example_4.png")
 
 
 ### Import the Picture and reshape
 img = mcp.import_image("IMG0008.bmp",reshape=[1250,1000,600])
-fig5 = plt.figure(figsize=(5,5))
+fig5 = plt.figure()
 plt.imshow(img)
+plt.tight_layout()
 fig5.savefig("fig_example_5.pdf")
 fig5.savefig("fig_example_5.png")
 
@@ -42,6 +44,7 @@ plt.imshow(img)
 plt.subplot(122)
 plt.plot(Px,Ix)
 plt.plot(Py,Iy)
+plt.tight_layout()
 fig6.savefig("fig_example_6.pdf")
 fig6.savefig("fig_example_6.png")
 
@@ -54,5 +57,6 @@ plt.plot(Px,Ix,'.',color='tab:red',ms=1)
 plt.plot(Px,mcp.gaussian_offset(Px,*poptX),color='tab:red')
 plt.plot(Py,Iy,'.',color='tab:blue',ms=1)
 plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
+plt.tight_layout()
 fig7.savefig("fig_example_7.pdf")
 fig7.savefig("fig_example_7.png")

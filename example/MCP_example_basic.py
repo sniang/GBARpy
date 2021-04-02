@@ -29,8 +29,9 @@ print(pic)
 
 
 #plot the image
-fig1 = plt.figure(figsize=(5,5))
+fig1 = plt.figure()
 plt.imshow(pic.img)
+plt.tight_layout()
 fig1.savefig("fig_example_1.pdf")
 fig1.savefig("fig_example_1.png")
 
@@ -39,6 +40,7 @@ fig1.savefig("fig_example_1.png")
 fig2 = plt.figure(figsize=(5,5))
 pic.plot_X_int()
 pic.plot_Y_int()
+plt.tight_layout()
 fig2.savefig("fig_example_2.pdf")
 fig2.savefig("fig_example_2.png")
 
