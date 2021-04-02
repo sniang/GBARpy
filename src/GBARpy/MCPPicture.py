@@ -37,15 +37,16 @@ class BeamSpot:
     * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
     """
     
+    
     def __init__(self,fname,reshape=[]):
         """
         Constructor of the class
-        ##### Parameters
-        * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
-        * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
+        * Parameters
+            * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
+            * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
         """
         self.fname = fname
         self.reshape = reshape
@@ -57,17 +58,18 @@ class BeamSpot:
         self.Ax,self.r0x,self.sigx,self.offsetx = self.poptx
         self.Ay,self.r0y,self.sigy,self.offsety = self.popty
 
+
     def __repr__(self):
         """
         To represent the object as a string
-        ##### Returns
-        * a string variable
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        repr = bs.__repr__()
-        #or to print it in the python console
-        print(bs)
+        * Returns
+            * a string variable
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            repr = bs.__repr__()
+            #or to print it in the python console
+            print(bs)
         """
         res = "Original picture: "+self.fname+'\n\n'
         res += "Integral along the x-axis\n"
@@ -86,12 +88,12 @@ class BeamSpot:
     def plot_Y_int(self,label=""):
         """
         To plot the integral of the picture along the "y" axis
-        ##### Parameters
-        * label: (optional) a string
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_Y_int("Integral along the y-axis")
+        * Parameters
+            * label: (optional) a string
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_Y_int("Integral along the y-axis")
         """
         popt = self.popty
         if np.any(np.isnan(popt)):
@@ -108,12 +110,12 @@ class BeamSpot:
     def plot_X_int(self,label=""):
         """
         To plot the integral of the picture along the "x" axis
-        ##### Parameters
-        * label: (optional) a string
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_X_int("Integral along the x-axis")
+        * Parameters
+            * label: (optional) a string
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_X_int("Integral along the x-axis")
         """
         popt = self.poptx
         if np.any(np.isnan(popt)):
@@ -126,13 +128,14 @@ class BeamSpot:
         if len(label) != 0:
             plt.legend()
         
+        
     def plot_X_int_revert(self):
         """
         To plot the integral of the picture along the "x" axis and reverse the picture
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_X_int("Integral along the x-axis")
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_X_int("Integral along the x-axis")
         """
         pix, Ix = self.pix,self.Ix
         popt = self.poptx
@@ -145,28 +148,27 @@ class BeamSpot:
             plt.plot(G,pix,color=p[0].get_color())
         plt.ylim([np.max(pix),0])
     
+    
     def plot(self,fname="",figsize=(12,10),fontsize=12,ftsizeticks=12):
         """
         To plot the picture and the analysis
-        ##### Parameters
-        * fname: string (optional), the name of the file to save the plot
-        * figsize: tuple (size in inch X, Y) (optional), size of the figure
-        * fontsize: int (optional), size of the font
-        * ftsizeticks: int (optional), size of the ticks' font
-        ##### Returns
-        * fig: a matplotlib.pyplot.figure
-        ##### Example
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        fig = bs.plot("analysis.pdf")
-        # or
-        fig = bs.plot()
-        fig.savefig("analysis.pdf")
+        * Parameters
+            * fname: string (optional), the name of the file to save the plot
+            * figsize: tuple (size in inch X, Y) (optional), size of the figure
+            * fontsize: int (optional), size of the font
+            * ftsizeticks: int (optional), size of the ticks' font
+        * Returns
+            * fig: a matplotlib.pyplot.figure
+        * Example
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            fig = bs.plot("analysis.pdf")
+            # or
+            fig = bs.plot()
+            fig.savefig("analysis.pdf")
         """
-        
         if len(fname) == 0:
             fname = None
-        
         fig = plt.figure(figsize=figsize)
         
         plt.subplot(221)
@@ -178,7 +180,7 @@ class BeamSpot:
         plt.title(r"$A_x = $"+str(np.around(self.Ax,1))+" $\sigma_x = $"+str(np.around(self.sigx,1))+" $r_{0x} = $"+str(np.around(self.r0x,1)),fontsize=fontsize,loc='left')
         if not(np.isnan(self.poptx[0])):
             plt.xlim([0,self.Ax/self.sigx/np.sqrt(2*np.pi)])
-        
+
         plt.subplot(222)
         plt.imshow(self.img,vmin=self.img.min(),vmax=self.img.max())
         plt.xticks(fontsize=ftsizeticks)
@@ -197,23 +199,20 @@ class BeamSpot:
         if fname != None:
             fig.savefig(fname)
         return fig
-        
+    
+    
 def normal_distribution(x,s0,x0):
     """
     Normal distribution 
     f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
-    
-    Parameters
-    ----------
-        x:  an np array
-        s0: floating number, the standard deviation
-        x0: floating number, the mean value, center of the distribution
-    Returns
-    -------
+    * Parameters
+        * x:  an np array
+        * s0: floating number, the standard deviation
+        * x0: floating number, the mean value, center of the distribution
+    * Returns
         the value of the distribution
     """
     return 1/np.sqrt(2*np.pi)/s0*np.exp(-(((x-x0)/s0)**2)/2)
-
 
 
 def gaussian_offset(x,a,x0,s0,c):
@@ -221,16 +220,14 @@ def gaussian_offset(x,a,x0,s0,c):
     Gaussian distribution with an offset
     f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2) + offset
     
-    Parameters
-    ----------
-        x:  an np array
-        a:  the amplitude
-        s0: floating number, the standard deviation
-        x0: floating number, the mean value, center of the distribution
-        c:  the offset
-    Returns
-    -------
-        the value of the distribution
+    * Parameters
+        * x:  an np array
+        * a:  the amplitude
+        * s0: floating number, the standard deviation
+        * x0: floating number, the mean value, center of the distribution
+        * c:  the offset
+    * Returns
+        * the value of the distribution
     """
     return a*normal_distribution(x,s0,x0) + c
 
@@ -238,15 +235,11 @@ def gaussian_offset(x,a,x0,s0,c):
 def fit_gaussian_offset_filtered(x,y):
     """
     Fit with the function gaussian_offset.
-    
-    Parameters
-    ----------
-        x: numpy array
-        y: numpy array
-    Returns
-    -------
-        popt,perr: 
-            the parameters and the error of the fit
+    * Parameters
+        * x: numpy array
+        * y: numpy array
+    * Returns
+        * popt,perr: numpy arrays, the parameters and the error of the fit
     """
     x = np.array(x)
     y = np.array(y)
@@ -280,23 +273,19 @@ def fit_gaussian_offset_filtered(x,y):
         perr = [np.nan,np.nan,np.nan,np.nan]
     return popt,perr
 
-
+###################################################################################
 
 def reshapeIMG(img,ix,iy,l):
     """
     To reshape an image to a squared one
-    
-    Parameters
-    ----------
-        img     np.array([np.array]) the image array
-        ix      the index of the center of the square
-        iy      the index of the center of the square
-        l       the half length of the square
-    Returns
-    -------
-    The reshaped picture as an array
+    * Parameters
+        * img: np.array([np.array]) the image array
+        * ix: the index of the center of the square
+        * iy: the index of the center of the square
+        * l: the half length of the square
+    *Returns
+        * The reshaped picture as an array
     """
-    
     ix = int(ix)
     iy = int(iy)
     IX = np.arange(ix-l,ix+l)
@@ -306,19 +295,14 @@ def reshapeIMG(img,ix,iy,l):
     return img
 
 
-
 def import_image(fname,reshape=[]):
     """
     To import the picture as an array
-    
-    Parameters
-    ----------
-        fname   (string) name of the file
-        reshape (array) to reshape the picture as a square
-                [ix,iy,l]
-    Returns
-    -------
-        the picture as an array
+    * Parameters
+        * fname: string, name of the file
+        * reshape: array, to reshape the picture as a square [ix,iy,l]
+    * Returns
+        * the picture as 2D array
     """
     fileformat = ["tif","jpg","jpeg","png","asc","bmp"]
     ext = fname.split('.')[len(fname.split('.'))-1]
@@ -342,20 +326,13 @@ def import_image(fname,reshape=[]):
     return img
 
 
-
 def integrate_picture_along_Y(img):
     """
     To integrate the picture along th Y axis
-    
-    Parameters
-    ----------
-        img: 
-            image as a 2D numpy array
-    Returns
-    -------
-        (pix,Iy):
-            A tupple with pix the pixel numbers as a numpy array
-            and Iy the integral as a numpy array
+    * Parameters
+        * img: image as a 2D numpy array
+    * Returns
+        * (pix,Iy): A tupple with pix the pixel numbers as a numpy array and Iy the integral as a numpy array
     """
     I = np.zeros_like(img[0])
     for l in img:
@@ -365,20 +342,13 @@ def integrate_picture_along_Y(img):
     return pix,Iy
 
 
-
 def integrate_picture_along_X(img):
     """
     To integrate the picture along th X axis
-    
-    Parameters
-    ----------
-        img: 
-            image as a 2D numpy array
-    Returns
-    -------
-        (pix,Ix):
-            A tupple with pix the pixel numbers as a numpy array
-            and Ix the integral as a numpy array
+    *Parameters
+        * img: image as a 2D numpy array
+    * Returns
+        * (pix,Ix): A tupple with pix the pixel numbers as a numpy array and Ix the integral as a numpy array
     """
     pix,ix = integrate_picture_along_Y(np.transpose(img))
     Ix = np.array([])
@@ -387,14 +357,11 @@ def integrate_picture_along_X(img):
     return pix,Ix
 
 
-
 def getIndexStr(N,i):
     """
     To convert an int 'i' to a string
-    
-    Example
-    -------
-    getIndexStr(100,15) returns '015'
+    * Example
+        getIndexStr(100,15) #returns '015'
     """
     if i < 0 or i > N:
         raise ValueError("N >= i or i > 0 is required")
