@@ -77,7 +77,7 @@ fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
-[Example_1](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_1.png)
+[Example_1](https://github.com/sniang/GBARpy/blob/main/example/fig_example_1.png)
 
 ![Example_1](https://github.com/sniang/GBARpy/blob/main/example/fig_example_1.png)
 
@@ -89,18 +89,18 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
-[Example_2](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_2.png)
+[Example_2](https://github.com/sniang/GBARpy/blob/main/example/fig_example_2.png)
 
-![Example_2](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_2.png)
+![Example_2](https://github.com/sniang/GBARpy/blob/main/example/fig_example_2.png)
 
 or to plot a summary of the fit:
 ```python
 #plot all
 pic.plot("fig_example_3.pdf")
 ```
-[Example_3](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_3.png)
+[Example_3](https://github.com/sniang/GBARpy/blob/main/example/fig_example_3.png)
 
-![Example_3](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_3.png)
+![Example_3](https://github.com/sniang/GBARpy/blob/main/example/fig_example_3.png)
 
 ### More examples
 To import the required librairies for the following examples:
@@ -118,9 +118,9 @@ fig4 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig4.savefig("fig_example_4.png")
 ```
-[Example_4](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_4.png)
+[Example_4](https://github.com/sniang/GBARpy/blob/main/example/fig_example_4.png)
 
-![Example_4](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_4.png)
+![Example_4](https://github.com/sniang/GBARpy/blob/main/example/fig_example_4.png)
 
 ```python
 ### Import the Picture and reshape
@@ -129,9 +129,9 @@ fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig5.savefig("fig_example_5.png")
 ```
-[Example_5](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_5.png)
+[Example_5](https://github.com/sniang/GBARpy/blob/main/example/fig_example_5.png)
 
-![Example_5](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_5.png)
+![Example_5](https://github.com/sniang/GBARpy/blob/main/example/fig_example_5.png)
 
 Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ```python
@@ -146,9 +146,9 @@ plt.plot(Px,Ix)
 plt.plot(Py,Iy)
 fig6.savefig("fig_example_6.png")
 ```
-[Example_6](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_6.png)
+[Example_6](https://github.com/sniang/GBARpy/blob/main/example/fig_example_6.png)
 
-![Example_6](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_6.png)
+![Example_6](https://github.com/sniang/GBARpy/blob/main/example/fig_example_6.png)
 
 and then, using the fit function defined in the library
 ```python
@@ -162,9 +162,9 @@ plt.plot(Py,Iy,'.',color='tab:blue',ms=1)
 plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
 fig7.savefig("fig_example_7.png")
 ```
-[Example_7](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_7.png)
+[Example_7](https://github.com/sniang/GBARpy/blob/main/example/fig_example_7.png)
 
-![Example_7](https://github.com/sniang/GBARpy/blob/main/example/example/fig_example_7.png)
+![Example_7](https://github.com/sniang/GBARpy/blob/main/example/fig_example_7.png)
 
 ### BeamSpot class
 #### Attributes
