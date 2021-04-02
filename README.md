@@ -1,10 +1,11 @@
-# How to use the library
+# GBARpy manual
 
 This library is made to work with python 3.
 ## Table of Contents
 * [Installation](#installation)
     * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
     * [Procedure for Windows](#procedure-for-windows)
+* [Graphical User Interface](#graphical-user-interface)
 * [MCPpicture library](#mcppicture-library)
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
@@ -59,6 +60,7 @@ or to remove GBARpy
 ```
 py -m pip uninstall GBARpy
 ```
+## Graphical User Interface
 
 ## MCPpicture library
 ### Basic code for an analysis
