@@ -421,7 +421,7 @@ class MCPParams:
             #or
             r = params.__repr__()
         """
-        res = "name: "+self.name+"\n"
+        res = "name: "+str(self.name)+"\n"
         res+= "R: "+str(self.R)+"\n"
         res+= "x0: "+str(self.x0)+"\n"
         res+= "y0: "+str(self.y0)+"\n"

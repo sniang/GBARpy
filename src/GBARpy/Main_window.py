@@ -11,7 +11,9 @@ from PIL import ImageTk,Image
 from tkinter import filedialog
 from os import path
 import GBARpy
-from GBARpy.MCPPicture import BeamSpot, gaussian_offset, MCPParams, import_config
+from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config
+from GBARpy.MCPPicture import MCPParams as mcpp
+import pickle
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
@@ -23,6 +25,8 @@ class MainWindow(tkinter.Tk):
         static_addr = GBARpy.__file__
         static_addr = path.split(static_addr)[0]
         static_addr = path.join(static_addr,'static')
+        self.mcp_param = mcpp()
+        
         
         ### Fenetre principale
         tkinter.Tk.__init__(self)
@@ -56,6 +60,10 @@ class MainWindow(tkinter.Tk):
         self.picnamelabel.grid(row=0,column=1)
         self.btn_analysis = tkinter.Button(self.frame0_c, text='Analyse the picture', command=self.analyse)
         self.btn_analysis.grid(row=1,column=0)
+        
+        self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.defineMCPParams)
+        self.btn_mcpparams.grid(row=2,column=0)
+        
         """
         self.export = tkinter.Button(self.frame0_c, text='Export as PDF', command=self.exportAsPDF)
         self.export.grid(row=2,column=0)
@@ -83,10 +91,8 @@ class MainWindow(tkinter.Tk):
         self.frame2 = tkinter.Frame(self, width=400, height=400,
                        highlightbackground="black",highlightthickness=1)
         self.frame2.pack(side='right')
+                
         
-        ### MCP parameters
-        add = path.join(static_addr,"BGT_in.mcp")
-        self.mcp_param = import_config(add)
        
 
 
@@ -162,3 +168,156 @@ class MainWindow(tkinter.Tk):
             self.analyse()
         fig,fname = self.beamSpot.plot()
         self.savedAsText.set("Saved as "+path.split(fname)[-1])
+        
+    def defineMCPParams(self):
+        win = MCPParamsWindow(self,self.mcp_param)
+
+
+class MCPParamsWindow(tkinter.Toplevel):
+    
+    def __init__(self,master,mcp):
+        tkinter.Toplevel.__init__(self,master)
+        self.title("Define the MCP parameters")
+        self.geometry("400x200")
+        self.resizable(False,False)
+        
+        self.master = master
+        self.mcp = mcp
+        # The form
+        tkinter.Label(self, text="MCP's name").grid(row=0)
+        tkinter.Label(self, text="R (mm)").grid(row=1)
+        tkinter.Label(self, text="x0 (pixels)").grid(row=2)
+        tkinter.Label(self, text="y0 (pixels)").grid(row=3)
+        tkinter.Label(self, text="R0 (pixels)").grid(row=4)
+        tkinter.Label(self, text="ratio (mm/pixels)").grid(row=5)
+        
+        self.e_name  = tkinter.Entry(self)
+        self.e_R     = tkinter.Entry(self)
+        self.e_x0    = tkinter.Entry(self)
+        self.e_y0    = tkinter.Entry(self)
+        self.e_R0    = tkinter.Entry(self)
+        self.e_ratio = tkinter.Entry(self)
+                
+        self.e_name.grid(row=0, column=1)
+        self.e_R.grid(row=1, column=1)
+        self.e_x0.grid(row=2, column=1)
+        self.e_y0.grid(row=3, column=1)
+        self.e_R0.grid(row=4, column=1)
+        self.e_ratio.grid(row=5, column=1)
+        
+        self.fillform(self.mcp)
+        
+        # buttons
+        self.frame0 = tkinter.Frame(self)
+        self.frame0.grid(row=6, column = 0, columnspan = 3)
+        
+        self.set = tkinter.Button(self.frame0, text='Set',command=self.commandset).grid(row=0, column=0)
+        self.save = tkinter.Button(self.frame0, text='Save',command=self.commandsave).grid(row=0, column=1)
+        self.load = tkinter.Button(self.frame0, text='Load',command=self.commandload).grid(row=0, column=2)
+        self.remove = tkinter.Button(self.frame0, text='Remove',command=self.commandremove).grid(row=0, column=3)
+
+    def commandset(self):
+        """
+        To set the MCP parameters
+        """
+        try:
+            pp = self.formToMCP()
+            print(pp)
+            self.mcp = pp
+            self.master.mcp_param = pp
+        except:
+            print("Setting failed")
+        
+        
+            
+            
+    def commandsave(self):
+        """
+        To save the parameters as an .mcp file
+        """
+        try:
+            pp = self.formToMCP()
+            f = filedialog.asksaveasfile(mode='wb', defaultextension=".mcp")
+            pickle.dump(pp, f)
+            print("Parameters saved as",f.name)
+        except:
+            print("Saving failed")
+        finally:
+            f.close()
+
+        
+        
+    def commandload(self):
+        """
+        To choose an .mcp file with a dialog window
+        """
+        filename = filedialog.askopenfilename(title = "Select file",filetypes = [("mcp files","*.mcp")])
+        try:
+            pp = import_config(filename)
+            self.fillform(pp)
+            if pp != None:
+                self.mcp = pp 
+            print(self.mcp)
+        except:
+            print("Loading failed")
+            
+            
+    def commandremove(self):
+        """
+        To empty the forme
+        """
+        try:
+            self.fillform(None)
+            self.mcp = mcpp()
+        except:
+            print("Removing failed")
+        
+        
+        
+    def fillform(self,mcp):
+        """
+        To fill the form with MCP parameters
+        * Parameters
+            * mcp: GBARpy.MCPPicture.MCPParams
+        """
+        self.e_name.delete(0,tkinter.END)
+        self.e_R.delete(0,tkinter.END)
+        self.e_x0.delete(0,tkinter.END)
+        self.e_y0.delete(0,tkinter.END)
+        self.e_R0.delete(0,tkinter.END)
+        self.e_ratio.delete(0,tkinter.END)
+        if mcp != None:
+            if mcp.name != None:
+                self.e_name.insert(0,mcp.name)
+            if mcp.R != None:
+                self.e_R.insert(0,mcp.R)
+            if mcp.x0 != None:
+                self.e_x0.insert(0,mcp.x0)
+            if mcp.y0 != None:
+                self.e_y0.insert(0,mcp.y0)
+            if mcp.R0 != None:
+                self.e_R0.insert(0,mcp.R0)
+            if mcp.ratio != None:
+                self.e_ratio.insert(0,mcp.ratio)
+    
+    
+    def formToMCP(self):
+        """
+        To convert the form to MCP parameters
+        * Returns
+            * GBARpy.MCPPicture.MCPParams
+        """
+        name  = self.e_name.get()
+        if len(name) == 0:
+            name = None 
+        R     = self.e_R.get()
+        R     = None if len(R) == 0 else float(R)
+        x0    = self.e_x0.get()
+        x0    = None if len(x0) == 0 else float(x0)
+        y0    = self.e_y0.get()
+        y0    = None if len(y0) == 0 else float(y0)
+        R0    = self.e_R0.get()
+        R0    = None if len(R0) == 0 else float(R0)
+        ratio = self.e_ratio.get()
+        ratio = None if len(ratio) == 0 else float(ratio)
+        return mcpp(name,R,x0,y0,R0,ratio)
