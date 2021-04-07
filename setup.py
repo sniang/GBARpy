@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="GBARpy", # Replace with your own username
-    version="0.1.5",
+    version="0.1.18",
     author="Samuel Niang",
     author_email="samuel.niang@cern.ch",
     description="Libraries and software to analyse data (the MCP's picture and CsI signals) in the framework of the GBAR experiment",
@@ -26,7 +26,8 @@ setuptools.setup(
     install_requires=["numpy",
     "matplotlib",
     "scipy",
-    "scikit-image"]
+    "scikit-image"],
+    include_package_data=True,
 )
 
 

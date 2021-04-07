@@ -10,7 +10,8 @@ import tkinter
 from PIL import ImageTk,Image  
 from tkinter import filedialog
 from os import path
-from GBARpy.MCPPicture import BeamSpot, gaussian_offset
+import GBARpy
+from GBARpy.MCPPicture import BeamSpot, gaussian_offset, MCPParams, import_config
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
@@ -18,13 +19,17 @@ import numpy as np
 class MainWindow(tkinter.Tk):
     
     def __init__(self):
+        ### Location of the static files
+        static_addr = GBARpy.__file__
+        static_addr = path.split(static_addr)[0]
+        static_addr = path.join(static_addr,'static')
         
         ### Fenetre principale
         tkinter.Tk.__init__(self)
         self.beamSpot = True
         self.title("GBAR MCPy")
         self.geometry("900x600")
-        self.resizable(False,True)
+        self.resizable(True,True)
         self.canBeAnalysed = False
         self.canBeExported = False
         
@@ -56,14 +61,16 @@ class MainWindow(tkinter.Tk):
         self.export.grid(row=2,column=0)
         self.savedAs = tkinter.Label(self.frame0_c, textvariable=self.savedAsText)
         self.savedAs.grid(row=2,column=1)
+        """
         
-        img = Image.open("img/GBAR_logo.png")
+        add = path.join(static_addr,"GBAR_logo.png")
+        img = Image.open(add)
         img = img.resize((100, 100), Image.ANTIALIAS)
         img = ImageTk.PhotoImage(img)
         panel = tkinter.Label(self.frame0, image=img)
         panel.image = img
         panel.pack(side='right')
-        """
+
         
         ### Cadre 1 Importation de l'image
         self.frame1 = tkinter.Frame(self, width=400, height=400,
@@ -77,7 +84,9 @@ class MainWindow(tkinter.Tk):
                        highlightbackground="black",highlightthickness=1)
         self.frame2.pack(side='right')
         
-        
+        ### MCP parameters
+        add = path.join(static_addr,"BGT_in.mcp")
+        self.mcp_param = import_config(add)
        
 
 

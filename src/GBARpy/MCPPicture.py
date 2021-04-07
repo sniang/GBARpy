@@ -10,11 +10,11 @@ import numpy as np
 from scipy.optimize import curve_fit
 from skimage.color import rgb2gray
 import codecs
+import pickle
 
 class BeamSpot:
     """
     Class to analyse the pictures comming from the MCP
-    
     #### Attributes
     * BeamSpot.fname: string, file name of the picture
     * BeamSpot.img: 2D array, picture as an array
@@ -372,5 +372,119 @@ def getIndexStr(N,i):
     return res
 
 
+
+class MCPParams:
+    """
+    Class to store the parameters of the MCP to adapt the analysis
+    
+    #### Attributes
+    * MCPParams.R: radius of the mirror in mm
+    * MCPParams.x0: x position of the center of the mirror in pixels
+    * MCPParams.y0: y position of the center of the mirror in pixels
+    * MCPParams.R0: radius of the mirror in pixels
+    * MCPParams.ratio: mm/pixels ratio
+    * MCPParams.canBePlot: boolean to know if the mirror can be plot
+    * MCPParams.ratioIsSet: boolean to know if a ratio has been defined
+    """
+    def __init__(self,name=None,R=None,x0=None,y0=None,
+                R0=None,ratio=None):
+            """
+            Constructor of the class
+            * Parameters
+                * name: (optional) string, the name of the MCP
+                * R: (optional), float, radius of the mirror in mm
+                * x0: (optional), int, x position of the center of the mirror in pixels
+                * y0: (optional), int, y position of the center of the mirror in pixels
+                * R0: (optional), int, radius of the mirror in pixels
+                * ratio: (optional), mm/pixels ratio
+                    if R and R0 have been defined, then ratio is defined automatically
+            """
+            self.name = name
+            self.R = R
+            self.x0 = x0
+            self.y0 = y0
+            self.R0 = R0
+            self.ratio = ratio
+            if R!= None and R0!=None:
+                self.ratio = R/R0
+            self.checkRatioIsSet()
+    
+    
+    def __repr__(self):
+        """
+        To translate the object as a string
+        * Returns
+            * the string
+        * Example
+            params = MCPParams()
+            print(params)
+            #or
+            r = params.__repr__()
+        """
+        res = "name: "+self.name+"\n"
+        res+= "R: "+str(self.R)+"\n"
+        res+= "x0: "+str(self.x0)+"\n"
+        res+= "y0: "+str(self.y0)+"\n"
+        res+= "R0: "+str(self.R0)+"\n"
+        res+= "ratio: "+str(self.ratio)+"\n"
+        return res
+    
+    def defineRatio(self,mm,pix):
+        """
+        To define the ratio mm vs pixels
+        * Parameters
+            mm: float, a distance in mm
+            pix: float, the equivalent distance in pixels
+        """
+        try:
+            r = mm/pix
+            self.ratio = r
+            self.checkRatioIsSet()
+        except:
+            print("The setting of the ratio has failed")
+            
+            
+    def checkRatioIsSet(self):
+        """
+        To check is the ratio has been set
+        * Return
+            boolean
+        """
+        if self.ratio == None:
+            self.ratioIsSet = False
+        else:
+            self.ratioIsSet = True
+        return self.ratioIsSet
+        
+        
+    def save_conf(self,fname):
+        """
+        To save the parameters of the MCP as a binary file
+        Use .mcp extension
+        * Parameters
+            fname: string, the name of the binary file
+        * Example
+            params = MCPParams()
+            params.save_config("config.mcp")
+        """
+        with open(fname, 'wb') as f1:
+            pickle.dump(self, f1)
+        print("Parameters saved as",fname)
+
+############################################################################
+def import_config(fname):
+    """
+    To import the MCP parameters from a binary file
+    * Parameters
+        fname: string, the file's name
+    """
+    pp = None
+    try:
+        with open(fname, 'rb') as f1:
+            pp = pickle.load(f1)
+            print("MCP parameters",pp.name,"from",fname,"imported")
+    except:
+        print("Importation of",fname,"has failed")
+    return pp
 
             
