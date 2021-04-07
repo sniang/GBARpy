@@ -81,7 +81,8 @@ class MainWindow(tkinter.Tk):
         panel = tkinter.Label(self.frame0, image=img)
         panel.image = img
         panel.pack(side='right')
-
+        self.tk.call('wm', 'iconphoto', self._w, tkinter.PhotoImage(file=add))
+        self.iconphoto(False, tkinter.PhotoImage(file=add))
         
         ### Cadre 1 Importation de l'image
         self.frame1 = tkinter.Frame(self, width=400, height=400,
@@ -123,7 +124,7 @@ class MainWindow(tkinter.Tk):
             widget.destroy()
         if self.canBeAnalysed:   
             img = import_image(self.picadress)
-            fig = Figure(figsize=(6,5))
+            fig = Figure(figsize=(5,4))
             pplt = fig.add_subplot(111)
             pplt.imshow(img)
             pplt.set_xlabel('pixels',fontsize=fontsize)
