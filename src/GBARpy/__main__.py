@@ -7,6 +7,7 @@ Created on Thu Dec 10 15:07:10 2020
 """
 
 from GBARpy.Main_window import MainWindow
-win = MainWindow()
+
+win = MainWindow()            
 win.mainloop()
 win.quit()

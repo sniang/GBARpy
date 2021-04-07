@@ -38,7 +38,7 @@ class BeamSpot:
     """
     
     
-    def __init__(self,fname,reshape=[]):
+    def __init__(self,fname,reshape=[],mcpp=None):
         """
         Constructor of the class
         * Parameters
@@ -48,16 +48,28 @@ class BeamSpot:
             import GBARpy.MCPPicture as mcp
             bs = mcp.BeamSpot("name.tif")
         """
+        # define ratio
+        ratio = 1.
+        if mcpp == None:
+            self.mcpp = MCPParams()
+        else:
+            self.mcpp = mcpp
+            if self.mcpp.checkRatioIsSet():
+                ratio = self.mcpp.ratio
+                
         self.fname = fname
         self.reshape = reshape
+        self.img_original = self.fname
         self.img = import_image(self.fname,self.reshape)
         self.pix,self.Ix = integrate_picture_along_X(self.img)
+        self.pix = self.pix * ratio
         self.piy,self.Iy = integrate_picture_along_Y(self.img)
+        self.piy = self.piy * ratio
         self.poptx,self.perrx = fit_gaussian_offset_filtered(self.pix,self.Ix)
         self.popty,self.perry = fit_gaussian_offset_filtered(self.piy,self.Iy)
         self.Ax,self.r0x,self.sigx,self.offsetx = self.poptx
         self.Ay,self.r0y,self.sigy,self.offsety = self.popty
-
+        
 
     def __repr__(self):
         """
@@ -370,6 +382,14 @@ def getIndexStr(N,i):
     while l > len(res):
         res = "0" + res
     return res
+
+
+
+
+
+###################################################################################
+
+
 
 
 

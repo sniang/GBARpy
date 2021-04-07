@@ -11,12 +11,14 @@ from PIL import ImageTk,Image
 from tkinter import filedialog
 from os import path
 import GBARpy
-from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config
+from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as mcpp
 import pickle
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
+
+fontsize = 12
 
 class MainWindow(tkinter.Tk):
     
@@ -26,13 +28,14 @@ class MainWindow(tkinter.Tk):
         static_addr = path.split(static_addr)[0]
         static_addr = path.join(static_addr,'static')
         self.mcp_param = mcpp()
+        self.picadress = None
         
         
         ### Fenetre principale
         tkinter.Tk.__init__(self)
         self.beamSpot = True
         self.title("GBAR MCPy")
-        self.geometry("900x600")
+        self.geometry("1000x600")
         self.resizable(True,True)
         self.canBeAnalysed = False
         self.canBeExported = False
@@ -99,17 +102,50 @@ class MainWindow(tkinter.Tk):
         
     
     def open_img(self):
-        self.picadress = filedialog.askopenfilename(title='Open image')
-        self.picname.set(path.split(self.picadress)[-1])
-        img = Image.open(self.picadress)
-        img = img.resize((400, 400), Image.ANTIALIAS)
-        img = ImageTk.PhotoImage(img)
-        self.img1Label.configure(image=img)
-        self.img1Label.image=img
-        self.img1Label.pack(fill='both')
-        self.canBeAnalysed = True
-        self.canBeExported = False
-        print(img)
+        try:
+            self.picadress = filedialog.askopenfilename(title='Open image')
+            self.picname.set(path.split(self.picadress)[-1])
+            self.canBeAnalysed = True
+            self.plotImage()
+        except:
+            print("Opening failed")
+            self.canBeAnalysed = False
+        
+    
+    def plotImage(self):
+        def conv(a):
+            b = []
+            for e in a:
+                b.append(str(e))
+            return np.array(b)
+        
+        for widget in self.frame1.winfo_children():
+            widget.destroy()
+        if self.canBeAnalysed:   
+            img = import_image(self.picadress)
+            fig = Figure(figsize=(6,5))
+            pplt = fig.add_subplot(111)
+            pplt.imshow(img)
+            pplt.set_xlabel('pixels',fontsize=fontsize)
+            pplt.set_ylabel('pixels',fontsize=fontsize)
+            if self.mcp_param.checkRatioIsSet():
+                pplt.set_xlabel('mm',fontsize=fontsize)
+                pplt.set_ylabel('mm',fontsize=fontsize)
+                
+                y = len(img)
+                x = len(np.transpose(img))
+                l = np.linspace(0,x,int(x/300))
+                pplt.set_xticks(l)
+                l = conv(np.floor(l*self.mcp_param.ratio))
+                pplt.set_xticklabels(l)
+                
+                l = np.linspace(0,y,int(y/300))
+                pplt.set_yticks(l)
+                l = conv(np.floor(l*self.mcp_param.ratio))
+                pplt.set_yticklabels(l)
+            canvas = FigureCanvasTkAgg(fig, master=self.frame1)
+            canvas.draw()
+            canvas.get_tk_widget().pack()
         
     def analyse(self):
         for widget in self.frame2.winfo_children():
@@ -117,16 +153,16 @@ class MainWindow(tkinter.Tk):
     
         if self.canBeAnalysed == False:
             self.open_img()
-            
+        self.plotImage()
         ### Analysis
-        self.beamSpot = BeamSpot(self.picadress)
+        self.beamSpot = BeamSpot(self.picadress,mcpp=self.mcp_param)
         
         
         ### plot
         fig = Figure(figsize=(5,2.5), dpi=100)
         pplt = fig.add_subplot(111)
         popt = self.beamSpot.poptx
-        label = "X axis"
+        label = "along the x-axis"
         if np.any(np.isnan(popt)):
             pplt.plot(self.beamSpot.pix,self.beamSpot.Ix,'.',ms=1,label=label)
         else:
@@ -134,7 +170,7 @@ class MainWindow(tkinter.Tk):
             p = pplt.plot(self.beamSpot.pix,D-popt[3],'.',ms=1,label=label)
             pplt.plot(self.beamSpot.pix,gaussian_offset(self.beamSpot.pix,popt[0],popt[1],popt[2],0),color=p[0].get_color())
         popt = self.beamSpot.popty
-        label = "Y axis"
+        label = "along the y-axis"
         if np.any(np.isnan(popt)):
             pplt.plot(self.beamSpot.piy,self.beamSpot.Iy,'.',ms=1,label=label)
         else:
@@ -142,6 +178,7 @@ class MainWindow(tkinter.Tk):
             p = pplt.plot(self.beamSpot.piy,D-popt[3],'.',ms=1,label=label)
             pplt.plot(self.beamSpot.piy,gaussian_offset(self.beamSpot.piy,popt[0],popt[1],popt[2],0),color=p[0].get_color())
         pplt.set_xlim([0,np.max(self.beamSpot.pix)])
+        pplt.grid()
         pplt.legend()
         canvas = FigureCanvasTkAgg(fig, master=self.frame2)
         canvas.draw()
@@ -170,8 +207,7 @@ class MainWindow(tkinter.Tk):
         self.savedAsText.set("Saved as "+path.split(fname)[-1])
         
     def defineMCPParams(self):
-        win = MCPParamsWindow(self,self.mcp_param)
-
+        MCPParamsWindow(self,self.mcp_param)
 
 class MCPParamsWindow(tkinter.Toplevel):
     
