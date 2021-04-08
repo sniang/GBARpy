@@ -66,6 +66,10 @@ class MainWindow(tkinter.Tk):
         
         self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.defineMCPParams)
         self.btn_mcpparams.grid(row=2,column=0)
+        self.mcp_param_text = tkinter.StringVar()
+        self.mcp_param_text.set(self.mcp_param.__repr__())
+        self.mcp_param_label = tkinter.Label(self.frame0_c, textvariable=self.mcp_param_text)
+        self.mcp_param_label.grid(row=0,rowspan=4,column=2)
         
         """
         self.export = tkinter.Button(self.frame0_c, text='Export as PDF', command=self.exportAsPDF)
@@ -262,6 +266,7 @@ class MCPParamsWindow(tkinter.Toplevel):
             print(pp)
             self.mcp = pp
             self.master.mcp_param = pp
+            self.master.mcp_param_text.set(pp.__repr__())
         except:
             print("Setting failed")
         
