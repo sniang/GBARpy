@@ -72,12 +72,12 @@ class MainWindow(tkinter.Tk):
         self.mcp_param_label = tkinter.Label(self.frame0_c, textvariable=self.mcp_param_text)
         self.mcp_param_label.grid(row=0,rowspan=4,column=2)
         
-        """
+        
         self.export = tkinter.Button(self.frame0_c, text='Export as PDF', command=self.exportAsPDF)
         self.export.grid(row=2,column=0)
         self.savedAs = tkinter.Label(self.frame0_c, textvariable=self.savedAsText)
         self.savedAs.grid(row=2,column=1)
-        """
+        
         
         add = path.join(static_addr,"GBAR_logo.png")
         img = Image.open(add)
@@ -122,6 +122,7 @@ class MainWindow(tkinter.Tk):
             print("Opening failed")
             self.canBeAnalysed = False
         self.plotImage()
+    
     
     def plotImage(self):
         def conv(a):
@@ -219,8 +220,8 @@ class MainWindow(tkinter.Tk):
             
         if self.canBeExported == False:
             self.analyse()
-        fig,fname = self.beamSpot.plot()
-        self.savedAsText.set("Saved as "+path.split(fname)[-1])
+        #fig,fname = self.beamSpot.plot()
+        #self.savedAsText.set("Saved as "+path.split(fname)[-1])
         
     def defineMCPParams(self):
         MCPParamsWindow(self,self.mcp_param)
