@@ -10,7 +10,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 from skimage.color import rgb2gray
 import codecs
-import pickle
+import dill
 
 class BeamSpot:
     """
@@ -476,6 +476,24 @@ class MCPParams:
         else:
             self.ratioIsSet = True
         return self.ratioIsSet
+    
+    def checkAllSet(self):
+        """
+        To check is all has been set
+        * Return
+            boolean
+        """
+        if self.R == None:
+            return False
+        if self.x0 == None:
+            return False
+        if self.y0 == None:
+            return False
+        if self.R0 == None:
+            return False
+        if self.ratio == None:
+            return False
+        return True
         
         
     def save_conf(self,fname):
@@ -489,7 +507,7 @@ class MCPParams:
             params.save_config("config.mcp")
         """
         with open(fname, 'wb') as f1:
-            pickle.dump(self, f1)
+            dill.dump(self, f1)
         print("Parameters saved as",fname)
 
 ############################################################################
@@ -502,7 +520,7 @@ def import_config(fname):
     pp = None
     try:
         with open(fname, 'rb') as f1:
-            pp = pickle.load(f1)
+            pp = dill.load(f1)
             print("MCP parameters",pp.name,"from",fname,"imported")
     except:
         print("Importation of",fname,"has failed")

@@ -13,7 +13,8 @@ from os import path
 import GBARpy
 from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as mcpp
-import pickle
+#from MCPPicture import MCPParams as mcpp
+import dill
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
@@ -34,7 +35,7 @@ class MainWindow(tkinter.Tk):
         ### Fenetre principale
         tkinter.Tk.__init__(self)
         self.beamSpot = True
-        self.title("GBAR MCPy")
+        self.title("GBARPy")
         self.geometry("1000x600")
         self.resizable(True,True)
         self.canBeAnalysed = False
@@ -100,7 +101,6 @@ class MainWindow(tkinter.Tk):
                        highlightbackground="black",highlightthickness=1)
         self.frame2.pack(side='right')
                 
-        
        
 
 
@@ -108,14 +108,20 @@ class MainWindow(tkinter.Tk):
     
     def open_img(self):
         try:
-            self.picadress = filedialog.askopenfilename(title='Open image')
+            self.picadress = filedialog.askopenfilename(title='Open image',
+                                                        filetypes = [("tif files","*.tif"),
+                                                                     ("jpg files","*.jpg"),
+                                                                     ("jpeg files","*.jpeg"),
+                                                                     ("png files","*.png"),
+                                                                     ("asc files","*.asc"),
+                                                                     ("bmp files","*.bmp")])
             self.picname.set(path.split(self.picadress)[-1])
             self.canBeAnalysed = True
             self.plotImage()
         except:
             print("Opening failed")
             self.canBeAnalysed = False
-        
+        self.plotImage()
     
     def plotImage(self):
         def conv(a):
@@ -133,21 +139,26 @@ class MainWindow(tkinter.Tk):
             pplt.imshow(img)
             pplt.set_xlabel('pixels',fontsize=fontsize)
             pplt.set_ylabel('pixels',fontsize=fontsize)
+            y = len(img)
+            x = len(np.transpose(img))
             if self.mcp_param.checkRatioIsSet():
                 pplt.set_xlabel('mm',fontsize=fontsize)
                 pplt.set_ylabel('mm',fontsize=fontsize)
-                
-                y = len(img)
-                x = len(np.transpose(img))
-                l = np.linspace(0,x,int(x/300))
+                l = np.linspace(0,x,4)
                 pplt.set_xticks(l)
                 l = conv(np.floor(l*self.mcp_param.ratio))
                 pplt.set_xticklabels(l)
-                
-                l = np.linspace(0,y,int(y/300))
+                l = np.linspace(0,y,4)
                 pplt.set_yticks(l)
                 l = conv(np.floor(l*self.mcp_param.ratio))
                 pplt.set_yticklabels(l)
+            if self.mcp_param.checkAllSet():
+                pplt.plot(self.mcp_param.x0,self.mcp_param.y0,'+',
+                         ms=15,mew=2,color='white')
+                pplt.set_xlim(0,x)
+                pplt.set_ylim(y,0)
+                X0,Y0 = self.circleXY(self.mcp_param.x0,self.mcp_param.y0,self.mcp_param.R0)
+                pplt.plot(X0,Y0,lw=3,color='white')
             canvas = FigureCanvasTkAgg(fig, master=self.frame1)
             canvas.draw()
             canvas.get_tk_widget().pack()
@@ -213,7 +224,14 @@ class MainWindow(tkinter.Tk):
         
     def defineMCPParams(self):
         MCPParamsWindow(self,self.mcp_param)
-
+        
+    def circleXY(self,x0,y0,R0):
+        """
+        To obtain cartesian coordinates of a circle
+        """
+        t = np.linspace(0,2*np.pi,100)
+        return x0 + R0*np.cos(t), y0 + R0*np.sin(t)
+    
 class MCPParamsWindow(tkinter.Toplevel):
     
     def __init__(self,master,mcp):
@@ -280,7 +298,7 @@ class MCPParamsWindow(tkinter.Toplevel):
         try:
             pp = self.formToMCP()
             f = filedialog.asksaveasfile(mode='wb', defaultextension=".mcp")
-            pickle.dump(pp, f)
+            dill.dump(pp, f)
             print("Parameters saved as",f.name)
         except:
             print("Saving failed")
