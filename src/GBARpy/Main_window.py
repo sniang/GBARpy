@@ -66,14 +66,14 @@ class MainWindow(tkinter.Tk):
         self.btn_analysis.grid(row=1,column=0)
         
         self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.defineMCPParams)
-        self.btn_mcpparams.grid(row=2,column=0)
+        self.btn_mcpparams.grid(row=3,column=0)
         self.mcp_param_text = tkinter.StringVar()
         self.mcp_param_text.set(self.mcp_param.__repr__())
         self.mcp_param_label = tkinter.Label(self.frame0_c, textvariable=self.mcp_param_text)
         self.mcp_param_label.grid(row=0,rowspan=4,column=2)
         
         
-        self.export = tkinter.Button(self.frame0_c, text='Export as PDF', command=self.exportAsPDF)
+        self.export = tkinter.Button(self.frame0_c, text='Save analysis', command=self.exportAnalysis)
         self.export.grid(row=2,column=0)
         self.savedAs = tkinter.Label(self.frame0_c, textvariable=self.savedAsText)
         self.savedAs.grid(row=2,column=1)
@@ -214,12 +214,15 @@ class MainWindow(tkinter.Tk):
         
         self.canBeExported = True
         
-    def exportAsPDF(self):
-        if self.canBeAnalysed == False:
-            self.open_img()
-            
-        if self.canBeExported == False:
-            self.analyse()
+    def exportAnalysis(self):
+        try:
+            if self.canBeAnalysed == False:
+                self.open_img()
+                
+            if self.canBeExported == False:
+                self.analyse()
+        except:
+            print("Analysis failed")
         #fig,fname = self.beamSpot.plot()
         #self.savedAsText.set("Saved as "+path.split(fname)[-1])
         
