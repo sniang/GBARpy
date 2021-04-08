@@ -10,14 +10,16 @@ import tkinter
 from PIL import ImageTk,Image  
 from tkinter import filedialog
 from os import path
-import GBARpy
-from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
-from GBARpy.MCPPicture import MCPParams as mcpp
-#from MCPPicture import MCPParams as mcpp
 import dill
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
+import GBARpy
+from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
+from GBARpy.MCPPicture import MCPParams as mcpp
+#For edit mode
+#from MCPPicture import MCPParams as mcpp
+#from MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
 
 fontsize = 12
 
@@ -219,12 +221,18 @@ class MainWindow(tkinter.Tk):
             if self.canBeAnalysed == False:
                 self.open_img()
                 
-            if self.canBeExported == False:
-                self.analyse()
+            self.analyse()                
+            fname = filedialog.asksaveasfilename(filetypes=[("jpg files","*.jpg"),
+                                                            ("png files","*.png"),
+                                                            ("pdf files","*.pdf"),
+                                                            ("bmp files","*.bmp")])
+            if len(fname) > 0:
+                fig = self.beamSpot.plot()
+                fig.savefig(fname)
+                self.savedAsText.set("Saved as "+path.split(fname)[-1])
         except:
-            print("Analysis failed")
-        #fig,fname = self.beamSpot.plot()
-        #self.savedAsText.set("Saved as "+path.split(fname)[-1])
+            print("Exportation failed")
+
         
     def defineMCPParams(self):
         MCPParamsWindow(self,self.mcp_param)
