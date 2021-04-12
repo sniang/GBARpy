@@ -89,7 +89,18 @@ py -m pip uninstall GBARpy
 [GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
 
 ![GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
+
 ### Set the MCP parameters
+The different parameters are
+* Name: the name of your MCP
+* R: the radius of the phosphore screen in mm (to define in the end the ratio mm/pixels)
+* x0: the x position of the center of the phosphore screen (in pixels)
+* y0: the y position of the center of the phosphore screen (in pixels)
+* R0: the radius of the phosphore screen in pixels (to define in the end the ratio mm/pixels)
+* ratio: the mm/pixels ratio; if R and R0 are defined, the ratio is automatically defined
+
+To try the setting of the parameters, you can use the picture [lumosmax.tif](https://github.com/sniang/GBARpy/blob/main/example/lumosmax.tif) and the parameter file [BGT_in.mcp](https://github.com/sniang/GBARpy/blob/main/example/BGT_in.mcp). It is obviously better to have a picture where the border of your MCP are clearly visible to be able to set the parameters. In the future, a tool will be developped the find more easily these parameters.
+
 [GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
 
 ![GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
