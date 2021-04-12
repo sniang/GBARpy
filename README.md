@@ -18,7 +18,7 @@ This library is made to work with python 3.
 ## Installation
 ### Procedure for Unix and MacOS
 1. Install [python 3](https://www.python.org/downloads/)
-2. Check if pip if install by entrering in the terminal
+2. Check if pip is installed by entrering in the terminal
     ```
     python3 -m pip -V
     ```
@@ -41,7 +41,7 @@ python3 -m pip uninstall GBARpy
 ```
 ### Procedure for Windows
 1. Install [python 3](https://www.python.org/downloads/)
-2. Check if pip if install by entrering in the command prompt
+2. Check if pip is installed by entrering in the command prompt
     ```
     py -m pip -V
     ```
