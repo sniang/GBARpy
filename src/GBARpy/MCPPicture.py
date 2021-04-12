@@ -85,15 +85,15 @@ class BeamSpot:
         """
         res = "Original picture: "+self.fname+'\n\n'
         res += "Integral along the x-axis\n"
-        res += "A  = "+str(self.Ax)+"\n"
-        res += "r0 = "+str(self.r0x)+"\n"
-        res += "sig = "+str(self.sigx)+"\n"
-        res += "offset = "+str(self.offsetx)+"\n\n"
+        res += "A  = "+significant(self.Ax)+"\n"
+        res += "r0 = "+significant(self.r0x)+"\n"
+        res += "sig = "+significant(self.sigx)+"\n"
+        res += "offset = "+significant(self.offsetx)+"\n\n"
         res += "Integral along the y-axis\n"
-        res += "A  = "+str(self.Ay)+"\n"
-        res += "r0 = "+str(self.r0y)+"\n"
-        res += "sig = "+str(self.sigy)+"\n"
-        res += "offset = "+str(self.offsety)+"\n"
+        res += "A  = "+significant(self.Ay)+"\n"
+        res += "r0 = "+significant(self.r0y)+"\n"
+        res += "sig = "+significant(self.sigy)+"\n"
+        res += "offset = "+significant(self.offsety)+"\n"
         return res
     
     
@@ -179,13 +179,21 @@ class BeamSpot:
             fig = bs.plot()
             fig.savefig("analysis.pdf")
         """
+        def conv(a):
+            b = []
+            for e in a:
+                b.append(str(e))
+            return np.array(b)
         if len(fname) == 0:
             fname = None
         fig = plt.figure(figsize=figsize)
         
         plt.subplot(221)
         self.plot_X_int_revert()
-        plt.ylabel("pixels",fontsize=fontsize)
+        if self.mcpp.checkRatioIsSet():
+            plt.ylabel("mm",fontsize=fontsize)
+        else:
+            plt.ylabel("pixels",fontsize=fontsize)
         plt.grid()
         plt.xticks(fontsize=ftsizeticks)
         plt.yticks(fontsize=ftsizeticks)
@@ -197,10 +205,24 @@ class BeamSpot:
         plt.imshow(self.img,vmin=self.img.min(),vmax=self.img.max())
         plt.xticks(fontsize=ftsizeticks)
         plt.yticks(fontsize=ftsizeticks)
-        
+        y = len(self.img)
+        x = len(np.transpose(self.img))
+        if self.mcpp.checkRatioIsSet():
+            l = np.linspace(0,x,4)
+            l2 = conv(np.floor(l*self.mcpp.ratio))
+            plt.xticks(l,l2)
+            l = np.linspace(0,y,4)
+            l2 = conv(np.floor(l*self.mcpp.ratio))
+            plt.yticks(l,l2)
+            plt.xlim(0,x)
+            plt.ylim(y,0)
+                
         plt.subplot(224)
         self.plot_Y_int()
-        plt.xlabel("pixels",fontsize=fontsize)
+        if self.mcpp.checkRatioIsSet():
+            plt.xlabel("mm",fontsize=fontsize)
+        else:
+            plt.xlabel("pixels",fontsize=fontsize)
         plt.grid()
         plt.xticks(fontsize=ftsizeticks)
         plt.yticks(fontsize=ftsizeticks)
@@ -384,6 +406,12 @@ def getIndexStr(N,i):
     return res
 
 
+def significant(x, sig=4):
+    """
+    To turn a float as a str with a certain number of significant digits
+    """
+    res = np.round(x, sig-int(np.floor(np.log10(np.abs(x))))-1)
+    return str(res)
 
 
 

@@ -30,29 +30,23 @@ class MainWindow(tkinter.Tk):
         static_addr = GBARpy.__file__
         static_addr = path.split(static_addr)[0]
         static_addr = path.join(static_addr,'static')
+                
+        ### Some variables
         self.mcp_param = mcpp()
-        self.picadress = None
-        
-        
-        ### Fenetre principale
+        self.picadress = ""
+        self.canBeAnalysed = False
+        self.canBeExported = False
+                
+        ### Main Frame
         tkinter.Tk.__init__(self)
         self.beamSpot = True
         self.title("GBARPy")
-        self.geometry("1000x600")
+        self.geometry("1000x700")
         self.resizable(True,True)
-        self.canBeAnalysed = False
-        self.canBeExported = False
-        
-        
+
         ### Cadre 0 Contrôle
         self.frame0 = tkinter.Frame(self,highlightbackground="black",highlightthickness=1)
         self.frame0.pack(side='top',fill='x')
-
-        
-        ### Importation de l'image
-        self.picname = tkinter.StringVar()
-        self.picadress = ""
-        self.savedAsText = tkinter.StringVar()
         self.frame0_c = tkinter.Frame(self.frame0)
         self.frame0_c.pack(side='left')
         self.frame0_c.columnconfigure(0, pad=3)
@@ -60,27 +54,38 @@ class MainWindow(tkinter.Tk):
         self.frame0_c.rowconfigure(0, pad=3)
         self.frame0_c.rowconfigure(1, pad=3)
         self.frame0_c.rowconfigure(2, pad=3)
-        self.btn_choose = tkinter.Button(self.frame0_c, text='Open image', command=self.open_img)
-        self.btn_choose.grid(row=0,column=0)
-        self.picnamelabel = tkinter.Label(self.frame0_c, textvariable=self.picname)
-        self.picnamelabel.grid(row=0,column=1)
-        self.btn_analysis = tkinter.Button(self.frame0_c, text='Analyse the picture', command=self.analyse)
+        
+        ### Buttons
+        self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image', command=self.cmd_open_img)
+        self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.cmd_mcp_params)
+        self.btn_analysis = tkinter.Button(self.frame0_c, text='Analyse the picture', command=self.cmd_analyse)
+        self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis', command=self.cmd_export_analysis)
+        ### Place buttons
+        self.btn_open_img.grid(row=0,column=0)
         self.btn_analysis.grid(row=1,column=0)
-        
-        self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.defineMCPParams)
+        self.btn_export.grid(row=2,column=0)
         self.btn_mcpparams.grid(row=3,column=0)
-        self.mcp_param_text = tkinter.StringVar()
-        self.mcp_param_text.set(self.mcp_param.__repr__())
-        self.mcp_param_label = tkinter.Label(self.frame0_c, textvariable=self.mcp_param_text)
-        self.mcp_param_label.grid(row=0,rowspan=4,column=2)
         
+        ### Labels
+        self.str_mcp_param = tkinter.StringVar()
+        self.str_mcp_param.set(self.mcp_param.__repr__())
+        self.lbl_mcp_param = tkinter.Label(self.frame0_c, textvariable=self.str_mcp_param)
+        self.str_info_message = tkinter.StringVar()
+        self.lbl_info_message = tkinter.Label(self.frame0_c, textvariable=self.str_info_message)
+        ### Place labels
+        self.lbl_mcp_param.grid(row=0,rowspan=4,column=1)
+        self.lbl_info_message.grid(row=0,rowspan=4,column=2)
         
-        self.export = tkinter.Button(self.frame0_c, text='Save analysis', command=self.exportAnalysis)
-        self.export.grid(row=2,column=0)
-        self.savedAs = tkinter.Label(self.frame0_c, textvariable=self.savedAsText)
-        self.savedAs.grid(row=2,column=1)
+        ### Frame 1: image to analyse
+        self.frame1 = tkinter.Frame(self, width=400, height=400,highlightbackground="black",highlightthickness=1)
+        self.frame1.pack(side='left')
+        self.img1Label = tkinter.Label(self.frame1)
         
+        ### Frame 2: analysis result
+        self.frame2 = tkinter.Frame(self, width=400, height=400,highlightbackground="black",highlightthickness=1)
         
+        self.frame2.pack(side='right')
+        ### Draw GBAR logo
         add = path.join(static_addr,"GBAR_logo.png")
         img = Image.open(add)
         img = img.resize((100, 100), Image.ANTIALIAS)
@@ -90,25 +95,18 @@ class MainWindow(tkinter.Tk):
         panel.pack(side='right')
         self.tk.call('wm', 'iconphoto', self._w, tkinter.PhotoImage(file=add))
         self.iconphoto(False, tkinter.PhotoImage(file=add))
-        
-        ### Cadre 1 Importation de l'image
-        self.frame1 = tkinter.Frame(self, width=400, height=400,
-                       highlightbackground="black",highlightthickness=1)
-        self.frame1.pack(side='left')
-        self.img1Label = tkinter.Label(self.frame1)
-        
 
-        ### Cadre 2 Analyse de l'image
-        self.frame2 = tkinter.Frame(self, width=400, height=400,
-                       highlightbackground="black",highlightthickness=1)
-        self.frame2.pack(side='right')
-                
-       
+
+
+
+
+
 
 
         
     
-    def open_img(self):
+    def cmd_open_img(self):
+        self.str_info_message.set("")
         try:
             self.picadress = filedialog.askopenfilename(title='Open image',
                                                         filetypes = [("tif files","*.tif"),
@@ -117,13 +115,37 @@ class MainWindow(tkinter.Tk):
                                                                      ("png files","*.png"),
                                                                      ("asc files","*.asc"),
                                                                      ("bmp files","*.bmp")])
-            self.picname.set(path.split(self.picadress)[-1])
+            self.str_info_message.set(path.split(self.picadress)[-1]+" has been opened")
             self.canBeAnalysed = True
             self.plotImage()
         except:
-            print("Opening failed")
+            self.str_info_message.set("Opening failed")
             self.canBeAnalysed = False
         self.plotImage()
+        
+        
+    def cmd_export_analysis(self):
+        self.str_info_message.set("")
+        try:
+            if self.canBeAnalysed == False:
+                self.cmd_open_img()
+                
+            self.cmd_analyse()                
+            fname = filedialog.asksaveasfilename(filetypes=[("jpg files","*.jpg"),
+                                                            ("png files","*.png"),
+                                                            ("pdf files","*.pdf"),
+                                                            ("bmp files","*.bmp")])
+            if len(fname) > 0:
+                fig = self.beamSpot.plot()
+                fig.savefig(fname)
+                self.str_info_message.set("Saved as "+path.split(fname)[-1])                
+        except:
+            self.str_info_message.set("Exportation failed")
+
+        
+    def cmd_mcp_params(self):
+        self.str_info_message.set("")
+        MCPParamsWindow(self,self.mcp_param)
     
     
     def plotImage(self):
@@ -155,6 +177,8 @@ class MainWindow(tkinter.Tk):
                 pplt.set_yticks(l)
                 l = conv(np.floor(l*self.mcp_param.ratio))
                 pplt.set_yticklabels(l)
+                pplt.set_xlim(0,x)
+                pplt.set_ylim(y,0)
             if self.mcp_param.checkAllSet():
                 pplt.plot(self.mcp_param.x0,self.mcp_param.y0,'+',
                          ms=15,mew=2,color='white')
@@ -166,18 +190,17 @@ class MainWindow(tkinter.Tk):
             canvas.draw()
             canvas.get_tk_widget().pack()
         
-    def analyse(self):
+    def cmd_analyse(self):
+        ### Empty and plot image
+        self.str_info_message.set("")
         for widget in self.frame2.winfo_children():
             widget.destroy()
-    
         if self.canBeAnalysed == False:
-            self.open_img()
+            self.cmd_open_img()
         self.plotImage()
         ### Analysis
         self.beamSpot = BeamSpot(self.picadress,mcpp=self.mcp_param)
-        
-        
-        ### plot
+        ### plot analysis
         fig = Figure(figsize=(5,2.5), dpi=100)
         pplt = fig.add_subplot(111)
         popt = self.beamSpot.poptx
@@ -202,40 +225,12 @@ class MainWindow(tkinter.Tk):
         canvas = FigureCanvasTkAgg(fig, master=self.frame2)
         canvas.draw()
         canvas.get_tk_widget().pack()
-        
         ### Write the result
-        res = "Integral along the x-axis: \n"
-        res += "A  = "+str(np.floor(self.beamSpot.Ax))+"\t"
-        res += "r0 = "+str(np.floor(self.beamSpot.r0x))+"\t"
-        res += "sig = "+str(np.floor(self.beamSpot.sigx))+"\n\n"
-        res += "Integral along the y-axis: \n"
-        res += "A  = "+str(np.floor(self.beamSpot.Ay))+"\t"
-        res += "r0 = "+str(np.floor(self.beamSpot.r0y))+"\t"
-        res += "sig = "+str(np.floor(self.beamSpot.sigy))+"\n\n"
+        res = self.beamSpot.__repr__()
         tkinter.Label(self.frame2, text=res).pack()
-        
         self.canBeExported = True
         
-    def exportAnalysis(self):
-        try:
-            if self.canBeAnalysed == False:
-                self.open_img()
-                
-            self.analyse()                
-            fname = filedialog.asksaveasfilename(filetypes=[("jpg files","*.jpg"),
-                                                            ("png files","*.png"),
-                                                            ("pdf files","*.pdf"),
-                                                            ("bmp files","*.bmp")])
-            if len(fname) > 0:
-                fig = self.beamSpot.plot()
-                fig.savefig(fname)
-                self.savedAsText.set("Saved as "+path.split(fname)[-1])
-        except:
-            print("Exportation failed")
 
-        
-    def defineMCPParams(self):
-        MCPParamsWindow(self,self.mcp_param)
         
     def circleXY(self,x0,y0,R0):
         """
@@ -293,12 +288,11 @@ class MCPParamsWindow(tkinter.Toplevel):
         """
         try:
             pp = self.formToMCP()
-            print(pp)
             self.mcp = pp
             self.master.mcp_param = pp
-            self.master.mcp_param_text.set(pp.__repr__())
+            self.master.str_mcp_param.set(pp.__repr__())
         except:
-            print("Setting failed")
+            self.master.str_info_message.set("Setting failed")
         
         
             
@@ -311,9 +305,9 @@ class MCPParamsWindow(tkinter.Toplevel):
             pp = self.formToMCP()
             f = filedialog.asksaveasfile(mode='wb', defaultextension=".mcp")
             dill.dump(pp, f)
-            print("Parameters saved as",f.name)
+            self.master.str_info_message.set("Parameters saved as",f.name)
         except:
-            print("Saving failed")
+            self.master.str_info_message.set("Saving failed")
         finally:
             f.close()
 
@@ -329,9 +323,8 @@ class MCPParamsWindow(tkinter.Toplevel):
             self.fillform(pp)
             if pp != None:
                 self.mcp = pp 
-            print(self.mcp)
         except:
-            print("Loading failed")
+            self.master.str_info_message.set("Loading failed")
             
             
     def commandremove(self):
@@ -342,7 +335,7 @@ class MCPParamsWindow(tkinter.Toplevel):
             self.fillform(None)
             self.mcp = mcpp()
         except:
-            print("Removing failed")
+            self.master.str_info_message.set("Removing failed")
         
         
         
