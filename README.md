@@ -97,7 +97,7 @@ The different parameters are
 * x0: the x position of the center of the phosphore screen (in pixels)
 * y0: the y position of the center of the phosphore screen (in pixels)
 * R0: the radius of the phosphore screen in pixels (to define in the end the ratio mm/pixels)
-* ratio: the mm/pixels ratio; if R and R0 are defined, the ratio is automatically defined
+* ratio: the mm/pixels ratio; if R and R0 are defined, the ratio is automatically defined (ratio = R/R0)
 
 To try the setting of the parameters, you can use the picture [lumosmax.tif](https://github.com/sniang/GBARpy/blob/main/example/lumosmax.tif) and the parameter file [BGT_in.mcp](https://github.com/sniang/GBARpy/blob/main/example/BGT_in.mcp). It is obviously better to have a picture where the border of your MCP are clearly visible to be able to set the parameters. In the future, a tool will be developped the find more easily these parameters.
 
@@ -105,9 +105,20 @@ To try the setting of the parameters, you can use the picture [lumosmax.tif](htt
 
 ![GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
 
+The window posses 4 buttons:
+* Set: to set the parameters and use them in the future analysis
+* Save: to save the parameters as a binary file (.mcp) to be able to use the parameters during a future session
+* Load: to import the parameters from a binary file previously created (.mcp file)
+* Remove: to empty the form
+
+Be careful: if you do not press the "set" buttons and close the MCP parameter windows, what you filled in the form is lost. On the contrary, pressing "remove" by accident is not a problem if you didn't press "set", in that case, close and re-open the window.
+
 [GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
 
 ![GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
+
+One ce parameters has been set, press "Analyse the picture". If "ratio" has been set, then the pixels are converted in mm. If all the parameters are set, then the border of your phosphore screen will be draw. In the future, these parameters will be used to improve the fitting of the pictures.
+
 ## MCPpicture library
 ### Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_basic.py) and [MCP_example_small_functions.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_small_functions.py).
