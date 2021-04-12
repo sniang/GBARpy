@@ -6,6 +6,8 @@ This library is made to work with python 3.
     * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
     * [Procedure for Windows](#procedure-for-windows)
 * [Graphical User Interface](#graphical-user-interface)
+    * [How to do an analysis](#how-to-do-an-analysis)
+    * [Set the MCP parameters](#set-the-mcp-parameters)
 * [MCPpicture library](#mcppicture-library)
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
@@ -61,7 +63,40 @@ or to remove GBARpy
 py -m pip uninstall GBARpy
 ```
 ## Graphical User Interface
+### How to do an analysis
+[GUI_1](https://github.com/sniang/GBARpy/blob/main/example/GUI_1.png)
 
+![GUI_1](https://github.com/sniang/GBARpy/blob/main/example/GUI_1.png)
+
+1. Button to open an MCP picture.
+2. Button to analyse the opened picture. 
+    If no picture has been opened, a dialog window will appears to invite you to open one.
+3. To save as an image the result of the analysis. 
+    If no picture has been opened, a dialog window will appears to invite you to open one.
+4. Button to open the window to [set the MCP parameters](#set-the-mcp-parameters)
+5. The MCP parameters one they have been [set](#set-the-mcp-parameters)
+6. The opened picture.
+7. The result of the analysis.
+
+[GUI_2](https://github.com/sniang/GBARpy/blob/main/example/GUI_2.png)
+
+![GUI_2](https://github.com/sniang/GBARpy/blob/main/example/GUI_2.png)
+
+[GUI_3](https://github.com/sniang/GBARpy/blob/main/example/GUI_3.png)
+
+![GUI_3](https://github.com/sniang/GBARpy/blob/main/example/GUI_3.png)
+
+[GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
+
+![GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
+### Set the MCP parameters
+[GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
+
+![GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
+
+[GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
+
+![GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
 ## MCPpicture library
 ### Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_basic.py) and [MCP_example_small_functions.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_small_functions.py).
