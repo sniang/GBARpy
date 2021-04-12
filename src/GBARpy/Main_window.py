@@ -24,7 +24,10 @@ from GBARpy.MCPPicture import MCPParams as mcpp
 fontsize = 12
 
 class MainWindow(tkinter.Tk):
-    
+    """
+    Main window of the graphical interface
+    ### Attributes
+    """
     def __init__(self):
         ### Location of the static files
         static_addr = GBARpy.__file__
@@ -35,7 +38,6 @@ class MainWindow(tkinter.Tk):
         self.mcp_param = mcpp()
         self.picadress = ""
         self.canBeAnalysed = False
-        self.canBeExported = False
                 
         ### Main Frame
         tkinter.Tk.__init__(self)
@@ -129,13 +131,12 @@ class MainWindow(tkinter.Tk):
         try:
             if self.canBeAnalysed == False:
                 self.cmd_open_img()
-                
-            self.cmd_analyse()                
             fname = filedialog.asksaveasfilename(filetypes=[("jpg files","*.jpg"),
                                                             ("png files","*.png"),
                                                             ("pdf files","*.pdf"),
                                                             ("bmp files","*.bmp")])
             if len(fname) > 0:
+                self.cmd_analyse()
                 fig = self.beamSpot.plot()
                 fig.savefig(fname)
                 self.str_info_message.set("Saved as "+path.split(fname)[-1])                
@@ -228,7 +229,6 @@ class MainWindow(tkinter.Tk):
         ### Write the result
         res = self.beamSpot.__repr__()
         tkinter.Label(self.frame2, text=res).pack()
-        self.canBeExported = True
         
 
         
