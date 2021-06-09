@@ -12,6 +12,7 @@ from skimage.color import rgb2gray
 import codecs
 import dill
 
+
 class BeamSpot:
     """
     Class to analyse the pictures comming from the MCP
@@ -35,15 +36,17 @@ class BeamSpot:
     * BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
     * BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
     * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
+    * BeamSpot.Fit:
     """
     
     
-    def __init__(self,fname,reshape=[],mcpp=None):
+    def __init__(self,fname,reshape=[],mcpp=None,fit=0):
         """
         Constructor of the class
         * Parameters
             * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
             * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
+            * fit:
         * Example
             import GBARpy.MCPPicture as mcp
             bs = mcp.BeamSpot("name.tif")
@@ -56,6 +59,7 @@ class BeamSpot:
             self.mcpp = mcpp
             if self.mcpp.checkRatioIsSet():
                 ratio = self.mcpp.ratio
+
                 
         self.fname = fname
         self.reshape = reshape
@@ -65,11 +69,25 @@ class BeamSpot:
         self.pix = self.pix * ratio
         self.piy,self.Iy = integrate_picture_along_Y(self.img)
         self.piy = self.piy * ratio
-        self.poptx,self.perrx = fit_gaussian_offset_filtered(self.pix,self.Ix)
-        self.popty,self.perry = fit_gaussian_offset_filtered(self.piy,self.Iy)
-        self.Ax,self.r0x,self.sigx,self.offsetx = self.poptx
-        self.Ay,self.r0y,self.sigy,self.offsety = self.popty
+        if fit == 0:
+            self.fit = FilteredGaussian(self.pix,self.Ix,
+                                            self.piy,self.Iy)
+        elif fit == 1:
+            self.fit = SimpleGaussian(self.pix,self.Ix,
+                                            self.piy,self.Iy)
+        elif fit == 2:
+            self.fit = TwoGaussians(self.pix,self.Ix,
+                                            self.piy,self.Iy)
+        else:
+            self.fit = FilteredGaussian(self.pix,self.Ix,
+                                            self.piy,self.Iy)
         
+        
+        self.poptx,self.perrx = self.fit.params1,self.fit.errors1
+        self.popty,self.perry = self.fit.params2,self.fit.errors2
+        self.offsetx = self.fit.params1[-1]
+        self.offsety = self.fit.params2[-1]
+
 
     def __repr__(self):
         """
@@ -83,19 +101,8 @@ class BeamSpot:
             #or to print it in the python console
             print(bs)
         """
-        res = "Original picture: "+self.fname+'\n\n'
-        res += "Integral along the x-axis\n"
-        res += "A  = "+significant(self.Ax)+"\n"
-        res += "r0 = "+significant(self.r0x)+"\n"
-        res += "sig = "+significant(self.sigx)+"\n"
-        res += "offset = "+significant(self.offsetx)+"\n\n"
-        res += "Integral along the y-axis\n"
-        res += "A  = "+significant(self.Ay)+"\n"
-        res += "r0 = "+significant(self.r0y)+"\n"
-        res += "sig = "+significant(self.sigy)+"\n"
-        res += "offset = "+significant(self.offsety)+"\n"
-        return res
-    
+        return self.fit.__repr__()
+
     
     def plot_Y_int(self,label=""):
         """
@@ -108,12 +115,13 @@ class BeamSpot:
             bs.plot_Y_int("Integral along the y-axis")
         """
         popt = self.popty
+        popt[-1] = 0
         if np.any(np.isnan(popt)):
             plt.plot(self.piy,self.Iy,'.',ms=1,label=label)
         else:
-            D = self.Iy
-            p = plt.plot(self.piy,D-popt[3],'.',ms=1,label=label)
-            plt.plot(self.piy,gaussian_offset(self.piy,popt[0],popt[1],popt[2],0),color=p[0].get_color())
+            D = self.Iy - self.offsety
+            p = plt.plot(self.piy,D,'.',ms=1,label=label)
+            plt.plot(self.piy,self.fit.fitfunc(self.piy,*popt),color=p[0].get_color())
         plt.xlim([0,np.max(self.piy)])
         if len(label) != 0:
             plt.legend()
@@ -130,12 +138,13 @@ class BeamSpot:
             bs.plot_X_int("Integral along the x-axis")
         """
         popt = self.poptx
+        popt[-1] = 0
         if np.any(np.isnan(popt)):
             plt.plot(self.pix,self.Ix,'.',ms=1,label=label)
         else:
-            D = self.Ix
-            p = plt.plot(self.pix,D-popt[3],'.',ms=1,label=label)
-            plt.plot(self.pix,gaussian_offset(self.pix,popt[0],popt[1],popt[2],0),color=p[0].get_color())
+            D = self.Ix-self.offsetx
+            p = plt.plot(self.pix,D,'.',ms=1,label=label)
+            plt.plot(self.pix,self.fit.fitfunc(self.pix,*popt),color=p[0].get_color())
         plt.xlim([0,np.max(self.pix)])
         if len(label) != 0:
             plt.legend()
@@ -151,12 +160,13 @@ class BeamSpot:
         """
         pix, Ix = self.pix,self.Ix
         popt = self.poptx
+        popt[-1] = 0
         if np.any(np.isnan(popt)):
             plt.plot(Ix,pix,'.',ms=1)
         else:
-            D = Ix - popt[3]
+            D = Ix - self.offsetx
             p = plt.plot(D,pix,'.',ms=1)
-            G = gaussian_offset(pix,popt[0],popt[1],popt[2],0)
+            G = self.fit.fitfunc(pix,*popt)
             plt.plot(G,pix,color=p[0].get_color())
         plt.ylim([np.max(pix),0])
     
@@ -188,6 +198,10 @@ class BeamSpot:
             fname = None
         fig = plt.figure(figsize=figsize)
         
+        plt.subplot(223)
+        plt.text(0,0,self.fit.__repr__().replace('\t',' '),fontsize = fontsize)
+        plt.axis('off')
+        
         plt.subplot(221)
         self.plot_X_int_revert()
         if self.mcpp.checkRatioIsSet():
@@ -197,9 +211,9 @@ class BeamSpot:
         plt.grid()
         plt.xticks(fontsize=ftsizeticks)
         plt.yticks(fontsize=ftsizeticks)
-        plt.title(r"$A_x = $"+str(np.around(self.Ax,1))+" $\sigma_x = $"+str(np.around(self.sigx,1))+" $r_{0x} = $"+str(np.around(self.r0x,1)),fontsize=fontsize,loc='left')
+        plt.title("Integral along the x-axis",fontsize=fontsize)
         if not(np.isnan(self.poptx[0])):
-            plt.xlim([0,self.Ax/self.sigx/np.sqrt(2*np.pi)])
+            plt.xlim([0,max(self.Ix-self.offsetx)*1.1])
 
         plt.subplot(222)
         plt.imshow(self.img,vmin=self.img.min(),vmax=self.img.max())
@@ -226,27 +240,269 @@ class BeamSpot:
         plt.grid()
         plt.xticks(fontsize=ftsizeticks)
         plt.yticks(fontsize=ftsizeticks)
-        plt.title(r"$A_y = $"+str(np.around(self.Ay,1))+" $\sigma_y = $"+str(np.around(self.sigy,1))+" $r_{0y} = $"+str(np.around(self.r0y,1)),fontsize=fontsize,loc='left')
+        plt.title("Integral along the y-axis",fontsize=fontsize)
         if not(np.isnan(self.popty[0])):
-            plt.ylim([0,self.Ay/self.sigy/np.sqrt(2*np.pi)])
+            plt.ylim([0,max(self.Iy-self.offsety)*1.1])
         plt.tight_layout()
         if fname != None:
             fig.savefig(fname)
         return fig
     
+
+
+
+###############################################################################
+
+
+class FitInterface():
+    """
+    Super class to do the fit of the MCP pictures
+    Need to be define 
+    self.fitfunc : the fit function
+    self.labels : the names the parameters
     
-def normal_distribution(x,s0,x0):
     """
-    Normal distribution 
-    f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
-    * Parameters
-        * x:  an np array
-        * s0: floating number, the standard deviation
-        * x0: floating number, the mean value, center of the distribution
-    * Returns
-        the value of the distribution
+    
+    def __init__(self):
+        self.params1 = []
+        self.errors1 = []
+        self.params2 = []
+        self.errors2 = []
+        self.labels = []
+        self.title1 = "\nIntegral along the x-axis\n"
+        self.title2 = "\nIntegral along the y-axis\n"
+    
+    
+    def Fit(self,x1,y1,x2=[],y2=[],p0=None):
+        """
+        To do the fit y = f(x)
+
+        Parameters
+        ----------
+        x1 : array of float
+            the first x input data 
+        y1 : array of float
+            the first y input data
+        x2 : array of float, optional
+            the second x input data 
+        y2 : array of float, optional
+            the second y input data 
+
+        Returns
+        -------
+        None.
+
+        """
+        
+        ### self.fitfunc has te be defined
+        popt,pcov = curve_fit(self.fitfunc,x1,y1)
+        self.params1 = popt
+        self.errors1 = np.diag(pcov)
+        
+        if len(x2) > 0:
+            popt,pcov = curve_fit(self.fitfunc,x2,y2)
+            self.params2 = popt
+            self.errors2 = np.diag(pcov)
+            
+        if len(self.labels) < len(self.params1):
+            self.labels = []
+            for i in np.arange(len(self.params1)):
+                self.labels.append("")
+            
+        
+    def __repr__(self):
+        """
+        To turn the parameters of the fit to a string 
+
+        Returns
+        -------
+        res : str
+            the string containing the result of the fit
+
+        """
+        res = self.title1
+        for i in np.arange(len(self.params1)):
+            res += self.labels[i]+':\t'+num2str(self.params1[i])
+            res += " ± "+num2str(self.errors1[i])+"\n"
+        if len(self.params2) > 0:
+            res+=self.title2
+        for i in np.arange(len(self.params2)):
+            res += self.labels[i]+':\t'+num2str(self.params2[i])
+            res += " ± "+num2str(self.errors2[i])+"\n"
+        return res
+
+
+###############################################################################
+
+
+class SimpleGaussian(FitInterface):
     """
-    return 1/np.sqrt(2*np.pi)/s0*np.exp(-(((x-x0)/s0)**2)/2)
+    A gaussian fit of the integral along the x and y axis
+    """
+    
+    def __init__(self,x1,y1,x2,y2):
+        """
+        The constructor of the class
+
+        Parameters
+        ----------
+        x1 : array of float
+            the x axis
+        y1 : array of float
+            integral along the x axis
+        x2 : array of float
+            the y axis
+        y2 : array of float
+            integral along the y axis
+
+        """
+        super().__init__()
+        self.labels = ["Ampli","Center","Sigma","Offset"]
+        self.fitfunc = gaussian_offset
+        try:
+            self.Fit(x1,y1,x2,y2)
+        except:
+            print("The Fit has failed")
+            self.params1 = np.ones(len(self.labels))+np.nan
+            self.params2 = self.params1
+            self.errors1 = self.params1
+            self.errors2 = self.params1
+    
+    def Fit(self,x1,y1,x2,y2):
+        """
+        To do the fit y = f(x)
+
+        Parameters
+        ----------
+        x1 : array of float
+            the first x input data 
+        y1 : array of float
+            the first y input data
+        x2 : array of float, optional
+            the second x input data 
+        y2 : array of float, optional
+            the second y input data 
+
+        Returns
+        -------
+        None.
+
+        """
+        popt,pcov = curve_fit(gaussian,x1,y1,bounds=(0,np.inf))
+        p0 = np.concatenate([popt,[min(y1)]])
+        popt,pcov = curve_fit(gaussian_offset,x1,y1,bounds=(0,np.inf),p0=p0)
+        self.params1 = popt
+        self.errors1 = np.diag(pcov)
+        
+        popt,pcov = curve_fit(gaussian,x2,y2,bounds=(0,np.inf))
+        p0 = np.concatenate([popt,[min(y2)]])
+        popt,pcov = curve_fit(gaussian_offset,x2,y2,bounds=(0,np.inf),p0=p0)
+        self.params2 = popt
+        self.errors2 = np.diag(pcov)
+
+
+###############################################################################
+
+
+class FilteredGaussian(FitInterface):
+    
+    def __init__(self,x1,y1,x2,y2):
+        """
+        The constructor of the class
+
+        Parameters
+        ----------
+        x1 : array of float
+            the x axis
+        y1 : array of float
+            integral along the x axis
+        x2 : array of float
+            the y axis
+        y2 : array of float
+            integral along the y axis
+
+        """
+        super().__init__()
+        self.labels = ["Ampli","Center","Sigma","Offset"]
+        self.fitfunc = gaussian_offset
+        try:
+            self.params1,self.errors1 = fit_gaussian_offset_filtered(x1,y1)
+            self.params2,self.errors2 = fit_gaussian_offset_filtered(x2,y2)
+        except:
+            print("The Fit has failed")
+            self.params1 = np.ones(len(self.labels))+np.nan
+            self.params2 = self.params1
+            self.errors1 = self.params1
+            self.errors2 = self.params1
+
+###############################################################################
+
+class TwoGaussians(FitInterface):
+    
+    def __init__(self,x1,y1,x2,y2):
+        """
+        The constructor of the class
+
+        Parameters
+        ----------
+        x1 : array of float
+            the x axis
+        y1 : array of float
+            integral along the x axis
+        x2 : array of float
+            the y axis
+        y2 : array of float
+            integral along the y axis
+
+        """
+        super().__init__()
+        self.fitfunc = twoGaussians_offset
+        self.labels = ["Ampli 1","Center1","Sigma 1","Ampli 2","Center2",
+                       "Sigma 2","Offset"]
+        try:
+            self.Fit(x1,y1,x2,y2)
+        except:
+            print("The Fit has failed")
+            self.params1 = np.ones(len(self.labels))+np.nan
+            self.params2 = self.params1
+            self.errors1 = self.params1
+            self.errors2 = self.params1
+    
+    def Fit(self,x1,y1,x2,y2):
+        """
+        To do the fit y = f(x)
+
+        Parameters
+        ----------
+        x1 : array of float
+            the first x input data 
+        y1 : array of float
+            the first y input data
+        x2 : array of float, optional
+            the second x input data 
+        y2 : array of float, optional
+            the second y input data 
+
+        Returns
+        -------
+        None.
+
+        """
+        popt,pcov = curve_fit(twoGaussians,x1,y1,bounds=(0,np.inf))
+        p0 = np.concatenate([popt,[min(y1)]])
+        popt,pcov = curve_fit(twoGaussians_offset,x1,y1,p0 = p0,
+                              bounds=(0,np.inf))
+        self.params1,self.errors1 = popt,np.diag(pcov)
+        
+        popt,pcov = curve_fit(twoGaussians,x2,y2,bounds=(0,np.inf))
+        p0 = np.concatenate([popt,[min(y2)]])
+        popt,pcov = curve_fit(twoGaussians_offset,x2,y2,p0 = p0,
+                              bounds=(0,np.inf))
+        self.params2,self.errors2 = popt,np.diag(pcov)
+        
+###############################################################################            
+        
+
 
 
 def gaussian_offset(x,a,x0,s0,c):
@@ -265,6 +521,117 @@ def gaussian_offset(x,a,x0,s0,c):
     """
     return a*normal_distribution(x,s0,x0) + c
 
+    
+
+def gaussian(x,a,x0,s0):
+    """
+    Gaussian distribution
+    f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
+    
+    * Parameters
+        * x:  an np array
+        * a:  the amplitude
+        * s0: floating number, the standard deviation
+        * x0: floating number, the mean value, center of the distribution
+    * Returns
+        * the value of the distribution
+    """
+    return gaussian_offset(x,a,x0,s0,0)
+
+def normal_distribution(x,s0,x0):
+    """
+    Normal distribution 
+    f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
+    * Parameters
+        * x:  an np array
+        * s0: floating number, the standard deviation
+        * x0: floating number, the mean value, center of the distribution
+    * Returns
+        the value of the distribution
+    """
+    return 1/np.sqrt(2*np.pi)/s0*np.exp(-(((x-x0)/s0)**2)/2)
+
+def twoGaussians(x,a1,x1,s1,a2,x2,s2):
+    """
+    Sum of two gaussian distribution
+
+    Parameters
+    ----------
+    x : float, numpy array
+        the variable.
+    a1 : float
+        Amplitude of the first distribution.
+    x1 : float
+        Mean value of the first distribution.
+    s1 : float
+        Standard deviation of the first distribution.
+    a2 : float
+        Amplitude of the second distribution.
+    x2 : float
+        Mean value of the second distribution.
+    s2 : float
+        Standard deviation of the second distribution.
+
+    Returns
+    -------
+    float, numpy array
+        Value of the distribution.
+
+    """
+    return a1*normal_distribution(x,s1,x1)+a2*normal_distribution(x,s2,x2)
+
+def twoGaussians_offset(x,a1,x1,s1,a2,x2,s2,c):
+    """
+    Sum of two gaussian distribution with an offset
+
+    Parameters
+    ----------
+    x : float, numpy array
+        the variable.
+    a1 : float
+        Amplitude of the first distribution.
+    x1 : float
+        Mean value of the first distribution.
+    s1 : float
+        Standard deviation of the first distribution.
+    a2 : float
+        Amplitude of the second distribution.
+    x2 : float
+        Mean value of the second distribution.
+    s2 : float
+        Standard deviation of the second distribution.
+    c : float
+        The offset.
+
+    Returns
+    -------
+    float, numpy array
+        Value of the distribution.
+
+    """
+    return a1*normal_distribution(x,s1,x1)+a2*normal_distribution(x,s2,x2) + c
+                   
+                           
+def num2str(a,n=3):
+    """
+    To turn a number into a string
+
+    Parameters
+    ----------
+    a : float
+        the number to convert.
+    n : int, optional
+        number of significant digits. The default is 3.
+
+    Returns
+    -------
+    str
+        the string.
+
+    """
+    n = str(n)
+    y = '%.'+n+'g'
+    return '%s' % float(y % a)
 
 def fit_gaussian_offset_filtered(x,y):
     """
@@ -303,11 +670,7 @@ def fit_gaussian_offset_filtered(x,y):
         perr = np.sqrt(np.diag(pcov))
     except:
         print("The fit failed")
-        popt = [np.nan,np.nan,np.nan,np.nan]
-        perr = [np.nan,np.nan,np.nan,np.nan]
     return popt,perr
-
-###################################################################################
 
 def reshapeIMG(img,ix,iy,l):
     """
