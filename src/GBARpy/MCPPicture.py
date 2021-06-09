@@ -40,13 +40,13 @@ class BeamSpot:
     """
     
     
-    def __init__(self,fname,reshape=[],mcpp=None,fit=0):
+    def __init__(self,fname,reshape=[],mcpp=None,fit="Filtered gaussian"):
         """
         Constructor of the class
         * Parameters
             * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
             * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
-            * fit:
+            * fit: "Filtered gaussian", "Simple gaussian", "Two gaussians"
         * Example
             import GBARpy.MCPPicture as mcp
             bs = mcp.BeamSpot("name.tif")
@@ -69,13 +69,13 @@ class BeamSpot:
         self.pix = self.pix * ratio
         self.piy,self.Iy = integrate_picture_along_Y(self.img)
         self.piy = self.piy * ratio
-        if fit == 0:
+        if fit == "Filtered gaussian":
             self.fit = FilteredGaussian(self.pix,self.Ix,
                                             self.piy,self.Iy)
-        elif fit == 1:
+        elif fit == "Simple gaussian":
             self.fit = SimpleGaussian(self.pix,self.Ix,
                                             self.piy,self.Iy)
-        elif fit == 2:
+        elif fit == "Two gaussians":
             self.fit = TwoGaussians(self.pix,self.Ix,
                                             self.piy,self.Iy)
         else:

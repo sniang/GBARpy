@@ -15,11 +15,11 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
 import GBARpy
-from GBARpy.MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
+from GBARpy.MCPPicture import BeamSpot, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as mcpp
 #For edit mode
 #from MCPPicture import MCPParams as mcpp
-#from MCPPicture import BeamSpot, gaussian_offset, import_config, import_image
+#from MCPPicture import BeamSpot, import_config, import_image
 
 fontsize = 12
 
@@ -47,7 +47,8 @@ class MainWindow(tkinter.Tk):
         self.resizable(True,True)
 
         ### Cadre 0 Contrôle
-        self.frame0 = tkinter.Frame(self,highlightbackground="black",highlightthickness=1)
+        self.frame0 = tkinter.Frame(self,highlightbackground="black",
+                                    highlightthickness=1)
         self.frame0.pack(side='top',fill='x')
         self.frame0_c = tkinter.Frame(self.frame0)
         self.frame0_c.pack(side='left')
@@ -58,33 +59,51 @@ class MainWindow(tkinter.Tk):
         self.frame0_c.rowconfigure(2, pad=3)
         
         ### Buttons
-        self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image', command=self.cmd_open_img)
-        self.btn_mcpparams = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.cmd_mcp_params)
-        self.btn_analysis = tkinter.Button(self.frame0_c, text='Analyse the picture', command=self.cmd_analyse)
-        self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis', command=self.cmd_export_analysis)
+        self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image',
+                                           command=self.cmd_open_img)
+        self.btn_mcpparams = tkinter.Button(self.frame0_c,text='MCP Parameters',
+                                            command=self.cmd_mcp_params)
+        self.btn_analysis = tkinter.Button(self.frame0_c,
+                                           text='Analyse the picture',
+                                           command=self.cmd_analyse)
+        self.fit = tkinter.StringVar(self.frame0_c)
+        self.fit.set("Filtered gaussian") # default value
+        self.menu_fit = tkinter.OptionMenu(self.frame0_c, self.fit, "Filtered gaussian", 
+                                           "Simple gaussian",
+                                           "Two gaussians")
+
+        self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis',
+                                         command=self.cmd_export_analysis)
         ### Place buttons
         self.btn_open_img.grid(row=0,column=0)
         self.btn_analysis.grid(row=1,column=0)
-        self.btn_export.grid(row=2,column=0)
-        self.btn_mcpparams.grid(row=3,column=0)
+        self.menu_fit.grid(row=2,column=0)
+        self.btn_export.grid(row=3,column=0)
+        self.btn_mcpparams.grid(row=4,column=0)
         
         ### Labels
         self.str_mcp_param = tkinter.StringVar()
         self.str_mcp_param.set(self.mcp_param.__repr__())
-        self.lbl_mcp_param = tkinter.Label(self.frame0_c, textvariable=self.str_mcp_param)
+        self.lbl_mcp_param = tkinter.Label(self.frame0_c,
+                                           textvariable=self.str_mcp_param)
         self.str_info_message = tkinter.StringVar()
-        self.lbl_info_message = tkinter.Label(self.frame0_c, textvariable=self.str_info_message)
+        self.lbl_info_message = tkinter.Label(self.frame0_c,
+                                              textvariable=self.str_info_message)
         ### Place labels
         self.lbl_mcp_param.grid(row=0,rowspan=4,column=1)
         self.lbl_info_message.grid(row=0,rowspan=4,column=2)
         
         ### Frame 1: image to analyse
-        self.frame1 = tkinter.Frame(self, width=400, height=400,highlightbackground="black",highlightthickness=1)
+        self.frame1 = tkinter.Frame(self, width=400, height=400,
+                                    highlightbackground="black",
+                                    highlightthickness=1)
         self.frame1.pack(side='left')
         self.img1Label = tkinter.Label(self.frame1)
         
         ### Frame 2: analysis result
-        self.frame2 = tkinter.Frame(self, width=400, height=400,highlightbackground="black",highlightthickness=1)
+        self.frame2 = tkinter.Frame(self, width=400, height=400,
+                                    highlightbackground="black",
+                                    highlightthickness=1)
         
         self.frame2.pack(side='right')
         ### Draw GBAR logo
@@ -131,9 +150,9 @@ class MainWindow(tkinter.Tk):
         try:
             if self.canBeAnalysed == False:
                 self.cmd_open_img()
-            fname = filedialog.asksaveasfilename(filetypes=[("jpg files","*.jpg"),
+            fname = filedialog.asksaveasfilename(filetypes=[("pdf files","*.pdf"),
+                                                            ("jpg files","*.jpg"),
                                                             ("png files","*.png"),
-                                                            ("pdf files","*.pdf"),
                                                             ("bmp files","*.bmp")])
             if len(fname) > 0:
                 self.cmd_analyse()
@@ -185,7 +204,8 @@ class MainWindow(tkinter.Tk):
                          ms=15,mew=2,color='white')
                 pplt.set_xlim(0,x)
                 pplt.set_ylim(y,0)
-                X0,Y0 = self.circleXY(self.mcp_param.x0,self.mcp_param.y0,self.mcp_param.R0)
+                X0,Y0 = self.circleXY(self.mcp_param.x0,self.mcp_param.y0,
+                                      self.mcp_param.R0)
                 pplt.plot(X0,Y0,lw=3,color='white')
             canvas = FigureCanvasTkAgg(fig, master=self.frame1)
             canvas.draw()
@@ -199,8 +219,9 @@ class MainWindow(tkinter.Tk):
         if self.canBeAnalysed == False:
             self.cmd_open_img()
         self.plotImage()
+        fit = self.fit.get()
         ### Analysis
-        self.beamSpot = BeamSpot(self.picadress,mcpp=self.mcp_param)
+        self.beamSpot = BeamSpot(self.picadress,mcpp=self.mcp_param,fit=fit)
         ### plot analysis
         fig = Figure(figsize=(5,2.5), dpi=100)
         pplt = fig.add_subplot(111)
@@ -209,17 +230,25 @@ class MainWindow(tkinter.Tk):
         if np.any(np.isnan(popt)):
             pplt.plot(self.beamSpot.pix,self.beamSpot.Ix,'.',ms=1,label=label)
         else:
-            D = self.beamSpot.Ix
-            p = pplt.plot(self.beamSpot.pix,D-popt[3],'.',ms=1,label=label)
-            pplt.plot(self.beamSpot.pix,gaussian_offset(self.beamSpot.pix,popt[0],popt[1],popt[2],0),color=p[0].get_color())
+            popt = self.beamSpot.poptx
+            popt[-1] = 0
+            fitfunc = self.beamSpot.fit.fitfunc
+            D = self.beamSpot.Ix - self.beamSpot.offsetx
+            p = pplt.plot(self.beamSpot.pix,D,'.',ms=1,label=label)
+            pplt.plot(self.beamSpot.pix,fitfunc(self.beamSpot.pix,*popt),
+                      color=p[0].get_color())
         popt = self.beamSpot.popty
         label = "along the y-axis"
         if np.any(np.isnan(popt)):
             pplt.plot(self.beamSpot.piy,self.beamSpot.Iy,'.',ms=1,label=label)
         else:
-            D = self.beamSpot.Iy
-            p = pplt.plot(self.beamSpot.piy,D-popt[3],'.',ms=1,label=label)
-            pplt.plot(self.beamSpot.piy,gaussian_offset(self.beamSpot.piy,popt[0],popt[1],popt[2],0),color=p[0].get_color())
+            popt = self.beamSpot.popty
+            popt[-1] = 0
+            fitfunc = self.beamSpot.fit.fitfunc
+            D = self.beamSpot.Iy - self.beamSpot.offsety
+            p = pplt.plot(self.beamSpot.piy,D,'.',ms=1,label=label)
+            pplt.plot(self.beamSpot.piy,fitfunc(self.beamSpot.piy,*popt),
+                      color=p[0].get_color())
         pplt.set_xlim([0,np.max(self.beamSpot.pix)])
         pplt.grid()
         pplt.legend()
@@ -238,6 +267,10 @@ class MainWindow(tkinter.Tk):
         """
         t = np.linspace(0,2*np.pi,100)
         return x0 + R0*np.cos(t), y0 + R0*np.sin(t)
+    
+
+###############################################################################
+
     
 class MCPParamsWindow(tkinter.Toplevel):
     
@@ -277,10 +310,22 @@ class MCPParamsWindow(tkinter.Toplevel):
         self.frame0 = tkinter.Frame(self)
         self.frame0.grid(row=6, column = 0, columnspan = 3)
         
-        self.set = tkinter.Button(self.frame0, text='Set',command=self.commandset).grid(row=0, column=0)
-        self.save = tkinter.Button(self.frame0, text='Save',command=self.commandsave).grid(row=0, column=1)
-        self.load = tkinter.Button(self.frame0, text='Load',command=self.commandload).grid(row=0, column=2)
-        self.remove = tkinter.Button(self.frame0, text='Remove',command=self.commandremove).grid(row=0, column=3)
+        self.set = tkinter.Button(self.frame0,
+                                  text='Set',
+                                  command=self.commandset).grid(row=0,
+                                                                column=0)
+        self.save = tkinter.Button(self.frame0,
+                                   text='Save',
+                                   command=self.commandsave).grid(row=0,
+                                                                  column=1)
+        self.load = tkinter.Button(self.frame0,
+                                   text='Load',
+                                   command=self.commandload).grid(row=0,
+                                                                  column=2)
+        self.remove = tkinter.Button(self.frame0,
+                                     text='Remove',
+                                     command=self.commandremove).grid(row=0,
+                                                                      column=3)
 
     def commandset(self):
         """
@@ -317,7 +362,8 @@ class MCPParamsWindow(tkinter.Toplevel):
         """
         To choose an .mcp file with a dialog window
         """
-        filename = filedialog.askopenfilename(title = "Select file",filetypes = [("mcp files","*.mcp")])
+        filename = filedialog.askopenfilename(title = "Select file",
+                                              filetypes = [("mcp files","*.mcp")])
         try:
             pp = import_config(filename)
             self.fillform(pp)
