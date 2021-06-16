@@ -59,7 +59,7 @@ class MainWindow(tkinter.Tk):
         self.frame0_c.rowconfigure(2, pad=3)
         
         ### Buttons
-        self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image',
+        self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image(s)',
                                            command=self.cmd_open_img)
         self.btn_mcpparams = tkinter.Button(self.frame0_c,text='MCP Parameters',
                                             command=self.cmd_mcp_params)
@@ -89,9 +89,15 @@ class MainWindow(tkinter.Tk):
         self.str_info_message = tkinter.StringVar()
         self.lbl_info_message = tkinter.Label(self.frame0_c,
                                               textvariable=self.str_info_message)
+        
+        self.var_picadress = tkinter.StringVar()
+        self.lbl_picadress = tkinter.Label(self,
+                                           textvariable=self.var_picadress)
+        
         ### Place labels
         self.lbl_mcp_param.grid(row=0,rowspan=4,column=1)
-        self.lbl_info_message.grid(row=0,rowspan=4,column=2)
+        self.lbl_info_message.grid(row=0,column=4)
+        self.lbl_picadress.pack(side='bottom')
         
         ### Frame 1: image to analyse
         self.frame1 = tkinter.Frame(self, width=400, height=400,
@@ -100,12 +106,14 @@ class MainWindow(tkinter.Tk):
         self.frame1.pack(side='left')
         self.img1Label = tkinter.Label(self.frame1)
         
+        
         ### Frame 2: analysis result
         self.frame2 = tkinter.Frame(self, width=400, height=400,
                                     highlightbackground="black",
                                     highlightthickness=1)
         
         self.frame2.pack(side='right')
+        
         ### Draw GBAR logo
         add = path.join(static_addr,"GBAR_logo.png")
         img = Image.open(add)
@@ -116,6 +124,24 @@ class MainWindow(tkinter.Tk):
         panel.pack(side='right')
         self.tk.call('wm', 'iconphoto', self._w, tkinter.PhotoImage(file=add))
         self.iconphoto(False, tkinter.PhotoImage(file=add))
+        
+        
+        ### Choose picture
+        self.picN = 0
+        self.picI = 0
+        picLeft = Image.open(path.join(static_addr,"left.png"))
+        picLeft = picLeft.resize((40, 30), Image.ANTIALIAS)
+        picLeft = ImageTk.PhotoImage(picLeft)
+        self.btn_Left = tkinter.Button(self.frame0_c, image=picLeft,command=self.cmd_go_left)
+        self.btn_Left.image = picLeft
+        self.btn_Left.grid(row=5,column=2)
+        
+        picRight = Image.open(path.join(static_addr,"right.png"))
+        picRight = picRight.resize((40, 30), Image.ANTIALIAS)
+        picRight = ImageTk.PhotoImage(picRight)
+        self.btn_Right = tkinter.Button(self.frame0_c, image=picRight,command=self.cmd_go_right)
+        self.btn_Right.image = picRight
+        self.btn_Right.grid(row=5,column=3)
 
 
 
@@ -129,14 +155,18 @@ class MainWindow(tkinter.Tk):
     def cmd_open_img(self):
         self.str_info_message.set("")
         try:
-            self.picadress = filedialog.askopenfilename(title='Open image',
+            self.picadresses = filedialog.askopenfilenames(title='Open image(s)',
                                                         filetypes = [("tif files","*.tif"),
                                                                      ("jpg files","*.jpg"),
                                                                      ("jpeg files","*.jpeg"),
                                                                      ("png files","*.png"),
                                                                      ("asc files","*.asc"),
                                                                      ("bmp files","*.bmp")])
-            self.str_info_message.set(path.split(self.picadress)[-1]+" has been opened")
+            self.picadress = self.picadresses[0]
+            self.picN = len(self.picadresses)
+            self.picI = 0
+            self.var_picadress.set(self.picadresses[self.picI])
+            self.str_info_message.set("Files have been opened")
             self.canBeAnalysed = True
             self.plotImage()
         except:
@@ -167,6 +197,19 @@ class MainWindow(tkinter.Tk):
         self.str_info_message.set("")
         MCPParamsWindow(self,self.mcp_param)
     
+    def cmd_go_right(self):
+        if self.picI + 1 < self.picN:
+            self.picI += 1
+            self.picadress = self.picadresses[self.picI]
+            self.plotImage()
+            self.var_picadress.set(self.picadresses[self.picI])
+    
+    def cmd_go_left(self):
+        if self.picI - 1 >= 0:
+            self.picI -= 1
+            self.picadress = self.picadresses[self.picI]
+            self.plotImage()
+            self.var_picadress.set(self.picadresses[self.picI])
     
     def plotImage(self):
         def conv(a):
