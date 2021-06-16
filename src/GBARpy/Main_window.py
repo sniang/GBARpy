@@ -17,6 +17,7 @@ import numpy as np
 import GBARpy
 from GBARpy.MCPPicture import BeamSpot, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as mcpp
+from matplotlib import cm
 #For edit mode
 #from MCPPicture import MCPParams as mcpp
 #from MCPPicture import BeamSpot, import_config, import_image
@@ -222,34 +223,46 @@ class MainWindow(tkinter.Tk):
             widget.destroy()
         if self.canBeAnalysed:   
             img = import_image(self.picadress)
-            fig = Figure(figsize=(5,4))
-            pplt = fig.add_subplot(111)
-            pplt.imshow(img)
-            pplt.set_xlabel('pixels',fontsize=fontsize)
-            pplt.set_ylabel('pixels',fontsize=fontsize)
-            y = len(img)
-            x = len(np.transpose(img))
-            if self.mcp_param.checkRatioIsSet():
-                pplt.set_xlabel('mm',fontsize=fontsize)
-                pplt.set_ylabel('mm',fontsize=fontsize)
-                l = np.linspace(0,x,4)
-                pplt.set_xticks(l)
-                l = conv(np.floor(l*self.mcp_param.ratio))
-                pplt.set_xticklabels(l)
-                l = np.linspace(0,y,4)
-                pplt.set_yticks(l)
-                l = conv(np.floor(l*self.mcp_param.ratio))
-                pplt.set_yticklabels(l)
-                pplt.set_xlim(0,x)
-                pplt.set_ylim(y,0)
-            if self.mcp_param.checkAllSet():
-                pplt.plot(self.mcp_param.x0,self.mcp_param.y0,'+',
-                         ms=15,mew=2,color='white')
-                pplt.set_xlim(0,x)
-                pplt.set_ylim(y,0)
-                X0,Y0 = self.circleXY(self.mcp_param.x0,self.mcp_param.y0,
-                                      self.mcp_param.R0)
-                pplt.plot(X0,Y0,lw=3,color='white')
+            fig = Figure(figsize=(5,5))
+            if True:
+                pplt = fig.add_subplot(111)
+                pplt.imshow(img)
+                pplt.set_xlabel('pixels',fontsize=fontsize)
+                pplt.set_ylabel('pixels',fontsize=fontsize)
+                y = len(img)
+                x = len(np.transpose(img))
+                if self.mcp_param.checkRatioIsSet():
+                    pplt.set_xlabel('mm',fontsize=fontsize)
+                    pplt.set_ylabel('mm',fontsize=fontsize)
+                    l = np.linspace(0,x,4)
+                    pplt.set_xticks(l)
+                    l = conv(np.floor(l*self.mcp_param.ratio))
+                    pplt.set_xticklabels(l)
+                    l = np.linspace(0,y,4)
+                    pplt.set_yticks(l)
+                    l = conv(np.floor(l*self.mcp_param.ratio))
+                    pplt.set_yticklabels(l)
+                    pplt.set_xlim(0,x)
+                    pplt.set_ylim(y,0)
+                if self.mcp_param.checkAllSet():
+                    pplt.plot(self.mcp_param.x0,self.mcp_param.y0,'+',
+                             ms=15,mew=2,color='white')
+                    pplt.set_xlim(0,x)
+                    pplt.set_ylim(y,0)
+                    X0,Y0 = self.circleXY(self.mcp_param.x0,self.mcp_param.y0,
+                                          self.mcp_param.R0)
+                    pplt.plot(X0,Y0,lw=3,color='white')
+                    
+            else:
+                y = np.arange(len(img))
+                x = np.arange(len(img[0]))
+                X,Y = np.meshgrid(x, y)
+                Z = img
+                ax = fig.gca(projection='3d')
+                ax.plot_surface(X, Y, Z,cmap=cm.plasma,
+                           linewidth=0, antialiased=False)
+
+
             canvas = FigureCanvasTkAgg(fig, master=self.frame1)
             canvas.draw()
             canvas.get_tk_widget().pack()
