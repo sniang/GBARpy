@@ -75,12 +75,19 @@ class MainWindow(tkinter.Tk):
 
         self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis',
                                          command=self.cmd_export_analysis)
+        
+        self.chk_3D_var = tkinter.IntVar()
+        self.chk_3D_var.set(0)
+        self.chk_3D = tkinter.Checkbutton(self.frame0_c, text='3D plot',variable=self.chk_3D_var, onvalue=1, offvalue=0,command=self.plotImage)
+        
+        
         ### Place buttons
         self.btn_open_img.grid(row=0,column=0)
         self.btn_analysis.grid(row=1,column=0)
         self.menu_fit.grid(row=2,column=0)
         self.btn_export.grid(row=3,column=0)
-        self.btn_mcpparams.grid(row=4,column=0)
+        self.btn_mcpparams.grid()
+        self.chk_3D.grid(row=5,column=0)
         
         ### Labels
         self.str_mcp_param = tkinter.StringVar()
@@ -105,6 +112,8 @@ class MainWindow(tkinter.Tk):
                                     highlightbackground="black",
                                     highlightthickness=1)
         self.frame1.pack(side='left')
+        
+
         self.img1Label = tkinter.Label(self.frame1)
         
         
@@ -213,6 +222,7 @@ class MainWindow(tkinter.Tk):
             self.var_picadress.set(self.picadresses[self.picI])
     
     def plotImage(self):
+        
         def conv(a):
             b = []
             for e in a:
@@ -221,10 +231,12 @@ class MainWindow(tkinter.Tk):
         
         for widget in self.frame1.winfo_children():
             widget.destroy()
+        
+        
         if self.canBeAnalysed:   
             img = import_image(self.picadress)
             fig = Figure(figsize=(5,5))
-            if True:
+            if self.chk_3D_var.get() == 0:
                 pplt = fig.add_subplot(111)
                 pplt.imshow(img)
                 pplt.set_xlabel('pixels',fontsize=fontsize)
