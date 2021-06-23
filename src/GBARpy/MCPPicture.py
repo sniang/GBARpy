@@ -15,7 +15,7 @@ import dill
 
 class BeamSpot:
     """
-    Class to analyse the pictures comming from the MCP
+    Class to analyse the pictures coming from the MCP
     #### Attributes
     * BeamSpot.fname: string, file name of the picture
     * BeamSpot.img: 2D array, picture as an array
@@ -56,16 +56,16 @@ class BeamSpot:
             self.mcpp = MCPParams()
         else:
             self.mcpp = mcpp
-            if self.mcpp.checkRatioIsSet():
+            if self.mcpp.check_ratio_is_set():
                 ratio = self.mcpp.ratio
 
         self.fname = fname
         self.reshape = reshape
         self.img_original = self.fname
         self.img = import_image(self.fname, self.reshape)
-        self.pix, self.Ix = integrate_picture_along_X(self.img)
+        self.pix, self.Ix = integrate_picture_along_x(self.img)
         self.pix = self.pix * ratio
-        self.piy, self.Iy = integrate_picture_along_Y(self.img)
+        self.piy, self.Iy = integrate_picture_along_y(self.img)
         self.piy = self.piy * ratio
         if fit == "Filtered gaussian":
             self.fit = FilteredGaussian(self.pix, self.Ix,
@@ -97,9 +97,9 @@ class BeamSpot:
             #or to print it in the python console
             print(bs)
         """
-        return self.fit.__repr__
+        return self.fit.__repr__()
 
-    def plot_Y_int(self, label=""):
+    def plot_y_int(self, label=""):
         """
         To plot the integral of the picture along the "y" axis
         * Parameters
@@ -121,7 +121,7 @@ class BeamSpot:
         if len(label) != 0:
             plt.legend()
 
-    def plot_X_int(self, label=""):
+    def plot_x_int(self, label=""):
         """
         To plot the integral of the picture along the "x" axis
         * Parameters
@@ -143,7 +143,7 @@ class BeamSpot:
         if len(label) != 0:
             plt.legend()
 
-    def plot_X_int_revert(self):
+    def plot_x_int_revert(self):
         """
         To plot the integral of the picture along the "x" axis and reverse the picture
         * Example
@@ -157,10 +157,10 @@ class BeamSpot:
         if np.any(np.isnan(popt)):
             plt.plot(Ix, pix, '.', ms=1)
         else:
-            D = Ix - self.offsetx
-            p = plt.plot(D, pix, '.', ms=1)
-            G = self.fit.fitfunc(pix, *popt)
-            plt.plot(G, pix, color=p[0].get_color())
+            d = Ix - self.offsetx
+            p = plt.plot(d, pix, '.', ms=1)
+            g = self.fit.fitfunc(pix, *popt)
+            plt.plot(g, pix, color=p[0].get_color())
         plt.ylim([np.max(pix), 0])
 
     def plot(self, fname="", figsize=(12, 10), fontsize=12, ftsizeticks=12):
@@ -197,8 +197,8 @@ class BeamSpot:
         plt.axis('off')
 
         plt.subplot(221)
-        self.plot_X_int_revert()
-        if self.mcpp.checkRatioIsSet():
+        self.plot_x_int_revert()
+        if self.mcpp.check_ratio_is_set():
             plt.ylabel("mm", fontsize=fontsize)
         else:
             plt.ylabel("pixels", fontsize=fontsize)
@@ -215,19 +215,19 @@ class BeamSpot:
         plt.yticks(fontsize=ftsizeticks)
         y = len(self.img)
         x = len(np.transpose(self.img))
-        if self.mcpp.checkRatioIsSet():
-            l = np.linspace(0, x, 4)
-            l2 = conv(np.floor(l * self.mcpp.ratio))
-            plt.xticks(l, l2)
-            l = np.linspace(0, y, 4)
-            l2 = conv(np.floor(l * self.mcpp.ratio))
-            plt.yticks(l, l2)
+        if self.mcpp.check_ratio_is_set():
+            l1 = np.linspace(0, x, 4)
+            l2 = conv(np.floor(l1 * self.mcpp.ratio))
+            plt.xticks(l1, l2)
+            l1 = np.linspace(0, y, 4)
+            l2 = conv(np.floor(l1 * self.mcpp.ratio))
+            plt.yticks(l1, l2)
             plt.xlim(0, x)
             plt.ylim(y, 0)
 
         plt.subplot(224)
-        self.plot_Y_int()
-        if self.mcpp.checkRatioIsSet():
+        self.plot_y_int()
+        if self.mcpp.check_ratio_is_set():
             plt.xlabel("mm", fontsize=fontsize)
         else:
             plt.xlabel("pixels", fontsize=fontsize)
@@ -301,7 +301,6 @@ class FitInterface:
             self.labels = []
             for i in np.arange(len(self.params1)):
                 self.labels.append("")
-
 
     def __repr__(self):
         """
@@ -451,7 +450,7 @@ class TwoGaussians(FitInterface):
 
         """
         super().__init__()
-        self.fitfunc = twoGaussians_offset
+        self.fitfunc = two_gaussian_offset
         self.labels = ["Ampli 1", "Center1", "Sigma 1", "Ampli 2", "Center2",
                        "Sigma 2", "Offset"]
         try:
@@ -483,15 +482,15 @@ class TwoGaussians(FitInterface):
         None.
 
         """
-        popt, pcov = curve_fit(twoGaussians, x1, y1, bounds=(0, np.inf))
+        popt, pcov = curve_fit(two_gaussian, x1, y1, bounds=(0, np.inf))
         p0 = np.concatenate([popt, [min(y1)]])
-        popt, pcov = curve_fit(twoGaussians_offset, x1, y1, p0=p0,
+        popt, pcov = curve_fit(two_gaussian_offset, x1, y1, p0=p0,
                                bounds=(0, np.inf))
         self.params1, self.errors1 = popt, np.diag(pcov)
 
-        popt, pcov = curve_fit(twoGaussians, x2, y2, bounds=(0, np.inf))
+        popt, pcov = curve_fit(two_gaussian, x2, y2, bounds=(0, np.inf))
         p0 = np.concatenate([popt, [min(y2)]])
-        popt, pcov = curve_fit(twoGaussians_offset, x2, y2, p0=p0,
+        popt, pcov = curve_fit(two_gaussian_offset, x2, y2, p0=p0,
                                bounds=(0, np.inf))
         self.params2, self.errors2 = popt, np.diag(pcov)
 
@@ -546,7 +545,7 @@ def normal_distribution(x, s0, x0):
     return 1 / np.sqrt(2 * np.pi) / s0 * np.exp(-(((x - x0) / s0) ** 2) / 2)
 
 
-def twoGaussians(x, a1, x1, s1, a2, x2, s2):
+def two_gaussian(x, a1, x1, s1, a2, x2, s2):
     """
     Sum of two gaussian distribution
 
@@ -576,7 +575,7 @@ def twoGaussians(x, a1, x1, s1, a2, x2, s2):
     return a1 * normal_distribution(x, s1, x1) + a2 * normal_distribution(x, s2, x2)
 
 
-def twoGaussians_offset(x, a1, x1, s1, a2, x2, s2, c):
+def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
     """
     Sum of two gaussian distribution with an offset
 
@@ -658,7 +657,6 @@ def fit_gaussian_offset_filtered(x, y):
         x0 = x[mask]
         y0 = y[mask]
         popt, pcov = curve_fit(gaussian_offset, x0, y0, p0=popt, bounds=(0, np.inf))
-        mask = np.abs(y - gaussian_offset(x, *popt)) / y < 0.1
         mask = np.logical_or(np.abs(x - popt[1]) / popt[1] < 0.1,
                              np.abs((y - popt[3]) / popt[3]) < 0.1)
         x0 = x[mask]
@@ -670,23 +668,23 @@ def fit_gaussian_offset_filtered(x, y):
     return popt, perr
 
 
-def reshapeIMG(img, ix, iy, l):
+def reshape_img(img, ix, iy, lm):
     """
     To reshape an image to a squared one
     * Parameters
         * img: np.array([np.array]) the image array
         * ix: the index of the center of the square
         * iy: the index of the center of the square
-        * l: the half length of the square
+        * lm: the half length of the square
     *Returns
         * The reshaped picture as an array
     """
     ix = int(ix)
     iy = int(iy)
-    IX = np.arange(ix - l, ix + l)
-    IY = np.arange(iy - l, iy + l)
-    img = img[IY]
-    img = ((img.T)[IX]).T
+    ix_r = np.arange(ix - lm, ix + lm)
+    iy_r = np.arange(iy - lm, iy + lm)
+    img = img[iy_r]
+    img = img.T[ix_r].T
     return img
 
 
@@ -699,11 +697,11 @@ def import_image(fname, reshape=[]):
     * Returns
         * the picture as 2D array
     """
-    fileformat = ["tif", "jpg", "jpeg", "png", "asc", "bmp"]
+    file_format = ["tif", "jpg", "jpeg", "png", "asc", "bmp"]
     ext = fname.split('.')[len(fname.split('.')) - 1]
     ext = ext.lower()
-    if not (ext in fileformat):
-        raise TypeError(ext + ' not in ' + str(fileformat))
+    if not (ext in file_format):
+        raise TypeError(ext + ' not in ' + str(file_format))
     # if asc file
     if ext == "asc":
         with codecs.open(fname, encoding='utf-8-sig') as ff:
@@ -712,57 +710,59 @@ def import_image(fname, reshape=[]):
         img = np.double(mpimg.imread(fname))
         img = rgb2gray(img)
     if len(reshape) == 3:
-        img = reshapeIMG(img, reshape[0], reshape[1], reshape[2])
+        img = reshape_img(img, reshape[0], reshape[1], reshape[2])
 
-    N = np.concatenate(img).size
-    N = int(0.01 * N)
-    img -= np.mean(np.sort(np.concatenate(img))[:N])
+    n_index = np.concatenate(img).size
+    n_index = int(0.01 * n_index)
+    img -= np.mean(np.sort(np.concatenate(img))[:n_index])
 
     return img
 
 
-def integrate_picture_along_Y(img):
+def integrate_picture_along_y(img):
     """
     To integrate the picture along th Y axis
     * Parameters
         * img: image as a 2D numpy array
     * Returns
-        * (pix,Iy): A tupple with pix the pixel numbers as a numpy array and Iy the integral as a numpy array
+        * (pix,integral): A tuple with pix the pixel numbers as a numpy array
+        and 'integral' the integral as a numpy array
     """
-    I = np.zeros_like(img[0])
-    for l in img:
-        I = I + l
-    pix = np.arange(len(I))
-    Iy = I / len(img)
-    return pix, Iy
+    integral = np.zeros_like(img[0])
+    for line in img:
+        integral = integral + line
+    pix = np.arange(len(integral))
+    integral = integral / len(img)
+    return pix, integral
 
 
-def integrate_picture_along_X(img):
+def integrate_picture_along_x(img):
     """
     To integrate the picture along th X axis
     *Parameters
         * img: image as a 2D numpy array
     * Returns
-        * (pix,Ix): A tupple with pix the pixel numbers as a numpy array and Ix the integral as a numpy array
+        * (pix,integral): A tuple with pix the pixel numbers as a numpy array and
+        'integral' the integral as a numpy array
     """
-    pix, ix = integrate_picture_along_Y(np.transpose(img))
-    Ix = np.array([])
+    pix, ix = integrate_picture_along_y(np.transpose(img))
+    integral = np.array([])
     for i in ix:
-        Ix = np.concatenate([Ix, [i]])
-    return pix, Ix
+        integral = np.concatenate([integral, [i]])
+    return pix, integral
 
 
-def getIndexStr(N, i):
+def get_index_str(n, i):
     """
     To convert an int 'i' to a string
     * Example
         getIndexStr(100,15) #returns '015'
     """
-    if i < 0 or i > N:
+    if i < 0 or i > n:
         raise ValueError("N >= i or i > 0 is required")
-    l = len(str(N))
+    lm = len(str(n))
     res = str(i)
-    while l > len(res):
+    while lm > len(res):
         res = "0" + res
     return res
 
@@ -792,8 +792,8 @@ class MCPParams:
     * MCPParams.ratioIsSet: boolean to know if a ratio has been defined
     """
 
-    def __init__(self, name=None, R=None, x0=None, y0=None,
-                 R0=None, ratio=None):
+    def __init__(self, name=None, r=None, x0=None, y0=None,
+                 r0=None, ratio=None):
         """
             Constructor of the class
             * Parameters
@@ -806,14 +806,15 @@ class MCPParams:
                     if R and R0 have been defined, then ratio is defined automatically
             """
         self.name = name
-        self.R = R
+        self.R = r
         self.x0 = x0
         self.y0 = y0
-        self.R0 = R0
+        self.R0 = r0
         self.ratio = ratio
-        if R != None and R0 != None:
-            self.ratio = R / R0
-        self.checkRatioIsSet()
+        if r is not None and r0 is not None:
+            self.ratio = r / r0
+        self.ratioIsSet = False
+        self.check_ratio_is_set()
 
     def __repr__(self):
         """
@@ -835,7 +836,7 @@ class MCPParams:
         res += "ratio: " + str(self.ratio) + "\n"
         return res
 
-    def defineRatio(self, mm, pix):
+    def define_ratio(self, mm, pix):
         """
         To define the ratio mm vs pixels
         * Parameters
@@ -845,23 +846,23 @@ class MCPParams:
         try:
             r = mm / pix
             self.ratio = r
-            self.checkRatioIsSet()
+            self.check_ratio_is_set()
         except (Exception,):
             print("The setting of the ratio has failed")
 
-    def checkRatioIsSet(self):
+    def check_ratio_is_set(self):
         """
         To check is the ratio has been set
         * Return
             boolean
         """
-        if self.ratio == None:
+        if self.ratio is None:
             self.ratioIsSet = False
         else:
             self.ratioIsSet = True
         return self.ratioIsSet
 
-    def checkAllSet(self):
+    def check_all_set(self):
         """
         To check is all has been set
         * Return

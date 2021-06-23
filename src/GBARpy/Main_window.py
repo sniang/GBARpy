@@ -11,6 +11,7 @@ from PIL import ImageTk, Image
 from tkinter import filedialog
 from os import path
 import dill
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
@@ -19,7 +20,7 @@ from GBARpy.MCPPicture import BeamSpot, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as Mcpp
 from matplotlib import cm
 
-# For edit mode
+# Uncomment for edit mode
 # from MCPPicture import MCPParams as Mcpp
 # from MCPPicture import BeamSpot, import_config, import_image
 
@@ -42,6 +43,7 @@ class MainWindow(tkinter.Tk):
         self.mcp_param = Mcpp()
         self.picadress = ""
         self.picadresses = []
+        self.beamspots = []
         self.canBeAnalysed = False
 
         # Main Frame
@@ -69,13 +71,13 @@ class MainWindow(tkinter.Tk):
         self.btn_mcp_param = tkinter.Button(self.frame0_c, text='MCP Parameters',
                                             command=self.cmd_mcp_params)
         self.btn_analysis = tkinter.Button(self.frame0_c,
-                                           text='Analyse the picture',
+                                           text='Analyse the picture(s)',
                                            command=self.cmd_analyse)
         self.fit = tkinter.StringVar(self.frame0_c)
         self.fit.set("Filtered gaussian")  # default value
         self.menu_fit = tkinter.OptionMenu(self.frame0_c, self.fit, "Filtered gaussian",
                                            "Simple gaussian",
-                                           "Two gaussians")
+                                           "Two gaussian")
 
         self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis',
                                          command=self.cmd_export_analysis)
@@ -156,6 +158,8 @@ class MainWindow(tkinter.Tk):
 
     def cmd_open_img(self):
         self.str_info_message.set("")
+        self.picN = 0
+        self.picI = 0
         try:
             self.picadresses = filedialog.askopenfilenames(title='Open image(s)',
                                                            filetypes=[("tif files", "*.tif"),
@@ -176,7 +180,6 @@ class MainWindow(tkinter.Tk):
         except (Exception,):
             self.str_info_message.set("Opening failed")
             self.canBeAnalysed = False
-        self.cmd_plot_image()
 
     def cmd_export_analysis(self):
         self.str_info_message.set("")
@@ -188,8 +191,11 @@ class MainWindow(tkinter.Tk):
                                                                 ("png files", "*.png"),
                                                                 ("bmp files", "*.bmp")])
             if len(file_name) > 0:
-                self.cmd_analyse()
-                self.beamSpot.plot().savefig(file_name)
+                if len(self.beamspots) == 0:
+                    self.cmd_analyse()
+                fig = self.beamspots[self.picI].plot()
+                fig.savefig(file_name)
+                plt.close()
                 self.str_info_message.set("Saved as " + path.split(file_name)[-1])
         except (Exception,):
             self.str_info_message.set("Exportation failed")
@@ -203,6 +209,7 @@ class MainWindow(tkinter.Tk):
             self.picI += 1
             self.picadress = self.picadresses[self.picI]
             self.cmd_plot_image()
+            self.cmd_plot_analysis()
             self.var_picadress.set(self.picadresses[self.picI])
 
     def cmd_go_left(self):
@@ -210,6 +217,7 @@ class MainWindow(tkinter.Tk):
             self.picI -= 1
             self.picadress = self.picadresses[self.picI]
             self.cmd_plot_image()
+            self.cmd_plot_analysis()
             self.var_picadress.set(self.picadresses[self.picI])
 
     def cmd_plot_image(self):
@@ -233,7 +241,7 @@ class MainWindow(tkinter.Tk):
                 subplot.set_ylabel('pixels', fontsize=fontsize)
                 y = len(img)
                 x = len(np.transpose(img))
-                if self.mcp_param.checkRatioIsSet():
+                if self.mcp_param.check_ratio_is_set():
                     subplot.set_xlabel('mm', fontsize=fontsize)
                     subplot.set_ylabel('mm', fontsize=fontsize)
                     line = np.linspace(0, x, 4)
@@ -246,7 +254,7 @@ class MainWindow(tkinter.Tk):
                     subplot.set_yticklabels(line)
                     subplot.set_xlim(0, x)
                     subplot.set_ylim(y, 0)
-                if self.mcp_param.checkAllSet():
+                if self.mcp_param.check_all_set():
                     subplot.plot(self.mcp_param.x0, self.mcp_param.y0, '+', ms=15, mew=2, color='white')
                     subplot.set_xlim(0, x)
                     subplot.set_ylim(y, 0)
@@ -265,53 +273,66 @@ class MainWindow(tkinter.Tk):
             canvas.draw()
             canvas.get_tk_widget().pack()
 
-    def cmd_analyse(self):
-        # Empty and plot image
-        self.str_info_message.set("")
+    def cmd_plot_analysis(self):
         for widget in self.frame2.winfo_children():
             widget.destroy()
-        if not self.canBeAnalysed:
-            self.cmd_open_img()
-        self.cmd_plot_image()
-        fit = self.fit.get()
-        # Analysis
-        self.beamSpot = BeamSpot(self.picadress, mcpp=self.mcp_param, fit=fit)
-        # plot analysis
-        fig = Figure(figsize=(5, 2.5), dpi=100)
-        pplt = fig.add_subplot(111)
-        popt = self.beamSpot.poptx
-        label = "along the x-axis"
-        if np.any(np.isnan(popt)):
-            pplt.plot(self.beamSpot.pix, self.beamSpot.Ix, '.', ms=1, label=label)
-        else:
-            popt = self.beamSpot.poptx
-            popt[-1] = 0
-            fitfunc = self.beamSpot.fit.fitfunc
-            d = self.beamSpot.Ix - self.beamSpot.offsetx
-            p = pplt.plot(self.beamSpot.pix, d, '.', ms=1, label=label)
-            pplt.plot(self.beamSpot.pix, fitfunc(self.beamSpot.pix, *popt),
-                      color=p[0].get_color())
-        popt = self.beamSpot.popty
-        label = "along the y-axis"
-        if np.any(np.isnan(popt)):
-            pplt.plot(self.beamSpot.piy, self.beamSpot.Iy, '.', ms=1, label=label)
-        else:
-            popt = self.beamSpot.popty
-            popt[-1] = 0
-            fitfunc = self.beamSpot.fit.fitfunc
-            d = self.beamSpot.Iy - self.beamSpot.offsety
-            p = pplt.plot(self.beamSpot.piy, d, '.', ms=1, label=label)
-            pplt.plot(self.beamSpot.piy, fitfunc(self.beamSpot.piy, *popt),
-                      color=p[0].get_color())
-        pplt.set_xlim([0, np.max(self.beamSpot.pix)])
-        pplt.grid()
-        pplt.legend()
-        canvas = FigureCanvasTkAgg(fig, master=self.frame2)
-        canvas.draw()
-        canvas.get_tk_widget().pack()
-        # Write the result
-        res = self.beamSpot.__repr__()
-        tkinter.Label(self.frame2, text=res).pack()
+
+        if self.picN > 0:
+            bs = self.beamspots[self.picI]
+
+            fig = Figure(figsize=(5, 2.5), dpi=100)
+            pplt = fig.add_subplot(111)
+            popt = bs.poptx
+            label = "along the x-axis"
+            if np.any(np.isnan(popt)):
+                pplt.plot(bs.pix, bs.Ix, '.', ms=1, label=label)
+            else:
+                popt = bs.poptx
+                popt[-1] = 0
+                fitfunc = bs.fit.fitfunc
+                d = bs.Ix - bs.offsetx
+                p = pplt.plot(bs.pix, d, '.', ms=1, label=label)
+                pplt.plot(bs.pix, fitfunc(bs.pix, *popt),
+                          color=p[0].get_color())
+            popt = bs.popty
+            label = "along the y-axis"
+            if np.any(np.isnan(popt)):
+                pplt.plot(bs.piy, bs.Iy, '.', ms=1, label=label)
+            else:
+                popt = bs.popty
+                popt[-1] = 0
+                fitfunc = bs.fit.fitfunc
+                d = bs.Iy - bs.offsety
+                p = pplt.plot(bs.piy, d, '.', ms=1, label=label)
+                pplt.plot(bs.piy, fitfunc(bs.piy, *popt),
+                          color=p[0].get_color())
+            pplt.set_xlim([0, np.max(bs.pix)])
+            pplt.grid()
+            pplt.legend()
+            canvas = FigureCanvasTkAgg(fig, master=self.frame2)
+            canvas.draw()
+            canvas.get_tk_widget().pack()
+            # Write the result
+            res = bs.__repr__()
+            tkinter.Label(self.frame2, text=res).pack()
+
+    def cmd_analyse(self):
+        # Empty and plot image
+        self.beamspots = []
+        self.str_info_message.set("")
+        try:
+            if not self.canBeAnalysed:
+                self.cmd_open_img()
+            self.cmd_plot_image()
+            fit = self.fit.get()
+            # Analysis
+            if self.picN > 0:
+                for file_name in self.picadresses:
+                    self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit))
+                self.cmd_plot_analysis()
+
+        except (Exception,):
+            self.str_info_message.set("Analysis has failed")
 
 
 ###############################################################################
