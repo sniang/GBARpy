@@ -22,7 +22,7 @@ class BeamSpot:
     * BeamSpot.pix: the pixels along the x axis
     * BeamSpot.piy: the pixels along the y axis
     * BeamSpot.Ix: array of floats, integral along the x axis
-    * BeamSpot.Iy: array of floatt, integral along the y axis
+    * BeamSpot.Iy: array of float, integral along the y axis
     * BeamSpot.Ax: float, Amplitude, fit along the x axis
     * BeamSpot.Ay: float, Amplitude, fit along the y axis
     * BeamSpot.sigx: float, Sigma, fit along the x axis
