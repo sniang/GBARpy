@@ -73,7 +73,7 @@ class BeamSpot:
         elif fit == "Simple gaussian":
             self.fit = SimpleGaussian(self.pix, self.Ix,
                                       self.piy, self.Iy)
-        elif fit == "Two gaussians":
+        elif fit == "Two gaussian":
             self.fit = TwoGaussians(self.pix, self.Ix,
                                     self.piy, self.Iy)
         else:
