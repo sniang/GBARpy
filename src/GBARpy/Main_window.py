@@ -9,7 +9,7 @@ Created on Thu Dec 10 16:00:25 2020
 import tkinter
 from PIL import ImageTk, Image
 from tkinter import filedialog
-from os import path
+from os import path, listdir
 import dill
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -41,6 +41,7 @@ class MainWindow(tkinter.Tk):
 
         # Some variables
         self.mcp_param = Mcpp()
+
         self.picadress = ""
         self.picadresses = []
         self.beamspots = []
@@ -74,7 +75,7 @@ class MainWindow(tkinter.Tk):
                                            text='Analyse the picture(s)',
                                            command=self.cmd_analyse)
         self.fit = tkinter.StringVar(self.frame0_c)
-        self.fit.set("Filtered gaussian")  # default value
+        self.fit.set("Filtered gaussian")
         self.menu_fit = tkinter.OptionMenu(self.frame0_c, self.fit, "Filtered gaussian",
                                            "Simple gaussian",
                                            "Two gaussian")
@@ -86,6 +87,18 @@ class MainWindow(tkinter.Tk):
         self.chk_3D_var.set(0)
         self.chk_3D = tkinter.Checkbutton(self.frame0_c, text='3D plot', variable=self.chk_3D_var, onvalue=1,
                                           offvalue=0, command=self.cmd_plot_image)
+
+        # Defaults MCP parameters
+        self.default_mcp = np.array(find_mcp_param_in_directory(static_addr))
+        self.default_mcp_names = []
+        for m in self.default_mcp:
+            self.default_mcp_names.append(m.name)
+        self.default_mcp_names = np.array(self.default_mcp_names)
+        self.var_default_mcp = tkinter.StringVar(self.frame0_c)
+        self.var_default_mcp.set("GBAR's MCP")
+        self.menu_default_mcp = tkinter.OptionMenu(self.frame0_c, self.var_default_mcp, "GBAR's MCP",
+                                                   *self.default_mcp_names, command=self.cmd_menu_mcp)
+        self.menu_default_mcp.grid(row=0, column=1)
 
         # Place buttons
         self.btn_open_img.grid(row=0, column=0)
@@ -109,7 +122,7 @@ class MainWindow(tkinter.Tk):
                                            textvariable=self.var_picadress)
 
         # Place labels
-        self.lbl_mcp_param.grid(row=0, rowspan=4, column=1)
+        self.lbl_mcp_param.grid(row=1, rowspan=4, column=1)
         self.lbl_info_message.grid(row=0, column=4)
         self.lbl_picadress.pack(side='bottom')
 
@@ -334,6 +347,13 @@ class MainWindow(tkinter.Tk):
         except (Exception,):
             self.str_info_message.set("Analysis has failed")
 
+    def cmd_menu_mcp(self, *args):
+        name = self.var_default_mcp.get()
+        if name in self.default_mcp_names:
+            self.mcp_param = self.default_mcp[self.default_mcp_names == name][0]
+            self.str_mcp_param.set(self.mcp_param.__repr__())
+            self.var_default_mcp.set("GBAR's MCP")
+
 
 ###############################################################################
 
@@ -344,6 +364,14 @@ def circle_xy(x0, y0, r0):
     """
     t = np.linspace(0, 2 * np.pi, 100)
     return x0 + r0 * np.cos(t), y0 + r0 * np.sin(t)
+
+
+def find_mcp_param_in_directory(dir_mcp):
+    res = []
+    for file in listdir(dir_mcp):
+        if file.endswith(".mcp"):
+            res.append(import_config(path.join(dir_mcp, file)))
+    return res
 
 
 ###############################################################################

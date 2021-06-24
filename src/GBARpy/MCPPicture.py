@@ -908,7 +908,7 @@ def import_config(fname):
     try:
         with open(fname, 'rb') as f1:
             pp = dill.load(f1)
-            print("MCP parameters", pp.name, "from", fname, "imported")
+            #print("MCP parameters", pp.name, "from", fname, "imported")
     except (Exception,):
         print("Importation of", fname, "has failed")
     return pp
