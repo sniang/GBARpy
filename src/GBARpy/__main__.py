@@ -10,16 +10,21 @@ from GBARpy.Main_window import MainWindow
 # Uncomment for edit mode
 # from Main_window import MainWindow
 
-print('  _|_|_|  _|_|_|      _|_|    _|_|_|  ', '\n',
-      '_|        _|    _|  _|    _|  _|    _|', '\n',
-      '_|  _|_|  _|_|_|    _|_|_|_|  _|_|_|  ', '\n',
-      '_|    _|  _|    _|  _|    _|  _|    _|', '\n',
-      '  _|_|_|  _|_|_|    _|    _|  _|    _|', '\n\n',
-      '--------------------------------------------------------------', '\n',
-      'Optimised for Python 3.9', '\n',
-      'Please report bugs on: https://github.com/sniang/GBARpy/issues', '\n',
-      '--------------------------------------------------------------')
+message = """
+  _|_|_|  _|_|_|      _|_|    _|_|_| 
+_|        _|    _|  _|    _|  _|    _|
+_|  _|_|  _|_|_|    _|_|_|_|  _|_|_| 
+_|    _|  _|    _|  _|    _|  _|    _|
+  _|_|_|  _|_|_|    _|    _|  _|    _|
+  
+--------------------------------------------------------------
+Optimised for Python 3.9
+Please report bugs on: https://github.com/sniang/GBARpy/issues
+--------------------------------------------------------------
 
-win = MainWindow()            
+"""
+
+print(message)
+win = MainWindow()
 win.mainloop()
 win.quit()

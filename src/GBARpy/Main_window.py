@@ -45,7 +45,6 @@ class MainWindow(tkinter.Tk):
         self.picadress = ""
         self.picadresses = []
         self.beamspots = []
-        self.canBeAnalysed = False
 
         # Main Frame
         tkinter.Tk.__init__(self)
@@ -96,8 +95,9 @@ class MainWindow(tkinter.Tk):
         self.default_mcp_names = np.array(self.default_mcp_names)
         self.var_default_mcp = tkinter.StringVar(self.frame0_c)
         self.var_default_mcp.set("GBAR's MCP")
-        self.menu_default_mcp = tkinter.OptionMenu(self.frame0_c, self.var_default_mcp, "GBAR's MCP",
-                                                   *self.default_mcp_names, command=self.cmd_menu_mcp)
+        mcp_names = np.concatenate([["GBAR's MCP"], self.default_mcp_names])
+        self.menu_default_mcp = tkinter.OptionMenu(self.frame0_c, self.var_default_mcp, *mcp_names,
+                                                   command=self.cmd_menu_mcp)
         self.menu_default_mcp.grid(row=0, column=1)
 
         # Place buttons
@@ -188,16 +188,14 @@ class MainWindow(tkinter.Tk):
             self.picI = 0
             self.var_picadress.set(self.picadresses[self.picI])
             self.str_info_message.set("Files have been opened")
-            self.canBeAnalysed = True
             self.cmd_plot_image()
         except (Exception,):
             self.str_info_message.set("Opening failed")
-            self.canBeAnalysed = False
 
     def cmd_export_analysis(self):
         self.str_info_message.set("")
         try:
-            if not self.canBeAnalysed:
+            if self.picN == 0:
                 self.cmd_open_img()
             file_name = filedialog.asksaveasfilename(filetypes=[("pdf files", "*.pdf"),
                                                                 ("jpg files", "*.jpg"),
@@ -222,15 +220,14 @@ class MainWindow(tkinter.Tk):
             self.picI += 1
             self.picadress = self.picadresses[self.picI]
             self.cmd_plot_image()
-            self.cmd_plot_analysis()
+            self.refresh_plot()
             self.var_picadress.set(self.picadresses[self.picI])
 
     def cmd_go_left(self):
         if self.picI - 1 >= 0:
             self.picI -= 1
             self.picadress = self.picadresses[self.picI]
-            self.cmd_plot_image()
-            self.cmd_plot_analysis()
+            self.refresh_plot()
             self.var_picadress.set(self.picadresses[self.picI])
 
     def cmd_plot_image(self):
@@ -244,7 +241,7 @@ class MainWindow(tkinter.Tk):
         for widget in self.frame1.winfo_children():
             widget.destroy()
 
-        if self.canBeAnalysed:
+        if self.picN > 0:
             img = import_image(self.picadress)
             fig = Figure(figsize=(5, 5))
             if self.chk_3D_var.get() == 0:
@@ -290,7 +287,7 @@ class MainWindow(tkinter.Tk):
         for widget in self.frame2.winfo_children():
             widget.destroy()
 
-        if self.picN > 0:
+        if len(self.beamspots) > 0:
             bs = self.beamspots[self.picI]
 
             fig = Figure(figsize=(5, 2.5), dpi=100)
@@ -334,7 +331,7 @@ class MainWindow(tkinter.Tk):
         self.beamspots = []
         self.str_info_message.set("")
         try:
-            if not self.canBeAnalysed:
+            if self.picN == 0:
                 self.cmd_open_img()
             self.cmd_plot_image()
             fit = self.fit.get()
@@ -353,6 +350,13 @@ class MainWindow(tkinter.Tk):
             self.mcp_param = self.default_mcp[self.default_mcp_names == name][0]
             self.str_mcp_param.set(self.mcp_param.__repr__())
             self.var_default_mcp.set("GBAR's MCP")
+            if len(self.beamspots) > 0:
+                self.cmd_analyse()
+            self.refresh_plot()
+
+    def refresh_plot(self):
+        self.cmd_plot_image()
+        self.cmd_plot_analysis()
 
 
 ###############################################################################
