@@ -193,7 +193,7 @@ class BeamSpot:
         fig = plt.figure(figsize=figsize)
 
         plt.subplot(223)
-        plt.text(0, 0, self.fit.__repr__.replace('\t', ' '), fontsize=fontsize)
+        plt.text(0, 0, self.fit.__repr__().replace('\t', ' '), fontsize=fontsize)
         plt.axis('off')
 
         plt.subplot(221)
@@ -908,7 +908,6 @@ def import_config(fname):
     try:
         with open(fname, 'rb') as f1:
             pp = dill.load(f1)
-            #print("MCP parameters", pp.name, "from", fname, "imported")
     except (Exception,):
         print("Importation of", fname, "has failed")
     return pp

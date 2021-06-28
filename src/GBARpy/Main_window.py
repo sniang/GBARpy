@@ -74,10 +74,9 @@ class MainWindow(tkinter.Tk):
                                            text='Analyse the picture(s)',
                                            command=self.cmd_analyse)
         self.fit = tkinter.StringVar(self.frame0_c)
-        self.fit.set("Filtered gaussian")
-        self.menu_fit = tkinter.OptionMenu(self.frame0_c, self.fit, "Filtered gaussian",
-                                           "Simple gaussian",
-                                           "Two gaussian")
+        fit_value = ["Filtered gaussian", "Simple gaussian", "Two gaussian"]
+        self.fit.set(fit_value[0])
+        self.menu_fit = tkinter.OptionMenu(self.frame0_c, self.fit, *fit_value)
 
         self.btn_export = tkinter.Button(self.frame0_c, text='Save analysis',
                                          command=self.cmd_export_analysis)
@@ -197,10 +196,11 @@ class MainWindow(tkinter.Tk):
         try:
             if self.picN == 0:
                 self.cmd_open_img()
-            file_name = filedialog.asksaveasfilename(filetypes=[("pdf files", "*.pdf"),
+            file_name = filedialog.asksaveasfilename(title='Export as image file',
+                                                     filetypes=[("pdf files", "*.pdf"),
                                                                 ("jpg files", "*.jpg"),
-                                                                ("png files", "*.png"),
-                                                                ("bmp files", "*.bmp")])
+                                                                ("png files", "*.png")])
+
             if len(file_name) > 0:
                 if len(self.beamspots) == 0:
                     self.cmd_analyse()
