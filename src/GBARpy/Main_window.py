@@ -45,6 +45,7 @@ class MainWindow(tkinter.Tk):
         self.picadress = ""
         self.picadresses = []
         self.beamspots = []
+        self.auto_reshape = []
 
         # Main Frame
         tkinter.Tk.__init__(self)
@@ -99,6 +100,13 @@ class MainWindow(tkinter.Tk):
                                                    command=self.cmd_menu_mcp)
         self.menu_default_mcp.grid(row=0, column=1)
 
+        # Auto reshape from MCP params
+        self.chk_reshape_mcp_var = tkinter.IntVar()
+        self.chk_reshape_mcp_var.set(0)
+        self.chk_reshape_mcp = tkinter.Checkbutton(self.frame0_c, text='Auto reshape',
+                                                   variable=self.chk_reshape_mcp_var, onvalue=1, offvalue=0,
+                                                   command=self.cmd_auto_reshape_mcp)
+
         # Place buttons
         self.btn_open_img.grid(row=0, column=0)
         self.btn_analysis.grid(row=1, column=0)
@@ -106,6 +114,7 @@ class MainWindow(tkinter.Tk):
         self.btn_export.grid(row=3, column=0)
         self.btn_mcp_param.grid()
         self.chk_3D.grid(row=5, column=0)
+        self.chk_reshape_mcp.grid(row=4, column=1)
 
         # Labels
         self.str_mcp_param = tkinter.StringVar()
@@ -121,7 +130,7 @@ class MainWindow(tkinter.Tk):
                                            textvariable=self.var_picadress)
 
         # Place labels
-        self.lbl_mcp_param.grid(row=1, rowspan=4, column=1)
+        self.lbl_mcp_param.grid(row=1, rowspan=3, column=1)
         self.lbl_info_message.grid(row=0, column=4)
         self.lbl_picadress.pack(side='bottom')
 
@@ -271,6 +280,23 @@ class MainWindow(tkinter.Tk):
                     x0, y0 = circle_xy(self.mcp_param.x0, self.mcp_param.y0,
                                        self.mcp_param.R0)
                     subplot.plot(x0, y0, lw=3, color='white')
+                if len(self.auto_reshape) == 3:
+                    ix, iy, lm = self.auto_reshape[0], self.auto_reshape[1], self.auto_reshape[2]
+                    ix, iy, lm = int(ix), int(iy), int(lm)
+                    max_x, max_y = len(img.T), len(img)
+                    min_x, min_y = 0, 0
+                    if ix - lm > 0:
+                        min_x = ix - lm
+                    if iy - lm > 0:
+                        min_y = iy - lm
+                    if ix + lm < max_x:
+                        max_x = ix + lm
+                    if iy + lm < max_y:
+                        max_y = iy + lm
+                    subplot.plot([min_x, max_x], [min_y, min_y], lw=3, color='green')
+                    subplot.plot([min_x, max_x], [max_y, max_y], lw=3, color='green')
+                    subplot.plot([min_x, min_x], [min_y, max_y], lw=3, color='green')
+                    subplot.plot([max_x, max_x], [min_y, max_y], lw=3, color='green')
             else:
                 y = np.arange(len(img))
                 x = np.arange(len(img[0]))
@@ -330,6 +356,7 @@ class MainWindow(tkinter.Tk):
         # Empty and plot image
         self.beamspots = []
         self.str_info_message.set("")
+        """
         try:
             if self.picN == 0:
                 self.cmd_open_img()
@@ -338,11 +365,21 @@ class MainWindow(tkinter.Tk):
             # Analysis
             if self.picN > 0:
                 for file_name in self.picadresses:
-                    self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit))
+                    self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=self.auto_reshape))
                 self.cmd_plot_analysis()
 
         except (Exception,):
             self.str_info_message.set("Analysis has failed")
+        """
+        if self.picN == 0:
+            self.cmd_open_img()
+        self.cmd_plot_image()
+        fit = self.fit.get()
+        # Analysis
+        if self.picN > 0:
+            for file_name in self.picadresses:
+                self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=self.auto_reshape))
+            self.cmd_plot_analysis()
 
     def cmd_menu_mcp(self, *args):
         name = self.var_default_mcp.get()
@@ -352,7 +389,16 @@ class MainWindow(tkinter.Tk):
             self.var_default_mcp.set("GBAR's MCP")
             if len(self.beamspots) > 0:
                 self.cmd_analyse()
+            self.cmd_auto_reshape_mcp()
             self.refresh_plot()
+
+    def cmd_auto_reshape_mcp(self):
+        self.auto_reshape = []
+        if self.mcp_param.check_all_set():
+            if self.chk_reshape_mcp_var.get() == 1:
+                self.auto_reshape = [self.mcp_param.x0, self.mcp_param.y0, self.mcp_param.R0]
+        else:
+            self.chk_reshape_mcp_var.set(0)
 
     def refresh_plot(self):
         self.cmd_plot_image()

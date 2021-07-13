@@ -679,10 +679,19 @@ def reshape_img(img, ix, iy, lm):
     *Returns
         * The reshaped picture as an array
     """
-    ix = int(ix)
-    iy = int(iy)
-    ix_r = np.arange(ix - lm, ix + lm)
-    iy_r = np.arange(iy - lm, iy + lm)
+    ix, iy, lm = int(ix), int(iy), int(lm)
+    max_x, max_y = len(img.T), len(img)
+    min_x, min_y = 0, 0
+    if ix - lm > 0:
+        min_x = ix - lm
+    if iy - lm > 0:
+        min_y = iy - lm
+    if ix + lm < max_x:
+        max_x = ix + lm
+    if iy + lm < max_y:
+        max_y = iy + lm
+    ix_r = np.arange(min_x, max_x)
+    iy_r = np.arange(min_y, max_y)
     img = img[iy_r]
     img = img.T[ix_r].T
     return img
