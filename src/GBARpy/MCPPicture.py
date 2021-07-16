@@ -8,7 +8,7 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
-from skimage.color import rgb2gray
+# from skimage.color import rgb2gray
 import codecs
 import dill
 
@@ -706,7 +706,7 @@ def import_image(fname, reshape=[]):
     * Returns
         * the picture as 2D array
     """
-    file_format = ["tif", "jpg", "jpeg", "png", "asc", "bmp"]
+    file_format = ["tif", "jpg", "jpeg", "asc", "png", "bmp"]
     ext = fname.split('.')[len(fname.split('.')) - 1]
     ext = ext.lower()
     if not (ext in file_format):
@@ -717,7 +717,7 @@ def import_image(fname, reshape=[]):
             img = np.array([[float(x) for x in line.split()] for line in ff])
     else:
         img = np.double(mpimg.imread(fname))
-        img = rgb2gray(img)
+        # img = rgb2gray(img)
     if len(reshape) == 3:
         img = reshape_img(img, reshape[0], reshape[1], reshape[2])
 

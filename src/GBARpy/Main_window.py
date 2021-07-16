@@ -306,8 +306,20 @@ class MainWindow(tkinter.Tk):
                 subplot.plot_surface(x, y, z, cmap=cm.plasma, linewidth=0, antialiased=False)
 
             canvas = FigureCanvasTkAgg(fig, master=self.frame1)
+            canvas.mpl_connect('motion_notify_event', self.print_x_y_position)
             canvas.draw()
             canvas.get_tk_widget().pack()
+
+    def print_x_y_position(self, event):
+        x, y = event.xdata, event.ydata
+        if x is not None and y is not None:
+            x, y = int(x), int(y)
+            res = "pix: x = " + str(x) + "\ty = " + str(y) + "\n"
+            r = self.mcp_param.ratio
+            if self.mcp_param.check_ratio_is_set():
+                x, y = np.round(event.xdata*r, 2), np.round(event.ydata, 2)
+                res += "mm: x = " + str(x) + "\ty = " + str(y) + "\n"
+            self.str_info_message.set(res)
 
     def cmd_plot_analysis(self):
         for widget in self.frame2.winfo_children():
@@ -356,7 +368,6 @@ class MainWindow(tkinter.Tk):
         # Empty and plot image
         self.beamspots = []
         self.str_info_message.set("")
-        """
         try:
             if self.picN == 0:
                 self.cmd_open_img()
@@ -370,16 +381,6 @@ class MainWindow(tkinter.Tk):
 
         except (Exception,):
             self.str_info_message.set("Analysis has failed")
-        """
-        if self.picN == 0:
-            self.cmd_open_img()
-        self.cmd_plot_image()
-        fit = self.fit.get()
-        # Analysis
-        if self.picN > 0:
-            for file_name in self.picadresses:
-                self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=self.auto_reshape))
-            self.cmd_plot_analysis()
 
     def cmd_menu_mcp(self, *args):
         name = self.var_default_mcp.get()
@@ -399,6 +400,7 @@ class MainWindow(tkinter.Tk):
                 self.auto_reshape = [self.mcp_param.x0, self.mcp_param.y0, self.mcp_param.R0]
         else:
             self.chk_reshape_mcp_var.set(0)
+        self.refresh_plot()
 
     def refresh_plot(self):
         self.cmd_plot_image()
@@ -502,7 +504,7 @@ class MCPParamsWindow(tkinter.Toplevel):
             pp = self.form_to_mcp()
             f = filedialog.asksaveasfile(mode='wb', defaultextension=".mcp")
             dill.dump(pp, f)
-            self.master.str_info_message.set("Parameters saved as", f.name)
+            self.master.str_info_message.set("Parameters saved as" + f.name)
         except (Exception,):
             self.master.str_info_message.set("Saving failed")
 
