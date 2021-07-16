@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="GBARpy", # Replace with your own username
-    version="1.1.1",
+    version="1.1.2",
     author="Samuel Niang",
     author_email="samuel.niang@cern.ch",
     description="Libraries and software to analyse data (the MCP's picture and CsI signals) in the framework of the GBAR experiment",

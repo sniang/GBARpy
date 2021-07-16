@@ -317,7 +317,7 @@ class MainWindow(tkinter.Tk):
             res = "pix: x = " + str(x) + "\ty = " + str(y) + "\n"
             r = self.mcp_param.ratio
             if self.mcp_param.check_ratio_is_set():
-                x, y = np.round(event.xdata*r, 2), np.round(event.ydata, 2)
+                x, y = np.round(event.xdata*r, 2), np.round(event.ydata*r, 2)
                 res += "mm: x = " + str(x) + "\ty = " + str(y) + "\n"
             self.str_info_message.set(res)
 
