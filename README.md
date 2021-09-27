@@ -8,6 +8,7 @@ This library is made to work with python 3.
 * [Graphical User Interface](#graphical-user-interface)
     * [How to do an analysis](#how-to-do-an-analysis)
     * [Set the MCP parameters](#set-the-mcp-parameters)
+    * [Reshape the pictures](#reshape-the-pictures)
 * [MCPpicture library](#mcppicture-library)
     * [Basic code for an analysis](#basic-code-for-an-analysis)
     * [More examples](#more-examples)
@@ -118,6 +119,23 @@ Be careful: if you do not press the "set" buttons and close the MCP parameter wi
 ![GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
 
 One ce parameters has been set, press "Analyse the picture". If "ratio" has been set, then the pixels are converted in mm. If all the parameters are set, then the border of your phosphore screen will be draw. In the future, these parameters will be used to improve the fitting of the pictures.
+
+### Reshape the pictures
+[reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_1.png)
+
+![reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape_1.png)
+
+[reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_2.png)
+
+![reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape_2.png)
+
+[reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_3.png)
+
+![reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape_3.png)
+
+[reshape_4](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_4.png)
+
+![reshape_4](https://github.com/sniang/GBARpy/blob/main/example/reshape_4.png)
 
 ## MCPpicture library
 ### Basic code for an analysis
