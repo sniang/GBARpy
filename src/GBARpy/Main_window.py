@@ -46,6 +46,7 @@ class MainWindow(tkinter.Tk):
         self.picadresses = []
         self.beamspots = []
         self.auto_reshape = []
+        self.reshape_parameters = []
 
         # Main Frame
         tkinter.Tk.__init__(self)
@@ -106,6 +107,7 @@ class MainWindow(tkinter.Tk):
         self.chk_reshape_mcp = tkinter.Checkbutton(self.frame0_c, text='Auto reshape',
                                                    variable=self.chk_reshape_mcp_var, onvalue=1, offvalue=0,
                                                    command=self.cmd_auto_reshape_mcp)
+        self.btn_reshape_win = tkinter.Button(self.frame0_c, text='Reshape window', command=self.cmd_reshape_window)
 
         # Place buttons
         self.btn_open_img.grid(row=0, column=0)
@@ -115,6 +117,7 @@ class MainWindow(tkinter.Tk):
         self.btn_mcp_param.grid()
         self.chk_3D.grid(row=5, column=0)
         self.chk_reshape_mcp.grid(row=4, column=1)
+        self.btn_reshape_win.grid(row=0, column=4)
 
         # Labels
         self.str_mcp_param = tkinter.StringVar()
@@ -131,7 +134,7 @@ class MainWindow(tkinter.Tk):
 
         # Place labels
         self.lbl_mcp_param.grid(row=1, rowspan=3, column=1)
-        self.lbl_info_message.grid(row=0, column=4)
+        self.lbl_info_message.grid(row=3, column=5)
         self.lbl_picadress.pack(side='bottom')
 
         # Frame 1: image to analyse
@@ -224,6 +227,10 @@ class MainWindow(tkinter.Tk):
         self.str_info_message.set("")
         MCPParamsWindow(self, self.mcp_param)
 
+    def cmd_reshape_window(self):
+        self.str_info_message.set("")
+        ReshapeWindow(self)
+
     def cmd_go_right(self):
         if self.picI + 1 < self.picN:
             self.picI += 1
@@ -297,6 +304,15 @@ class MainWindow(tkinter.Tk):
                     subplot.plot([min_x, max_x], [max_y, max_y], lw=3, color='green')
                     subplot.plot([min_x, min_x], [min_y, max_y], lw=3, color='green')
                     subplot.plot([max_x, max_x], [min_y, max_y], lw=3, color='green')
+
+                if len(self.reshape_parameters) == 4:
+                    x1, y1 = self.reshape_parameters[0], self.reshape_parameters[1]
+                    x2, y2 = self.reshape_parameters[2], self.reshape_parameters[3]
+                    subplot.plot([x1, x1], [y1, y2], lw=3, color='white')
+                    subplot.plot([x1, x2], [y2, y2], lw=3, color='white')
+                    subplot.plot([x2, x2], [y2, y1], lw=3, color='white')
+                    subplot.plot([x2, x1], [y1, y1], lw=3, color='white')
+                fig.tight_layout()
             else:
                 y = np.arange(len(img))
                 x = np.arange(len(img[0]))
@@ -317,7 +333,7 @@ class MainWindow(tkinter.Tk):
             res = "pix: x = " + str(x) + "\ty = " + str(y) + "\n"
             r = self.mcp_param.ratio
             if self.mcp_param.check_ratio_is_set():
-                x, y = np.round(event.xdata*r, 2), np.round(event.ydata*r, 2)
+                x, y = np.round(event.xdata * r, 2), np.round(event.ydata * r, 2)
                 res += "mm: x = " + str(x) + "\ty = " + str(y) + "\n"
             self.str_info_message.set(res)
 
@@ -368,6 +384,13 @@ class MainWindow(tkinter.Tk):
         # Empty and plot image
         self.beamspots = []
         self.str_info_message.set("")
+        reshape = []
+        if len(self.auto_reshape) == 3:
+            reshape = self.auto_reshape
+        if len(self.reshape_parameters) == 4:
+            reshape = self.reshape_parameters
+
+
         try:
             if self.picN == 0:
                 self.cmd_open_img()
@@ -376,7 +399,7 @@ class MainWindow(tkinter.Tk):
             # Analysis
             if self.picN > 0:
                 for file_name in self.picadresses:
-                    self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=self.auto_reshape))
+                    self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=reshape))
                 self.cmd_plot_analysis()
 
         except (Exception,):
@@ -579,3 +602,174 @@ class MCPParamsWindow(tkinter.Toplevel):
         ratio = self.e_ratio.get()
         ratio = None if len(ratio) == 0 else float(ratio)
         return Mcpp(name, r, x0, y0, r0, ratio)
+
+
+###############################################################################
+
+
+class ReshapeWindow(tkinter.Toplevel):
+    """
+
+    """
+
+    def __init__(self, master):
+        """
+
+        @param master:
+        """
+        tkinter.Toplevel.__init__(self, master)
+        self.frame = tkinter.Frame(self)
+        self.frame.pack()
+        self.x1, self.y1, self.x2, self.y2 = 0, 0, 0, 0
+
+        self.img = import_image(master.var_picadress.get())
+        self.click_number = 0
+
+        self.fig = Figure(figsize=(5, 5))
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.frame)
+        self.canvas.mpl_connect('motion_notify_event', self.get_xy_position)
+        self.canvas.mpl_connect('button_press_event', self.click_choose_position)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().pack()
+
+        self.subplot = self.fig.add_subplot(111)
+        self.subplot.imshow(self.img)
+        self.title("Reshape picture")
+        self.last = self.subplot.plot(self.x1, self.y1, '+', lw=10)
+        self.plot()
+
+        self.frame_form = tkinter.Frame(self.frame)
+        self.frame_form.pack()
+
+        tkinter.Label(self.frame_form, text="x1").grid(row=0, column=0)
+        self.x1_form = tkinter.Entry(self.frame_form, width=5)
+        self.x1_form.grid(row=0, column=1)
+        tkinter.Label(self.frame_form, text="y1").grid(row=0, column=2)
+        self.y1_form = tkinter.Entry(self.frame_form, width=5)
+        self.y1_form.grid(row=0, column=3)
+        tkinter.Label(self.frame_form, text="x2").grid(row=0, column=4)
+        self.x2_form = tkinter.Entry(self.frame_form, width=5)
+        self.x2_form.grid(row=0, column=5)
+        tkinter.Label(self.frame_form, text="y2").grid(row=0, column=6)
+        self.y2_form = tkinter.Entry(self.frame_form, width=5)
+        self.y2_form.grid(row=0, column=7)
+
+        self.frame_btn = tkinter.Frame(self.frame)
+        self.frame_btn.pack()
+        self.btn_clear_button = tkinter.Button(master=self.frame_btn, text='Clear', command=self.cmd_clear)
+        self.btn_clear_button.grid(row=0, column=0)
+        self.btn_draw_button = tkinter.Button(master=self.frame_btn, text='Draw', command=self.cmd_draw)
+        self.btn_draw_button.grid(row=0, column=1)
+        self.btn_reshape_button = tkinter.Button(master=self.frame_btn, text='Reshape', command=self.cmd_reshape)
+        self.btn_reshape_button.grid(row=0, column=2)
+
+    def plot(self):
+        """
+
+        @return: Nothing
+        """
+        if self.x1 is not None and self.y1 is not None:
+            for last_e in self.last:
+                last_e.remove()
+            if self.click_number == 0:
+                self.last = self.subplot.plot(self.x1, self.y1, 'P', lw=2, color='white')
+            elif self.click_number == 1:
+                self.last = self.subplot.plot([self.x1, self.x1], [self.y1, self.y2], lw=3, color='white')
+                self.last.append(self.subplot.plot([self.x1, self.x2], [self.y2, self.y2], lw=3, color='white')[0])
+                self.last.append(self.subplot.plot([self.x2, self.x2], [self.y2, self.y1], lw=3, color='white')[0])
+                self.last.append(self.subplot.plot([self.x2, self.x1], [self.y1, self.y1], lw=3, color='white')[0])
+            self.canvas.draw()
+
+    def get_xy_position(self, event):
+        """
+
+        @param event:
+        @return: Nothing
+        """
+        x, y = event.xdata, event.ydata
+        if x is not None and y is not None:
+            x, y = int(x), int(y)
+            if self.click_number == 0:
+                self.x1, self.y1 = x, y
+                self.plot()
+            elif self.click_number == 1:
+                self.x2, self.y2 = x, y
+                self.plot()
+        self.x1_form.delete(0, tkinter.END)
+        self.x1_form.insert(0, self.x1)
+        self.y1_form.delete(0, tkinter.END)
+        self.y1_form.insert(0, self.y1)
+        self.x2_form.delete(0, tkinter.END)
+        self.x2_form.insert(0, self.x2)
+        self.y2_form.delete(0, tkinter.END)
+        self.y2_form.insert(0, self.y2)
+
+    def click_choose_position(self, event):
+        """
+
+        @param event:
+        @return: Nothing
+        """
+        x, y = event.xdata, event.ydata
+        x, y = int(x), int(y)
+        if x is not None and y is not None:
+            self.click_number = (self.click_number + 1) % 3
+            if self.click_number == 0:
+                self.x1, self.y1 = x, y
+            elif self.click_number == 1:
+                self.x2, self.y2 = x, y
+
+    def reshape(self):
+        x1, y1, x2, y2 = self.x1, self.y1, self.x2, self.y2
+        a1 = min(y1, y2)
+        a2 = max(y1, y2)
+        img = self.img[a1:a2]
+        a1 = min(x1, x2)
+        a2 = max(x1, x2)
+        new_image = []
+        for i in np.arange(len(img)):
+            new_image.append(img[i][a1:a2])
+        new_image = np.array(new_image)
+        return new_image
+
+    def cmd_reshape(self):
+        self.cmd_draw()
+        self.master.reshape_parameters = [self.x1, self.y1,
+                                          self.x2, self.y2]
+        self.master.cmd_plot_image()
+
+    def cmd_clear(self):
+        self.master.reshape_parameters = []
+        self.click_number = 0
+        self.plot()
+        self.x1_form.delete(0, tkinter.END)
+        self.y1_form.delete(0, tkinter.END)
+        self.x2_form.delete(0, tkinter.END)
+        self.y2_form.delete(0, tkinter.END)
+
+    def cmd_draw(self):
+        self.click_number = 1
+        self.x1 = np.abs(int(self.x1_form.get()))
+        self.y1 = np.abs(int(self.y1_form.get()))
+        self.x2 = np.abs(int(self.x2_form.get()))
+        self.y2 = np.abs(int(self.y2_form.get()))
+
+        if self.x1 > len(self.img.T):
+            self.x1 = len(self.img.T)
+        if self.x2 > len(self.img.T):
+            self.x2 = len(self.img.T)
+        if self.y1 > len(self.img):
+            self.y1 = len(self.img)
+        if self.y2 > len(self.img):
+            self.y2 = len(self.img)
+
+        self.x1_form.delete(0, tkinter.END)
+        self.x1_form.insert(0, self.x1)
+        self.y1_form.delete(0, tkinter.END)
+        self.y1_form.insert(0, self.y1)
+        self.x2_form.delete(0, tkinter.END)
+        self.x2_form.insert(0, self.x2)
+        self.y2_form.delete(0, tkinter.END)
+        self.y2_form.insert(0, self.y2)
+        self.plot()
+        self.click_number = 2

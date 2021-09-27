@@ -697,6 +697,19 @@ def reshape_img(img, ix, iy, lm):
     return img
 
 
+def reshape_image_2(image, x1, y1, x2, y2):
+    a1 = min(y1, y2)
+    a2 = max(y1, y2)
+    img = image[a1:a2]
+    a1 = min(x1, x2)
+    a2 = max(x1, x2)
+    new_image = []
+    for i in np.arange(len(img)):
+        new_image.append(img[i][a1:a2])
+    new_image = np.array(new_image)
+    return new_image
+
+
 def import_image(fname, reshape=[]):
     """
     To import the picture as an array
@@ -720,6 +733,8 @@ def import_image(fname, reshape=[]):
         img = rgb2gray(img)
     if len(reshape) == 3:
         img = reshape_img(img, reshape[0], reshape[1], reshape[2])
+    if len(reshape) == 4:
+        img = reshape_image_2(img, reshape[0], reshape[1], reshape[2], reshape[3])
 
     n_index = np.concatenate(img).size
     n_index = int(0.01 * n_index)
