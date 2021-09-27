@@ -123,19 +123,16 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 ### Reshape the pictures
 [reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_1.png)
 
-![reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape_1.png)
+![reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_1.png)
 
 [reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_2.png)
 
-![reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape_2.png)
+![reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_2.png)
 
 [reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_3.png)
 
-![reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape_3.png)
+![reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_3.png)
 
-[reshape_4](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_4.png)
-
-![reshape_4](https://github.com/sniang/GBARpy/blob/main/example/reshape_4.png)
 
 ## MCPpicture library
 ### Basic code for an analysis
