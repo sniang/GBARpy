@@ -72,12 +72,18 @@ py -m pip uninstall GBARpy
 1. Button to open an MCP picture.
 2. Button to analyse the opened picture. 
     If no picture has been opened, a dialog window will appears to invite you to open one.
-3. To save as an image the result of the analysis. 
+3. To select the kind of fit.
+4. To save as an image the result of the analysis. 
     If no picture has been opened, a dialog window will appears to invite you to open one.
-4. Button to open the window to [set the MCP parameters](#set-the-mcp-parameters)
-5. The MCP parameters one they have been [set](#set-the-mcp-parameters)
-6. The opened picture.
-7. The result of the analysis.
+5. Button to open the window to [set the MCP parameters](#set-the-mcp-parameters).
+6. To show the original picture as a 3D plot
+7. To select an already recorded GBAR's MCP parameter set.
+8. The MCP parameters one they have been [set](#set-the-mcp-parameters).
+9. To reshapoe automatically the pictures according to the MCP parameters.
+10. Arrows to switch between pictures.
+11. Button to open the window to [reshape the pictures](#reshape-the-pictures).
+12. The opened picture.
+13. The result of the analysis.
 
 [GUI_2](https://github.com/sniang/GBARpy/blob/main/example/GUI_2.png)
 
