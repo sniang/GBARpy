@@ -854,9 +854,9 @@ class ReshapeWindow(tkinter.Toplevel):
         """
         # To get the position of the mouse in pixels
         x, y = event.xdata, event.ydata
-        x, y = int(x), int(y)
         # If the mouse is on the picture
         if x is not None and y is not None:
+            x, y = int(x), int(y)
             # Increment the click number
             # Possible values 0, 1, 2
             self.click_number = (self.click_number + 1) % 3
