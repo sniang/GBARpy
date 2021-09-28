@@ -19,62 +19,88 @@ import GBARpy
 from GBARpy.MCPPicture import BeamSpot, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as Mcpp
 from matplotlib import cm
-
+fontsize = 12
 # Uncomment for edit mode
 # from MCPPicture import MCPParams as Mcpp
 # from MCPPicture import BeamSpot, import_config, import_image
-
-fontsize = 12
 
 
 class MainWindow(tkinter.Tk):
     """
     Main window of the graphical interface
-    ### Attributes
 
     mcp_param: GBARpy.MCPPicture.MCPParams
+        The MCP parameters
     picadress: str
+        path of the current picture
     picadresses: [str]
+        Array containing the paths of the pictures
     beamspots: [GBARpy.MCPPicture.BeamSpot]
+        Array containing the pictures' analysis
     auto_reshape: [x,y,l]
+        Parameters to reshape according to the MCP parameters
     reshape_parameters: [x1,y1,x2,y2]
-
+        Parameters to reshape according to the parameters defined by the user
     frame0: tkinter.Frame
+        Main frame
     frame0_c: tkinter.Frame
+        Frame where are placed the control buttons
     frame1: tkinter.Frame
         Frame where is shown the picture to analyse
     frame2: tkinter.Frame
         Frame where is shown the result of the analysis
-
     btn_open_img: tkinter.Button
+        Button to open picture(s)
     btn_mcp_param: tkinter.Button
+        Button to open the window to set the MCP parameters
     btn_analysis: tkinter.Button
+        Button to analyse the picture(s)
     btn_export: tkinter.Button
+        Button to export the analysis of the current picture
     btn_reshape_win: tkinter.Button
+        Button to open the reshape window
     fit: tkinter.StringVar
+        String var attached to menu_fit
     menu_fit: tkinter.OptionMenu
+        Menu to choose the kind of fit
     chk_3D_var: tkinter.IntVar
+        int variable attached to chk_3D
     chk_3D: tkinter.Checkbutton
-
+        Checkbox to auto reshape the picture using the MCP parameters
     default_mcp: np.array([GBARpy.MCPPicture.MCPParams])
+        List of the GBAR MCP's parameters
     default_mcp_names: [str]
+        List of the GBAR MCP's names
     var_default_mcp: tkinter.StringVar
+        Name of the current GBAR MCP
     menu_default_mcp:  tkinter.OptionMenu
+        Menu to choose among the GBAR's MCP
     chk_reshape_mcp_var: tkinter.IntVar
+        Int variable attached to chk_reshape_mcp
     chk_reshape_mcp: tkinter.Checkbutton
-
+        Checkbox to auto reshape the picture using the MCP parameters
     str_mcp_param: tkinter.StringVar
+        String variable attached to lbl_mcp_param
     lbl_mcp_param: tkinter.Label
+        To display the MCP parameters in the main window
     str_info_message: tkinter.StringVar
+        String variable attached to lbl_info_message
     lbl_info_message: tkinter.Label
+        To display information message
     var_picadress: tkinter.StringVar
+        String variable attached to
     lbl_picadress: tkinter.Label
+        To display the path of the current picture
     img1Label: tkinter.Label
-
+        Label to display the current picture
     picN: int
+        Number of imported pictures
     picI: int
+        Index of the current picture
     btn_Left: tkinter.Button
+        Button to go the previous picture
     btn_Right: tkinter.Button
+        Button to go the next picture
     """
 
     def __init__(self):
@@ -82,7 +108,6 @@ class MainWindow(tkinter.Tk):
         static_addr = GBARpy.__file__
         static_addr = path.split(static_addr)[0]
         static_addr = path.join(static_addr, 'static')
-
         # Some variables
         self.mcp_param = Mcpp()
         self.picadress = ""
@@ -90,14 +115,12 @@ class MainWindow(tkinter.Tk):
         self.beamspots = []
         self.auto_reshape = []
         self.reshape_parameters = []
-
         # Main Frame
         tkinter.Tk.__init__(self)
         self.beamSpot = None
         self.title("GBARPy")
         self.geometry("1000x700")
         self.resizable(True, True)
-
         # Cadre 0 Control
         self.frame0 = tkinter.Frame(self, highlightbackground="black", highlightthickness=1)
         self.frame0.pack(side='top', fill='x')
@@ -108,7 +131,6 @@ class MainWindow(tkinter.Tk):
         self.frame0_c.rowconfigure(0, pad=3)
         self.frame0_c.rowconfigure(1, pad=3)
         self.frame0_c.rowconfigure(2, pad=3)
-
         # Buttons
         self.btn_open_img = tkinter.Button(self.frame0_c, text='Open image(s)', command=self.cmd_open_img)
         self.btn_mcp_param = tkinter.Button(self.frame0_c, text='MCP Parameters', command=self.cmd_mcp_params)
@@ -123,7 +145,6 @@ class MainWindow(tkinter.Tk):
         self.chk_3D = tkinter.Checkbutton(self.frame0_c, text='3D plot', variable=self.chk_3D_var, onvalue=1,
                                           offvalue=0, command=self.cmd_plot_image)
         self.btn_reshape_win = tkinter.Button(self.frame0_c, text='Reshape window', command=self.cmd_reshape_window)
-
         # GBAR's MCP parameters
         self.default_mcp = np.array(find_mcp_param_in_directory(static_addr))
         self.default_mcp_names = []
@@ -136,14 +157,12 @@ class MainWindow(tkinter.Tk):
         self.menu_default_mcp = tkinter.OptionMenu(self.frame0_c, self.var_default_mcp, *mcp_names,
                                                    command=self.cmd_menu_mcp)
         self.menu_default_mcp.grid(row=0, column=1)
-
         # Auto reshape from MCP params
         self.chk_reshape_mcp_var = tkinter.IntVar()
         self.chk_reshape_mcp_var.set(0)
         self.chk_reshape_mcp = tkinter.Checkbutton(self.frame0_c, text='Auto reshape',
                                                    variable=self.chk_reshape_mcp_var, onvalue=1, offvalue=0,
                                                    command=self.cmd_auto_reshape_mcp)
-
         # Place buttons
         self.btn_open_img.grid(row=0, column=0)
         self.btn_analysis.grid(row=1, column=0)
@@ -153,7 +172,6 @@ class MainWindow(tkinter.Tk):
         self.chk_3D.grid(row=5, column=0)
         self.chk_reshape_mcp.grid(row=4, column=1)
         self.btn_reshape_win.grid(row=0, column=4)
-
         # Labels
         self.str_mcp_param = tkinter.StringVar()
         self.str_mcp_param.set(self.mcp_param.__repr__())
@@ -162,21 +180,17 @@ class MainWindow(tkinter.Tk):
         self.lbl_info_message = tkinter.Label(self.frame0_c, textvariable=self.str_info_message)
         self.var_picadress = tkinter.StringVar()
         self.lbl_picadress = tkinter.Label(self, textvariable=self.var_picadress)
-
         # Place labels
         self.lbl_mcp_param.grid(row=1, rowspan=3, column=1)
         self.lbl_info_message.grid(row=3, column=5)
         self.lbl_picadress.pack(side='bottom')
-
         # Frame 1: image to analyse
         self.frame1 = tkinter.Frame(self, width=400, height=400, highlightbackground="black", highlightthickness=1)
         self.frame1.pack(side='left')
         self.img1Label = tkinter.Label(self.frame1)
-
         # Frame 2: analysis result
         self.frame2 = tkinter.Frame(self, width=400, height=400, highlightbackground="black", highlightthickness=1)
         self.frame2.pack(side='right')
-
         # Draw GBAR logo
         add = path.join(static_addr, "GBAR_logo.png")
         img = Image.open(add)
@@ -187,8 +201,7 @@ class MainWindow(tkinter.Tk):
         panel.pack(side='right')
         self.tk.call('wm', 'iconphoto', self._w, tkinter.PhotoImage(file=add))
         self.iconphoto(False, tkinter.PhotoImage(file=add))
-
-        # Choose picture
+        # Choose picture, arrows
         self.picN = 0
         self.picI = 0
         pic_left = Image.open(path.join(static_addr, "left.png"))
@@ -197,7 +210,6 @@ class MainWindow(tkinter.Tk):
         self.btn_Left = tkinter.Button(self.frame0_c, image=pic_left, command=self.cmd_go_left)
         self.btn_Left.image = pic_left
         self.btn_Left.grid(row=5, column=2)
-
         pic_right = Image.open(path.join(static_addr, "right.png"))
         pic_right = pic_right.resize((40, 30), Image.ANTIALIAS)
         pic_right = ImageTk.PhotoImage(pic_right)
@@ -207,12 +219,13 @@ class MainWindow(tkinter.Tk):
 
     def cmd_open_img(self):
         """
-
+        Command to open picture(s)
         """
         self.str_info_message.set("")
         self.picN = 0
         self.picI = 0
         try:
+            # Choose of the picture(s) using a dialog window
             self.picadresses = filedialog.askopenfilenames(title='Open image(s)',
                                                            filetypes=[("tif files", "*.tif"),
                                                                       ("jpg files", "*.jpg"),
@@ -233,36 +246,42 @@ class MainWindow(tkinter.Tk):
 
     def cmd_export_analysis(self):
         """
-
+        Command to export the analysis of the current picture
         """
         self.str_info_message.set("")
         try:
+            # If no picture has been opened yet, do it now
             if self.picN == 0:
                 self.cmd_open_img()
-            file_name = filedialog.asksaveasfilename(title='Export as image file',
-                                                     filetypes=[("pdf files", "*.pdf"),
-                                                                ("jpg files", "*.jpg"),
-                                                                ("png files", "*.png")])
+            # Ask how to save the picture
+            file_name = filedialog.asksaveasfilename(title='Export as image file', filetypes=[("pdf files", "*.pdf"),
+                                                                                              ("jpg files", "*.jpg"),
+                                                                                              ("png files", "*.png")])
+            # if files have been selected
             if len(file_name) > 0:
+                # If the analysis have not been done before, do it now
                 if len(self.beamspots) == 0:
                     self.cmd_analyse()
+                # Save the current picture
                 fig = self.beamspots[self.picI].plot()
                 fig.savefig(file_name)
                 plt.close()
+                # To inform the user that everything went well
                 self.str_info_message.set("Saved as " + path.split(file_name)[-1])
         except (Exception,):
+            # To inform the user that something went wrong
             self.str_info_message.set("Exportation failed")
 
     def cmd_mcp_params(self):
         """
-
+        To open the window to set the MCP parameters
         """
         self.str_info_message.set("")
         MCPParamsWindow(self, self.mcp_param)
 
     def cmd_reshape_window(self):
         """
-
+        Command to open the reshape window
         """
         try:
             self.str_info_message.set("")
@@ -272,7 +291,7 @@ class MainWindow(tkinter.Tk):
 
     def cmd_go_right(self):
         """
-
+        To go the next picture
         """
         if self.picI + 1 < self.picN:
             self.picI += 1
@@ -283,7 +302,7 @@ class MainWindow(tkinter.Tk):
 
     def cmd_go_left(self):
         """
-
+        To go the previous picture
         """
         if self.picI - 1 >= 0:
             self.picI -= 1
@@ -293,20 +312,17 @@ class MainWindow(tkinter.Tk):
 
     def cmd_plot_image(self):
         """
-
+        To plot the original picture
+        @return: Nothing
         """
-        def conv(a):
-            b = []
-            for e in a:
-                b.append(str(e))
-            return np.array(b)
-
+        # Destroy the previous plots
         for widget in self.frame1.winfo_children():
             widget.destroy()
-
+        # If there is at least one picture to plot
         if self.picN > 0:
             img = import_image(self.picadress)
             fig = Figure(figsize=(5, 5))
+            # 2D plot
             if self.chk_3D_var.get() == 0:
                 subplot = fig.add_subplot(111)
                 subplot.imshow(img)
@@ -314,82 +330,139 @@ class MainWindow(tkinter.Tk):
                 subplot.set_ylabel('pixels', fontsize=fontsize)
                 y = len(img)
                 x = len(np.transpose(img))
+                # To change the label of the plot from pixels to mm if the ratio has been defined
                 if self.mcp_param.check_ratio_is_set():
-                    subplot.set_xlabel('mm', fontsize=fontsize)
-                    subplot.set_ylabel('mm', fontsize=fontsize)
-                    line = np.linspace(0, x, 4)
-                    subplot.set_xticks(line)
-                    line = conv(np.floor(line * self.mcp_param.ratio))
-                    subplot.set_xticklabels(line)
-                    line = np.linspace(0, y, 4)
-                    subplot.set_yticks(line)
-                    line = conv(np.floor(line * self.mcp_param.ratio))
-                    subplot.set_yticklabels(line)
-                    subplot.set_xlim(0, x)
-                    subplot.set_ylim(y, 0)
+                    self.plot_label_in_mm(subplot, x, y)
+                # To plot the circle if all the MCP parameters have been set
                 if self.mcp_param.check_all_set():
-                    subplot.plot(self.mcp_param.x0, self.mcp_param.y0, '+', ms=15, mew=2, color='white')
-                    subplot.set_xlim(0, x)
-                    subplot.set_ylim(y, 0)
-                    x0, y0 = circle_xy(self.mcp_param.x0, self.mcp_param.y0,
-                                       self.mcp_param.R0)
-                    subplot.plot(x0, y0, lw=3, color='white')
-                if len(self.auto_reshape) == 3:
-                    ix, iy, lm = self.auto_reshape[0], self.auto_reshape[1], self.auto_reshape[2]
-                    ix, iy, lm = int(ix), int(iy), int(lm)
-                    max_x, max_y = len(img.T), len(img)
-                    min_x, min_y = 0, 0
-                    if ix - lm > 0:
-                        min_x = ix - lm
-                    if iy - lm > 0:
-                        min_y = iy - lm
-                    if ix + lm < max_x:
-                        max_x = ix + lm
-                    if iy + lm < max_y:
-                        max_y = iy + lm
-                    subplot.plot([min_x, max_x], [min_y, min_y], lw=3, color='green')
-                    subplot.plot([min_x, max_x], [max_y, max_y], lw=3, color='green')
-                    subplot.plot([min_x, min_x], [min_y, max_y], lw=3, color='green')
-                    subplot.plot([max_x, max_x], [min_y, max_y], lw=3, color='green')
-
-                if len(self.reshape_parameters) == 4:
-                    x1, y1 = self.reshape_parameters[0], self.reshape_parameters[1]
-                    x2, y2 = self.reshape_parameters[2], self.reshape_parameters[3]
-                    subplot.plot([x1, x1], [y1, y2], lw=3, color='white')
-                    subplot.plot([x1, x2], [y2, y2], lw=3, color='white')
-                    subplot.plot([x2, x2], [y2, y1], lw=3, color='white')
-                    subplot.plot([x2, x1], [y1, y1], lw=3, color='white')
+                    self.plot_circle(subplot, x, y)
+                # To plot a square if the auto-reshape checkbox is on
+                if len(self.auto_reshape) == 3 and self.chk_reshape_mcp_var.get() == 1:
+                    self.plot_square(img, subplot)
+                # To plot the rectangle is reshaping parameters have been defined by the user
+                elif len(self.reshape_parameters) == 4:
+                    self.plot_rectangle(subplot)
                 fig.tight_layout()
+            # 3D plot
             else:
-                y = np.arange(len(img))
-                x = np.arange(len(img[0]))
-                x, y = np.meshgrid(x, y)
-                z = img
-                subplot = fig.add_subplot(111, projection='3d')
-                subplot.plot_surface(x, y, z, cmap=cm.plasma, linewidth=0, antialiased=False)
-
+                self.plot_3d(fig)
             canvas = FigureCanvasTkAgg(fig, master=self.frame1)
             canvas.mpl_connect('motion_notify_event', self.print_x_y_position)
             canvas.draw()
             canvas.get_tk_widget().pack()
 
+    def plot_label_in_mm(self, subplot, x, y):
+        """
+        To change the label of the plot from pixels to mm if the ratio has been defined
+        @param subplot: matplotlib.pyplot.Figure.add_subplot
+        @param x: x limit
+        @param y: y limit
+        @return: Nothing
+        """
+        def conv(a):
+            b = []
+            for e in a:
+                b.append(str(e))
+            return np.array(b)
+        subplot.set_xlabel('mm', fontsize=fontsize)
+        subplot.set_ylabel('mm', fontsize=fontsize)
+        line = np.linspace(0, x, 4)
+        subplot.set_xticks(line)
+        line = conv(np.floor(line * self.mcp_param.ratio))
+        subplot.set_xticklabels(line)
+        line = np.linspace(0, y, 4)
+        subplot.set_yticks(line)
+        line = conv(np.floor(line * self.mcp_param.ratio))
+        subplot.set_yticklabels(line)
+        subplot.set_xlim(0, x)
+        subplot.set_ylim(y, 0)
+
+    def plot_3d(self, fig):
+        """
+        3D plot of the image
+        @param fig: matplotlib.pylot.Figure
+            The figure where is plotted the image
+        @return: Nothing
+        """
+        img = import_image(self.picadress)
+        y = np.arange(len(img))
+        x = np.arange(len(img[0]))
+        x, y = np.meshgrid(x, y)
+        z = img
+        subplot = fig.add_subplot(111, projection='3d')
+        subplot.plot_surface(x, y, z, cmap=cm.plasma, linewidth=0, antialiased=False)
+
+    def plot_rectangle(self, subplot):
+        """
+        To plot the rectangle is reshaping parameters have been defined by the user
+        @param: subplot: matplotlib.pyplot.Figure.add_subplot
+        @return: Nothing
+        """
+        x1, y1 = self.reshape_parameters[0], self.reshape_parameters[1]
+        x2, y2 = self.reshape_parameters[2], self.reshape_parameters[3]
+        subplot.plot([x1, x1], [y1, y2], lw=3, color='white')
+        subplot.plot([x1, x2], [y2, y2], lw=3, color='white')
+        subplot.plot([x2, x2], [y2, y1], lw=3, color='white')
+        subplot.plot([x2, x1], [y1, y1], lw=3, color='white')
+
+    def plot_square(self, img, subplot):
+        """
+        To plot a square if the auto-reshape checkbox is on
+        @param img: 2D array, the image
+        @param subplot: matplotlib.pyplot.Figure.add_subplot
+        @return: Nothing
+        """
+        ix, iy, lm = self.auto_reshape[0], self.auto_reshape[1], self.auto_reshape[2]
+        ix, iy, lm = int(ix), int(iy), int(lm)
+        max_x, max_y = len(img.T), len(img)
+        min_x, min_y = 0, 0
+        if ix - lm > 0:
+            min_x = ix - lm
+        if iy - lm > 0:
+            min_y = iy - lm
+        if ix + lm < max_x:
+            max_x = ix + lm
+        if iy + lm < max_y:
+            max_y = iy + lm
+        subplot.plot([min_x, max_x], [min_y, min_y], lw=3, color='green')
+        subplot.plot([min_x, max_x], [max_y, max_y], lw=3, color='green')
+        subplot.plot([min_x, min_x], [min_y, max_y], lw=3, color='green')
+        subplot.plot([max_x, max_x], [min_y, max_y], lw=3, color='green')
+
+    def plot_circle(self, subplot, x, y):
+        """
+        To plot the circle if all the MCP parameters have been set
+        @param subplot: matplotlib.pyplot.Figure.add_subplot
+        @param x: x limit
+        @param y: y limit
+        @return: Nothing
+        """
+        subplot.plot(self.mcp_param.x0, self.mcp_param.y0, '+', ms=15, mew=2, color='white')
+        subplot.set_xlim(0, x)
+        subplot.set_ylim(y, 0)
+        x0, y0 = circle_xy(self.mcp_param.x0, self.mcp_param.y0, self.mcp_param.R0)
+        subplot.plot(x0, y0, lw=3, color='white')
+
     def print_x_y_position(self, event):
         """
-
+        To display the x,y position
         """
         x, y = event.xdata, event.ydata
+        # If the cursor is on the picture
         if x is not None and y is not None:
             x, y = int(x), int(y)
             res = "pix: x = " + str(x) + "\ty = " + str(y) + "\n"
             r = self.mcp_param.ratio
+            # To give in mm if possible
             if self.mcp_param.check_ratio_is_set():
                 x, y = np.round(event.xdata * r, 2), np.round(event.ydata * r, 2)
                 res += "mm: x = " + str(x) + "\ty = " + str(y) + "\n"
+            # Display the position
             self.str_info_message.set(res)
 
     def cmd_plot_analysis(self):
         """
-
+        Command to plot the analysis
         """
         for widget in self.frame2.winfo_children():
             widget.destroy()
@@ -435,7 +508,7 @@ class MainWindow(tkinter.Tk):
 
     def cmd_analyse(self):
         """
-
+        Command to analyse the picture(s)
         """
         # Empty and plot image
         self.beamspots = []
@@ -445,7 +518,6 @@ class MainWindow(tkinter.Tk):
             reshape = self.auto_reshape
         if len(self.reshape_parameters) == 4:
             reshape = self.reshape_parameters
-
         try:
             if self.picN == 0:
                 self.cmd_open_img()
@@ -456,27 +528,29 @@ class MainWindow(tkinter.Tk):
                 for file_name in self.picadresses:
                     self.beamspots.append(BeamSpot(file_name, mcpp=self.mcp_param, fit=fit, reshape=reshape))
                 self.cmd_plot_analysis()
-
         except (Exception,):
             self.str_info_message.set("Analysis has failed")
 
     def cmd_menu_mcp(self, *args):
         """
-
+        Command to choose among the GBAR's MCP
         """
         name = self.var_default_mcp.get()
         if name in self.default_mcp_names:
             self.mcp_param = self.default_mcp[self.default_mcp_names == name][0]
             self.str_mcp_param.set(self.mcp_param.__repr__())
             self.var_default_mcp.set("GBAR's MCP")
+            # If there is a previous analysis, re-do it
             if len(self.beamspots) > 0:
                 self.cmd_analyse()
+            # Auto-reshape if chk_reshape_mcp_var is true
             self.cmd_auto_reshape_mcp()
+            # Refresh the plots
             self.refresh_plot()
 
     def cmd_auto_reshape_mcp(self):
         """
-
+        Command to auto reshape the picture using the MCP parameters
         """
         self.auto_reshape = []
         if self.mcp_param.check_all_set():
@@ -488,7 +562,7 @@ class MainWindow(tkinter.Tk):
 
     def refresh_plot(self):
         """
-
+        To refresh the plot of the picture and of the analysis
         """
         self.cmd_plot_image()
         self.cmd_plot_analysis()
@@ -562,6 +636,7 @@ class MCPParamsWindow(tkinter.Toplevel):
     remove: tkinter.Button
         Button to empty the form
     """
+
     def __init__(self, master, mcp):
         """
 
