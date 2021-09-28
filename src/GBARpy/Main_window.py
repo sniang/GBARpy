@@ -500,10 +500,14 @@ class MainWindow(tkinter.Tk):
 def circle_xy(x0, y0, r0):
     """
     To obtain cartesian coordinates of a circle
-    @param x0:
-    @param y0:
-    @param r0:
-    @return:
+    @param x0: float
+        x coordinate of the center of the circle
+    @param y0: float
+        y coordinate of the center of the circle
+    @param r0: float
+        radius of the circle
+    @return: np.array([float]),np.array([float])
+        the x,y coordinates of the circle (100 points)
     """
     t = np.linspace(0, 2 * np.pi, 100)
     return x0 + r0 * np.cos(t), y0 + r0 * np.sin(t)
@@ -511,9 +515,11 @@ def circle_xy(x0, y0, r0):
 
 def find_mcp_param_in_directory(dir_mcp):
     """
-
-    @param dir_mcp:
-    @return:
+    To import the MCP parameters stored as files in a directory
+    @param dir_mcp: str
+        the path of the directory
+    @return: [GBARpy.MCPPicture.MCPParams]
+        The parameters from the files in the directory
     """
     res = []
     for file in listdir(dir_mcp):
