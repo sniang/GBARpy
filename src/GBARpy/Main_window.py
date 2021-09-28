@@ -530,34 +530,48 @@ class MCPParamsWindow(tkinter.Toplevel):
     ### Arguments of the class
 
     master: GBARpy.Main_window.MainWindow
+        The main window
     mcp: GBARpy.MCPPicture.MCPParams
-
-    e_name: tkinter.Entry(self)
-    e_R: tkinter.Entry(self)
-    e_x0: tkinter.Entry(self)
-    e_y0: tkinter.Entry(self)
-    e_R0: tkinter.Entry(self)
-    e_ratio: tkinter.Entry(self)
-
+        MCP parameters
     frame0: tkinter.Frame
-
-    set = tkinter.Button
-    save = tkinter.Button
-    load = tkinter.Button
-    remove = tkinter.Button
+        frame where the form is placed
+    e_name: tkinter.Entry(self)
+        a form entry, name of the MCP
+    e_R: tkinter.Entry(self)
+        a form entry, radius of the MCP/ Ps screen, in mm
+    e_x0: tkinter.Entry(self)
+        a form entry, center of the circle in pixels
+    e_y0: tkinter.Entry(self)
+        a form entry, center of the circle in pixels
+    e_R0: tkinter.Entry(self)
+        a form entry, radius of the circle in pixels
+    e_ratio: tkinter.Entry(self)
+        a form entry, ratio mm/pixels
+    set: tkinter.Button
+        Button to set the parameters in the main window
+    save: tkinter.Button
+        Button to save the MCP parameters in a file
+    load: tkinter.Button
+        Button to choose an .mcp file with a dialog window
+    remove: tkinter.Button
+        Button to empty the form
     """
     def __init__(self, master, mcp):
         """
 
-        @param master:
-        @param mcp:
+        @param master: GBARpy.Main_window.MainWindow
+            The main window
+        @param mcp: GBARpy.MCPPicture.MCPParams
+            MCP parameters
         """
+        # Constructor of the parent class
         tkinter.Toplevel.__init__(self, master)
         self.title("Define the MCP parameters")
         self.geometry("400x200")
         self.resizable(False, False)
-
+        # The main window
         self.master = master
+        # The MCP parameters GBARpy.MCPPicture.MCPParams
         self.mcp = mcp
         # The form
         tkinter.Label(self, text="MCP's name").grid(row=0)
@@ -566,51 +580,39 @@ class MCPParamsWindow(tkinter.Toplevel):
         tkinter.Label(self, text="y0 (pixels)").grid(row=3)
         tkinter.Label(self, text="R0 (pixels)").grid(row=4)
         tkinter.Label(self, text="ratio (mm/pixels)").grid(row=5)
-
+        # Elements of the form
         self.e_name = tkinter.Entry(self)
         self.e_R = tkinter.Entry(self)
         self.e_x0 = tkinter.Entry(self)
         self.e_y0 = tkinter.Entry(self)
         self.e_R0 = tkinter.Entry(self)
         self.e_ratio = tkinter.Entry(self)
-
+        # Place the elements of the form
         self.e_name.grid(row=0, column=1)
         self.e_R.grid(row=1, column=1)
         self.e_x0.grid(row=2, column=1)
         self.e_y0.grid(row=3, column=1)
         self.e_R0.grid(row=4, column=1)
         self.e_ratio.grid(row=5, column=1)
-
+        # Fill the form
         self.fill_form(self.mcp)
-
-        # buttons
+        # Buttons
         self.frame0 = tkinter.Frame(self)
         self.frame0.grid(row=6, column=0, columnspan=3)
-
-        self.set = tkinter.Button(self.frame0,
-                                  text='Set',
-                                  command=self.cmd_set).grid(row=0,
-                                                             column=0)
-        self.save = tkinter.Button(self.frame0,
-                                   text='Save',
-                                   command=self.cdm_save).grid(row=0,
-                                                               column=1)
-        self.load = tkinter.Button(self.frame0,
-                                   text='Load',
-                                   command=self.cmd_load).grid(row=0,
-                                                               column=2)
-        self.remove = tkinter.Button(self.frame0,
-                                     text='Remove',
-                                     command=self.cmd_remove).grid(row=0,
-                                                                   column=3)
+        self.set = tkinter.Button(self.frame0, text='Set', command=self.cmd_set).grid(row=0, column=0)
+        self.save = tkinter.Button(self.frame0, text='Save', command=self.cdm_save).grid(row=0, column=1)
+        self.load = tkinter.Button(self.frame0, text='Load', command=self.cmd_load).grid(row=0, column=2)
+        self.remove = tkinter.Button(self.frame0, text='Remove', command=self.cmd_remove).grid(row=0, column=3)
 
     def cmd_set(self):
         """
         To set the MCP parameters
         """
         try:
+            # Turn the form as GBARpy.MCPPicture.MCPParams
             pp = self.form_to_mcp()
             self.mcp = pp
+            # Set the parameters in the main window
             self.master.mcp_param = pp
             self.master.str_mcp_param.set(pp.__repr__())
         except (Exception,):
@@ -621,8 +623,11 @@ class MCPParamsWindow(tkinter.Toplevel):
         To save the parameters as an .mcp file
         """
         try:
+            # Turn the form as GBARpy.MCPPicture.MCPParams
             pp = self.form_to_mcp()
+            # Open a dialog window to choose the filename
             f = filedialog.asksaveasfile(mode='wb', defaultextension=".mcp")
+            # Save
             dill.dump(pp, f)
             self.master.str_info_message.set("Parameters saved as" + f.name)
         except (Exception,):
@@ -632,12 +637,15 @@ class MCPParamsWindow(tkinter.Toplevel):
         """
         To choose an .mcp file with a dialog window
         """
-        filename = filedialog.askopenfilename(title="Select file",
-                                              filetypes=[("mcp files", "*.mcp")])
+        # Open dialog to chose the file
+        filename = filedialog.askopenfilename(title="Select file", filetypes=[("mcp files", "*.mcp")])
         try:
+            # import the configuration form the file name
             pp = import_config(filename)
+            # fill the form
             self.fill_form(pp)
             if pp is not None:
+                # define the new mcp parameters
                 self.mcp = pp
 
         except (Exception,):
@@ -648,7 +656,9 @@ class MCPParamsWindow(tkinter.Toplevel):
         To empty the form
         """
         try:
+            # Empty the form
             self.fill_form(None)
+            # Set the parameters as None
             self.mcp = Mcpp()
         except (Exception,):
             self.master.str_info_message.set("Removing failed")
@@ -659,12 +669,14 @@ class MCPParamsWindow(tkinter.Toplevel):
         @param mcp: GBARpy.MCPPicture.MCPParams
         @return: Nothing
         """
+        # Empty the form
         self.e_name.delete(0, tkinter.END)
         self.e_R.delete(0, tkinter.END)
         self.e_x0.delete(0, tkinter.END)
         self.e_y0.delete(0, tkinter.END)
         self.e_R0.delete(0, tkinter.END)
         self.e_ratio.delete(0, tkinter.END)
+        # Fill the form
         if mcp is not None:
             if mcp.name is not None:
                 self.e_name.insert(0, mcp.name)
