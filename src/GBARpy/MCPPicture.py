@@ -796,6 +796,7 @@ def get_index_str(n, i):
 def significant(x, sig=4):
     """
     To turn a float as a str with a certain number of significant digits
+    @return: Nothing
     """
     res = np.round(x, sig - int(np.floor(np.log10(np.abs(x)))) - 1)
     return str(res)
@@ -807,30 +808,56 @@ def significant(x, sig=4):
 class MCPParams:
     """
     Class to store the parameters of the MCP to adapt the analysis
-    
-    #### Attributes
-    * MCPParams.R: radius of the mirror in mm
-    * MCPParams.x0: x position of the center of the mirror in pixels
-    * MCPParams.y0: y position of the center of the mirror in pixels
-    * MCPParams.R0: radius of the mirror in pixels
-    * MCPParams.ratio: mm/pixels ratio
-    * MCPParams.canBePlot: boolean to know if the mirror can be plot
-    * MCPParams.ratioIsSet: boolean to know if a ratio has been defined
+
+    Parameters
+    ----------
+    name: string
+        (optional) the name of the MCP
+
+    R: float
+        (optional) radius of the mirror in mm
+
+    x0: int
+        (optional) x position of the center of the mirror in pixels
+
+    y0: int
+        (optional) y position of the center of the mirror in pixels
+
+    R0: int
+        (optional) radius of the mirror in pixels
+
+    ratio: int
+        (optional) mm/pixels ratio
+        if R and R0 have been defined, then ratio is defined automatically
+
+    Attributes
+    ----------
+    name: string
+        the name of the MCP
+
+    R: float
+        radius of the mirror in mm
+
+    x0: int
+        x position of the center of the mirror in pixels
+
+    y0: int
+        y position of the center of the mirror in pixels
+
+    R0: int
+        radius of the mirror in pixels
+
+    ratio: float
+        mm/pixels ratio
+
+    canBePlot: bool
+        boolean to know if the mirror can be plot
+
+    ratioIsSet: bool
+        boolean to know if a ratio has been defined
     """
 
-    def __init__(self, name=None, r=None, x0=None, y0=None,
-                 r0=None, ratio=None):
-        """
-            Constructor of the class
-            * Parameters
-                * name: (optional) string, the name of the MCP
-                * R: (optional), float, radius of the mirror in mm
-                * x0: (optional), int, x position of the center of the mirror in pixels
-                * y0: (optional), int, y position of the center of the mirror in pixels
-                * R0: (optional), int, radius of the mirror in pixels
-                * ratio: (optional), mm/pixels ratio
-                    if R and R0 have been defined, then ratio is defined automatically
-            """
+    def __init__(self, name=None, r=None, x0=None, y0=None, r0=None, ratio=None):
         self.name = name
         self.R = r
         self.x0 = x0
@@ -845,13 +872,10 @@ class MCPParams:
     def __repr__(self):
         """
         To translate the object as a string
-        * Returns
-            * the string
-        * Example
-            params = MCPParams()
-            print(params)
-            #or
-            r = params.__repr__()
+        Returns
+        -------
+        res : str
+            the parameters as a string
         """
         res = "MCP Parameters\n"
         res += "name: " + str(self.name) + "\n"
@@ -865,9 +889,16 @@ class MCPParams:
     def define_ratio(self, mm, pix):
         """
         To define the ratio mm vs pixels
-        * Parameters
-            mm: float, a distance in mm
-            pix: float, the equivalent distance in pixels
+        Parameters
+        ----------
+        mm : float
+            a distance in mm
+
+        pix : float
+            the equivalent distance in pixels
+        Returns
+        -------
+        None
         """
         try:
             r = mm / pix
@@ -879,8 +910,10 @@ class MCPParams:
     def check_ratio_is_set(self):
         """
         To check is the ratio has been set
-        * Return
-            boolean
+        Returns
+        -------
+        result: boolean
+            True if the ratio has been set
         """
         if self.ratio is None:
             self.ratioIsSet = False
@@ -891,8 +924,10 @@ class MCPParams:
     def check_all_set(self):
         """
         To check is all has been set
-        * Return
-            boolean
+        Returns
+        -------
+        result: boolean
+            True if all the parameters have been set
         """
         if self.R is None:
             return False
@@ -910,11 +945,19 @@ class MCPParams:
         """
         To save the parameters of the MCP as a binary file
         Use .mcp extension
-        * Parameters
-            fname: string, the name of the binary file
-        * Example
-            params = MCPParams()
-            params.save_config("config.mcp")
+        Parameters
+        ----------
+        fname : string
+            the name of the binary file
+        Returns
+        -------
+        None
+        Examples
+        --------
+        ```python
+        params = MCPParams()
+        params.save_config("config.mcp")
+        ```
         """
         with open(fname, 'wb') as f1:
             dill.dump(self, f1)
@@ -927,13 +970,19 @@ class MCPParams:
 def import_config(fname):
     """
     To import the MCP parameters from a binary file
-    * Parameters
-        fname: string, the file's name
+    Parameters
+    ----------
+    fname : str
+        the file's name
+    Returns
+    -------
+    mcpp : GBARpy.MCPPicture.MCPParams
+        the MCP parameters
     """
-    pp = None
+    mcpp = None
     try:
         with open(fname, 'rb') as f1:
-            pp = dill.load(f1)
+            mcpp = dill.load(f1)
     except (Exception,):
         print("Importation of", fname, "has failed")
-    return pp
+    return mcpp
