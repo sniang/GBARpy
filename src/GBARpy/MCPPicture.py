@@ -67,6 +67,7 @@ class BeamSpot:
         self.pix = self.pix * ratio
         self.piy, self.Iy = integrate_picture_along_y(self.img)
         self.piy = self.piy * ratio
+        self.total_integral = np.sum(self.img)/len(self.img)/len(self.img[0])
         if fit == "Filtered gaussian":
             self.fit = FilteredGaussian(self.pix, self.Ix,
                                         self.piy, self.Iy)
@@ -97,7 +98,8 @@ class BeamSpot:
             #or to print it in the python console
             print(bs)
         """
-        return self.fit.__repr__()
+        res = "Total integral: I = "+str(np.around(self.total_integral,2))+'\n'
+        return res+self.fit.__repr__()
 
     def plot_y_int(self, label=""):
         """
