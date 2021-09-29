@@ -461,7 +461,8 @@ class MainWindow(tkinter.Tk):
         x, y = event.xdata, event.ydata
         # If the cursor is on the picture
         if x is not None and y is not None:
-            x, y, z = int(x), int(y), int(self.image[y][x])
+            x, y = int(x), int(y)
+            z = int(self.image[y][x])
             res = "pix: x = " + str(x) + "\ty = " + str(y) + "\tz = " + str(z) + "\n"
             r = self.mcp_param.ratio
             # To give in mm if possible
