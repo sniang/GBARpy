@@ -19,6 +19,7 @@ import GBARpy
 from GBARpy.MCPPicture import BeamSpot, import_config, import_image
 from GBARpy.MCPPicture import MCPParams as Mcpp
 from matplotlib import cm
+
 fontsize = 12
 # Uncomment for edit mode
 # from MCPPicture import MCPParams as Mcpp
@@ -122,7 +123,7 @@ class MainWindow(tkinter.Tk):
         tkinter.Tk.__init__(self)
         self.beamSpot = None
         self.title("GBARPy")
-        self.geometry("1000x700")
+        self.geometry("1000x800")
         self.resizable(True, True)
         # Cadre 0 Control
         self.frame0 = tkinter.Frame(self, highlightbackground="black", highlightthickness=1)
@@ -227,6 +228,8 @@ class MainWindow(tkinter.Tk):
         self.str_info_message.set("")
         self.picN = 0
         self.picI = 0
+        self.auto_reshape = []
+        self.reshape_parameters = []
         try:
             # Choose of the picture(s) using a dialog window
             self.picadresses = filedialog.askopenfilenames(title='Open image(s)',
@@ -365,11 +368,13 @@ class MainWindow(tkinter.Tk):
         @param y: y limit
         @return: Nothing
         """
+
         def conv(a):
             b = []
             for e in a:
                 b.append(str(e))
             return np.array(b)
+
         subplot.set_xlabel('mm', fontsize=fontsize)
         subplot.set_ylabel('mm', fontsize=fontsize)
         line = np.linspace(0, x, 4)
@@ -420,7 +425,7 @@ class MainWindow(tkinter.Tk):
         """
         ix, iy, lm = self.auto_reshape[0], self.auto_reshape[1], self.auto_reshape[2]
         ix, iy, lm = int(ix), int(iy), int(lm)
-        max_x, max_y = len(img.T), len(img)
+        max_x, max_y = len(img[0]), len(img)
         min_x, min_y = 0, 0
         if ix - lm > 0:
             min_x = ix - lm
@@ -456,8 +461,8 @@ class MainWindow(tkinter.Tk):
         x, y = event.xdata, event.ydata
         # If the cursor is on the picture
         if x is not None and y is not None:
-            x, y = int(x), int(y)
-            res = "pix: x = " + str(x) + "\ty = " + str(y) + "\tz = " + str(self.image[y][x]) + "\n"
+            x, y, z = int(x), int(y), int(self.image[y][x])
+            res = "pix: x = " + str(x) + "\ty = " + str(y) + "\tz = " + str(z) + "\n"
             r = self.mcp_param.ratio
             # To give in mm if possible
             if self.mcp_param.check_ratio_is_set():
