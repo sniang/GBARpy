@@ -883,8 +883,9 @@ class ReshapeWindow(tkinter.Toplevel):
         """
         if self.x1 is not None and self.y1 is not None:
             # remove the previous rectangle/point
-            for last_e in self.last:
-                last_e.remove()
+            if len(self.last) > 0:
+                for last_e in self.last:
+                    last_e.remove()
             # If no point have been selected, draw only a point
             if self.click_number == 0:
                 self.last = self.subplot.plot(self.x1, self.y1, 'P', lw=2, color='white')
@@ -995,6 +996,8 @@ class ReshapeWindow(tkinter.Toplevel):
         To draw the parameters from the form
         @return: Nothing
         """
+        # To be able to draw
+        self.click_number = 1
         # To insure that the selected values are positives
         self.x1 = np.abs(int(self.x1_form.get()))
         self.y1 = np.abs(int(self.y1_form.get()))
@@ -1015,7 +1018,7 @@ class ReshapeWindow(tkinter.Toplevel):
         self.auto_fill_the_form()
         # Plot the image and the rectangle
         self.plot()
-        # Set the click number to 2 i.e. selection is complete
+        # Set the click number to 2 i.e. selection is complete i.e. do nothing
         self.click_number = 2
 
 
