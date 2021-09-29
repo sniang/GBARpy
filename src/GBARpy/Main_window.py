@@ -35,6 +35,8 @@ class MainWindow(tkinter.Tk):
         path of the current picture
     picadresses: [str]
         Array containing the paths of the pictures
+    image: 2D array of float
+        The current image
     beamspots: [GBARpy.MCPPicture.BeamSpot]
         Array containing the pictures' analysis
     auto_reshape: [x,y,l]
@@ -115,6 +117,7 @@ class MainWindow(tkinter.Tk):
         self.beamspots = []
         self.auto_reshape = []
         self.reshape_parameters = []
+        self.image = [[]]
         # Main Frame
         tkinter.Tk.__init__(self)
         self.beamSpot = None
@@ -236,6 +239,7 @@ class MainWindow(tkinter.Tk):
 
             self.picadresses = np.sort(self.picadresses)
             self.picadress = self.picadresses[0]
+            self.image = import_image(self.picadress)
             self.picN = len(self.picadresses)
             self.picI = 0
             self.var_picadress.set(self.picadresses[self.picI])
@@ -296,6 +300,7 @@ class MainWindow(tkinter.Tk):
         if self.picI + 1 < self.picN:
             self.picI += 1
             self.picadress = self.picadresses[self.picI]
+            self.image = import_image(self.picadress)
             self.cmd_plot_image()
             self.refresh_plot()
             self.var_picadress.set(self.picadresses[self.picI])
@@ -307,6 +312,7 @@ class MainWindow(tkinter.Tk):
         if self.picI - 1 >= 0:
             self.picI -= 1
             self.picadress = self.picadresses[self.picI]
+            self.image = import_image(self.picadress)
             self.refresh_plot()
             self.var_picadress.set(self.picadresses[self.picI])
 
@@ -320,7 +326,7 @@ class MainWindow(tkinter.Tk):
             widget.destroy()
         # If there is at least one picture to plot
         if self.picN > 0:
-            img = import_image(self.picadress)
+            img = self.image
             fig = Figure(figsize=(5, 5))
             # 2D plot
             if self.chk_3D_var.get() == 0:
@@ -451,7 +457,7 @@ class MainWindow(tkinter.Tk):
         # If the cursor is on the picture
         if x is not None and y is not None:
             x, y = int(x), int(y)
-            res = "pix: x = " + str(x) + "\ty = " + str(y) + "\n"
+            res = "pix: x = " + str(x) + "\ty = " + str(y) + "\tz = " + str(self.image[y][x]) + "\n"
             r = self.mcp_param.ratio
             # To give in mm if possible
             if self.mcp_param.check_ratio_is_set():
@@ -464,6 +470,7 @@ class MainWindow(tkinter.Tk):
         """
         Command to plot the analysis
         """
+        # Remove everything in the frame
         for widget in self.frame2.winfo_children():
             widget.destroy()
 
@@ -502,9 +509,11 @@ class MainWindow(tkinter.Tk):
             canvas = FigureCanvasTkAgg(fig, master=self.frame2)
             canvas.draw()
             canvas.get_tk_widget().pack()
+
             # Write the result
             res = bs.__repr__()
-            tkinter.Label(self.frame2, text=res).pack()
+            lbl_res = tkinter.Label(self.frame2, text=res)
+            lbl_res.pack(side=tkinter.BOTTOM)
 
     def cmd_analyse(self):
         """
@@ -566,40 +575,6 @@ class MainWindow(tkinter.Tk):
         """
         self.cmd_plot_image()
         self.cmd_plot_analysis()
-
-
-###############################################################################
-
-
-def circle_xy(x0, y0, r0):
-    """
-    To obtain cartesian coordinates of a circle
-    @param x0: float
-        x coordinate of the center of the circle
-    @param y0: float
-        y coordinate of the center of the circle
-    @param r0: float
-        radius of the circle
-    @return: np.array([float]),np.array([float])
-        the x,y coordinates of the circle (100 points)
-    """
-    t = np.linspace(0, 2 * np.pi, 100)
-    return x0 + r0 * np.cos(t), y0 + r0 * np.sin(t)
-
-
-def find_mcp_param_in_directory(dir_mcp):
-    """
-    To import the MCP parameters stored as files in a directory
-    @param dir_mcp: str
-        the path of the directory
-    @return: [GBARpy.MCPPicture.MCPParams]
-        The parameters from the files in the directory
-    """
-    res = []
-    for file in listdir(dir_mcp):
-        if file.endswith(".mcp"):
-            res.append(import_config(path.join(dir_mcp, file)))
-    return res
 
 
 ###############################################################################
@@ -970,6 +945,8 @@ class ReshapeWindow(tkinter.Toplevel):
         # gives the parameters to the main window
         self.master.reshape_parameters = [self.x1, self.y1,
                                           self.x2, self.y2]
+        # Disable auto-reshape in the main windows
+        self.master.chk_reshape_mcp_var.set(0)
         # draw the rectangle in the main window's frame
         self.master.cmd_plot_image()
 
@@ -1034,3 +1011,37 @@ class ReshapeWindow(tkinter.Toplevel):
         self.plot()
         # Set the click number to 2 i.e. selection is complete
         self.click_number = 2
+
+
+###############################################################################
+
+
+def circle_xy(x0, y0, r0):
+    """
+    To obtain cartesian coordinates of a circle
+    @param x0: float
+        x coordinate of the center of the circle
+    @param y0: float
+        y coordinate of the center of the circle
+    @param r0: float
+        radius of the circle
+    @return: np.array([float]),np.array([float])
+        the x,y coordinates of the circle (100 points)
+    """
+    t = np.linspace(0, 2 * np.pi, 100)
+    return x0 + r0 * np.cos(t), y0 + r0 * np.sin(t)
+
+
+def find_mcp_param_in_directory(dir_mcp):
+    """
+    To import the MCP parameters stored as files in a directory
+    @param dir_mcp: str
+        the path of the directory
+    @return: [GBARpy.MCPPicture.MCPParams]
+        The parameters from the files in the directory
+    """
+    res = []
+    for file in listdir(dir_mcp):
+        if file.endswith(".mcp"):
+            res.append(import_config(path.join(dir_mcp, file)))
+    return res
