@@ -765,11 +765,15 @@ def integrate_picture_along_y(img):
 def integrate_picture_along_x(img):
     """
     To integrate the picture along th X axis
-    *Parameters
-        * img: image as a 2D numpy array
-    * Returns
-        * (pix,integral): A tuple with pix the pixel numbers as a numpy array and
-        'integral' the integral as a numpy array
+    Parameters
+    ----------
+    img: numpy.array(float[float[]])
+        image as a 2D numpy array
+
+    Returns
+    -------
+    (pix,integral): (numpy.array(int[]),numpy.array(int[]))
+        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array
     """
     pix, ix = integrate_picture_along_y(np.transpose(img))
     integral = np.array([])
@@ -781,8 +785,30 @@ def integrate_picture_along_x(img):
 def get_index_str(n, i):
     """
     To convert an int 'i' to a string
-    * Example
-        getIndexStr(100,15) #returns '015'
+    Parameters
+    ----------
+    n : int
+        order to put 0 if necessary
+
+    i : int
+        the number to convert
+
+    Returns
+    -------
+    res : str
+        the number as a string
+
+    Examples
+    --------
+    ```python
+    getIndexStr(100,15)
+    ```
+
+    Out:
+
+    ```
+    '015'
+    ```
     """
     if i < 0 or i > n:
         raise ValueError("N >= i or i > 0 is required")
@@ -796,6 +822,20 @@ def get_index_str(n, i):
 def significant(x, sig=4):
     """
     To turn a float as a str with a certain number of significant digits
+    Parameters
+    ----------
+    x: float
+        the input number
+
+    sig: int, default=4
+        number of significant digits
+    Returns
+    -------
+    res: float
+        the result
+    """
+    """
+    
     @return: Nothing
     """
     res = np.round(x, sig - int(np.floor(np.log10(np.abs(x)))) - 1)

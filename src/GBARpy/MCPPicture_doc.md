@@ -1,36 +1,3 @@
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
-<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
-
-<style>
-    a.src-href {
-        float: right;
-    }
-    p.attr {
-        margin-top: 0.5em;
-        margin-left: 1em;
-    }
-    p.func-header {
-        background-color: gainsboro;
-        border-radius: 0.1em;
-        padding: 0.5em;
-        padding-left: 1em;
-    }
-    table.field-table {
-        border-radius: 0.1em
-    }
-</style>@author: samuel.niang@cern.ch
-
-<table class="docutils field-list field-table" frame="void" rules="none">
-    <col class="field-name" />
-    <col class="field-body" />
-    <tbody valign="top">
-        
-    </tbody>
-</table>
-
-
-
 ##MCPPicture.**BeamSpot**
 
 <p class="func-header">
@@ -642,17 +609,25 @@ and 'integral' the integral as a numpy array
 </p>
 
 To integrate the picture along th X axis
-*Parameters
-* img: image as a 2D numpy array
-* Returns
-* (pix,integral): A tuple with pix the pixel numbers as a numpy array and
-'integral' the integral as a numpy array
 
 <table class="docutils field-list field-table" frame="void" rules="none">
     <col class="field-name" />
     <col class="field-body" />
     <tbody valign="top">
-        
+        <tr class="field">
+    <th class="field-name"><b>Parameters:</b></td>
+    <td class="field-body" width="100%"><b>img : <i>numpy.array(float[float[]])</i></b>
+<p class="attr">
+    image as a 2D numpy array
+</p></td>
+</tr>
+<tr class="field">
+    <th class="field-name"><b>Returns:</b></td>
+    <td class="field-body" width="100%"><b>(pix,integral) : <i>(numpy.array(int[]),numpy.array(int[]))</i></b>
+<p class="attr">
+    A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array
+</p></td>
+</tr>
     </tbody>
 </table>
 
@@ -661,37 +636,78 @@ To integrate the picture along th X axis
 ##MCPPicture.**get_index_str**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>get_index_str</b>(<i>n, i</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L781">[source]</a>
+    <i>def</i> MCPPicture.<b>get_index_str</b>(<i>n, i</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L785">[source]</a>
 </p>
 
 To convert an int 'i' to a string
-* Example
-getIndexStr(100,15) #returns '015'
 
 <table class="docutils field-list field-table" frame="void" rules="none">
     <col class="field-name" />
     <col class="field-body" />
     <tbody valign="top">
-        
+        <tr class="field">
+    <th class="field-name"><b>Parameters:</b></td>
+    <td class="field-body" width="100%"><b>n : <i>int</i></b>
+<p class="attr">
+    order to put 0 if necessary
+</p>
+<b>i : <i>int</i></b>
+<p class="attr">
+    the number to convert
+</p></td>
+</tr>
+<tr class="field">
+    <th class="field-name"><b>Returns:</b></td>
+    <td class="field-body" width="100%"><b>res : <i>str</i></b>
+<p class="attr">
+    the number as a string
+</p></td>
+</tr>
     </tbody>
 </table>
 
+####Examples
 
+```python
+getIndexStr(100,15)
+```
+
+Out:
+
+```
+'015'
+```
 
 ##MCPPicture.**significant**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>significant</b>(<i>x, sig=4</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L796">[source]</a>
+    <i>def</i> MCPPicture.<b>significant</b>(<i>x, sig=4</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L822">[source]</a>
 </p>
 
 To turn a float as a str with a certain number of significant digits
-@return: Nothing
 
 <table class="docutils field-list field-table" frame="void" rules="none">
     <col class="field-name" />
     <col class="field-body" />
     <tbody valign="top">
-        
+        <tr class="field">
+    <th class="field-name"><b>Parameters:</b></td>
+    <td class="field-body" width="100%"><b>x : <i>float</i></b>
+<p class="attr">
+    the input number
+</p>
+<b>sig : <i>int, default=4</i></b>
+<p class="attr">
+    number of significant digits
+</p></td>
+</tr>
+<tr class="field">
+    <th class="field-name"><b>Returns:</b></td>
+    <td class="field-body" width="100%"><b>res : <i>float</i></b>
+<p class="attr">
+    the result
+</p></td>
+</tr>
     </tbody>
 </table>
 
@@ -700,7 +716,7 @@ To turn a float as a str with a certain number of significant digits
 ##MCPPicture.**MCPParams**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>MCPParams</b>(<i>name=None, r=None, x0=None, y0=None, r0=None, ratio=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L808">[source]</a>
+    <i>class</i> MCPPicture.<b>MCPParams</b>(<i>name=None, r=None, x0=None, y0=None, r0=None, ratio=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L848">[source]</a>
 </p>
 
 Class to store the parameters of the MCP to adapt the analysis
@@ -781,7 +797,7 @@ Class to store the parameters of the MCP to adapt the analysis
 
 
 <p class="func-header">
-    <i></i> <b>define_ratio</b>(<i>self, mm, pix</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L889">[source]</a>
+    <i></i> <b>define_ratio</b>(<i>self, mm, pix</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L929">[source]</a>
 </p>
 
 To define the ratio mm vs pixels
@@ -816,7 +832,7 @@ To define the ratio mm vs pixels
 
 
 <p class="func-header">
-    <i></i> <b>check_ratio_is_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L910">[source]</a>
+    <i></i> <b>check_ratio_is_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L950">[source]</a>
 </p>
 
 To check is the ratio has been set
@@ -840,7 +856,7 @@ To check is the ratio has been set
 
 
 <p class="func-header">
-    <i></i> <b>check_all_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L924">[source]</a>
+    <i></i> <b>check_all_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L964">[source]</a>
 </p>
 
 To check is all has been set
@@ -864,7 +880,7 @@ To check is all has been set
 
 
 <p class="func-header">
-    <i></i> <b>save_conf</b>(<i>self, fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L944">[source]</a>
+    <i></i> <b>save_conf</b>(<i>self, fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L984">[source]</a>
 </p>
 
 To save the parameters of the MCP as a binary file
@@ -901,7 +917,7 @@ params.save_config("config.mcp")
 ##MCPPicture.**import_config**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>import_config</b>(<i>fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L970">[source]</a>
+    <i>def</i> MCPPicture.<b>import_config</b>(<i>fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1010">[source]</a>
 </p>
 
 To import the MCP parameters from a binary file
