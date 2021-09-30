@@ -16,8 +16,6 @@ This library is made to work with python 3.
         * [Attributes](#attributes)
         * [Methods](#methods)
 
-[test](MCPPicture_doc.md)
-
 ## Installation
 ### Procedure for Unix and MacOS
 1. Install [python 3](https://www.python.org/downloads/)
@@ -143,6 +141,9 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 
 
 ## MCPpicture library
+
+All the classes and the methods in this library are presented [here](MCPPicture_doc.md).
+
 ### Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_basic.py) and [MCP_example_small_functions.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_small_functions.py).
 
