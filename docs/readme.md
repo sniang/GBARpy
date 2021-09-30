@@ -116,6 +116,7 @@ Class to analyse the pictures coming from the MCP.
     </tbody>
 </table>
 
+
 #### Examples
 
 ```python
