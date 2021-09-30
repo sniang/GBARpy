@@ -15,41 +15,69 @@ import dill
 
 class BeamSpot:
     """
-    Class to analyse the pictures coming from the MCP
-    #### Attributes
-    * BeamSpot.fname: string, file name of the picture
-    * BeamSpot.img: 2D array, picture as an array
-    * BeamSpot.pix: the pixels along the x axis
-    * BeamSpot.piy: the pixels along the y axis
-    * BeamSpot.Ix: array of floats, integral along the x axis
-    * BeamSpot.Iy: array of float, integral along the y axis
-    * BeamSpot.Ax: float, Amplitude, fit along the x axis
-    * BeamSpot.Ay: float, Amplitude, fit along the y axis
-    * BeamSpot.sigx: float, Sigma, fit along the x axis
-    * BeamSpot.sigy: float, Sigma, fit along the x axis
-    * BeamSpot.r0x: float, Center, fit along the x axis
-    * BeamSpot.r0y: float, Center, fit along the x axis
-    * BeamSpot.offsetx: float, offset, fit along the x axis
-    * BeamSpot.offsety: float, offset, fit along the x axis
-    * BeamSpot.poptx: array of floats, the parameters of the fit along the x-axis
-    * BeamSpot.perrx: array of floats, errors on the parameters of the fit along the x-axis
-    * BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
-    * BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
-    * BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
-    * BeamSpot.Fit:
+    Class to analyse the pictures coming from the MCP.
+
+    Parameters
+    ----------
+    fname : str
+        file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"].
+
+    reshape : int[3] or int[4]
+        [ix,iy,l] to reshape the picture as a square or [x1,x2,y1,y2] to reshape as a rectangle.
+
+    fit : str
+        The kind of fit. Choose between "Filtered gaussian", "Simple gaussian", "Two gaussians".
+
+    Attributes
+    ----------
+    fname: str
+        file name of the picture.
+
+    img: float[float[]]
+        picture as an array.
+
+    pix: int[]
+        the pixels along the x axis.
+
+    piy: int[]
+        the pixels along the y axis.
+
+    Ix: float[]
+        integral along the x axis.
+
+    Iy: float[]
+        integral along the y axis.
+
+    total_integral: float
+        Total integral pf the image.
+
+    poptx: float[]
+        the parameters of the fit along the x-axis.
+
+    perrx: float[]
+        errors on the parameters of the fit along the x-axis.
+
+    popty: float[]
+        the parameters of the fit along the y-axis.
+
+    perry: float[]
+        errors on the parameters of the fit along the y-axis.
+
+    reshape: int[]
+        the parameters to reshape, see help(import_image).
+
+    Fit: GBARpy.MCPPicture.FitInterface
+        The fit used for the analysis.
+
+    Examples
+    --------
+    ```python
+    import GBARpy.MCPPicture as mcp
+    bs = mcp.BeamSpot("name.tif")
+    ```
     """
 
     def __init__(self, fname, reshape=[], mcpp=None, fit="Filtered gaussian"):
-        """
-        Constructor of the class
-        * Parameters
-            * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
-            * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
-            * fit: "Filtered gaussian", "Simple gaussian", "Two gaussians"
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-        """
         # define ratio
         ratio = 1.
         if mcpp is None:
@@ -88,28 +116,46 @@ class BeamSpot:
 
     def __repr__(self):
         """
-        To represent the object as a string
-        * Returns
-            * a string variable
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-            repr = bs.__repr__()
-            #or to print it in the python console
-            print(bs)
+        To represent the object as a string.
+
+        Returns
+        -------
+        res: str
+            the representation as a string.
+
+        Examples
+        --------
+        ```python3
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        repr = bs.__repr__()
+        #or to print it in the python console
+        print(bs)
+        ```
         """
         res = "Total integral: I = "+str(np.around(self.total_integral,2))+'\n'
         return res+self.fit.__repr__()
 
     def plot_y_int(self, label=""):
         """
-        To plot the integral of the picture along the "y" axis
-        * Parameters
-            * label: (optional) a string
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-            bs.plot_Y_int("Integral along the y-axis")
+        To plot the integral of the picture along the y-axis.
+
+        Parameters
+        ----------
+        label : str, default=""
+            (optional) the label of the plot.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        ```python3
+         import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        bs.plot_Y_int("Integral along the x-axis")
+        ```
         """
         popt = self.popty
         popt[-1] = 0
@@ -125,13 +171,24 @@ class BeamSpot:
 
     def plot_x_int(self, label=""):
         """
-        To plot the integral of the picture along the "x" axis
-        * Parameters
-            * label: (optional) a string
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-            bs.plot_X_int("Integral along the x-axis")
+        To plot the integral of the picture along the x-axis.
+
+        Parameters
+        ----------
+        label : str, default=""
+            (optional) the label of the plot.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        ```python3
+         import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        bs.plot_X_int("Integral along the x-axis")
+        ```
         """
         popt = self.poptx
         popt[-1] = 0
@@ -147,11 +204,19 @@ class BeamSpot:
 
     def plot_x_int_revert(self):
         """
-        To plot the integral of the picture along the "x" axis and reverse the picture
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-            bs.plot_X_int("Integral along the x-axis")
+        To plot the integral of the picture along the "x" axis and reverse the picture.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        bs.plot_X_int("Integral along the x-axis")
+        ```
         """
         pix, Ix = self.pix, self.Ix
         popt = self.poptx
@@ -167,23 +232,38 @@ class BeamSpot:
 
     def plot(self, fname="", figsize=(12, 10), fontsize=12, ftsizeticks=12):
         """
-        To plot the picture and the analysis
-        * Parameters
-            * fname: string (optional), the name of the file to save the plot
-            * figsize: tuple (size in inch X, Y) (optional), size of the figure
-            * fontsize: int (optional), size of the font
-            * ftsizeticks: int (optional), size of the ticks' font
-        * Returns
-            * fig: a matplotlib.pyplot.figure
-        * Example
-            import GBARpy.MCPPicture as mcp
-            bs = mcp.BeamSpot("name.tif")
-            fig = bs.plot("analysis.pdf")
-            # or
-            fig = bs.plot()
-            fig.savefig("analysis.pdf")
-        """
+        To plot the picture and the analysis.
 
+        Parameters
+        ----------
+        fname : string, default=""
+            (optional) the name of the file to save the plot.
+
+        figsize : (float, float), default=(12, 10)
+            (optional) (size in inch X, Y) size of the figure.
+
+        fontsize : int , default=12
+            (optional) size of the font.
+
+        ftsizeticks : int , default=12
+            (optional) size of the ticks' font.
+
+        Returns
+        -------
+        fig: matplotlib.pyplot.Figure
+            the figure
+
+        Examples
+        -------
+        ```python
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
+        fig = bs.plot("analysis.pdf")
+        # or
+        fig = bs.plot()
+        fig.savefig("analysis.pdf")
+        ```
+        """
         def conv(a):
             b = []
             for e in a:
@@ -251,10 +331,33 @@ class BeamSpot:
 class FitInterface:
     """
     Super class to do the fit of the MCP pictures
-    Need to be define 
-    self.fitfunc : the fit function
-    self.labels : the names the parameters
-    
+    Need to be define
+
+    Attributes
+    ----------
+    fitfunc : function
+        the fit function
+
+    labels : str[]
+        the names the parameters
+
+    params1 : float[]
+        parameters of the fit along the x-axis
+
+    errors1 : float[]
+        errors parameters of the fit along the x-axis
+
+    params2 : float[]
+        parameters of the fit along the y-axis
+
+    errors2 : float[]
+        errors parameters of the fit along the y-axis
+
+    title1 : str
+        title for the fit along the x-axis
+
+    title2 : str
+        title for the fit along the y-axis
     """
 
     def __init__(self):
@@ -331,25 +434,25 @@ class FitInterface:
 
 class SimpleGaussian(FitInterface):
     """
-    A gaussian fit of the integral along the x and y axis
+    A gaussian fit of the integral along the x and y axis. Inherit from FitInterface.
+
+    Parameters
+    ----------
+    x1 : float[]
+        the x axis.
+
+    y1 : float[]
+        integral along the x axis.
+
+    x2 : float[]
+        the y axis.
+
+    y2 : float[]
+        integral along the y axis.
     """
 
     def __init__(self, x1, y1, x2, y2):
-        """
-        The constructor of the class
 
-        Parameters
-        ----------
-        x1 : array of float
-            the x axis
-        y1 : array of float
-            integral along the x axis
-        x2 : array of float
-            the y axis
-        y2 : array of float
-            integral along the y axis
-
-        """
         super().__init__()
         self.labels = ["Ampli", "Center", "Sigma", "Offset"]
         self.fitfunc = gaussian_offset
@@ -364,23 +467,25 @@ class SimpleGaussian(FitInterface):
 
     def do_fit(self, x1, y1, x2, y2):
         """
-        To do the fit y = f(x)
+        To do the fit y = f(x).
 
         Parameters
         ----------
-        x1 : array of float
-            the first x input data 
-        y1 : array of float
-            the first y input data
-        x2 : array of float, optional
-            the second x input data 
-        y2 : array of float, optional
-            the second y input data 
+        x1 : float[]
+            the first x input data.
+
+        y1 : float[]
+            the first y input data.
+
+        x2 : float[]
+            the second x input data.
+
+        y2 : float[]
+            the second y input data.
 
         Returns
         -------
-        None.
-
+        None
         """
         popt, pcov = curve_fit(gaussian, x1, y1, bounds=(0, np.inf))
         p0 = np.concatenate([popt, [min(y1)]])
@@ -399,23 +504,24 @@ class SimpleGaussian(FitInterface):
 
 
 class FilteredGaussian(FitInterface):
+    """
+    To fit with a filtered gaussian. Inherit from FitInterface.
 
+    Parameters
+    ----------
+    x1 : float[]
+        the x axis.
+
+    y1 : float[]
+        integral along the x axis.
+
+    x2 : float[]
+        the y axis.
+
+    y2 : float[]
+        integral along the y axis.
+    """
     def __init__(self, x1, y1, x2, y2):
-        """
-        The constructor of the class
-
-        Parameters
-        ----------
-        x1 : array of float
-            the x axis
-        y1 : array of float
-            integral along the x axis
-        x2 : array of float
-            the y axis
-        y2 : array of float
-            integral along the y axis
-
-        """
         super().__init__()
         self.labels = ["Ampli", "Center", "Sigma", "Offset"]
         self.fitfunc = gaussian_offset
@@ -434,23 +540,24 @@ class FilteredGaussian(FitInterface):
 
 
 class TwoGaussians(FitInterface):
+    """
+    To fit with a sum of two gaussians. Inherits from FitInterface.
 
+    Parameters
+    ----------
+    x1 : float[]
+        the x axis.
+
+    y1 : float[]
+        integral along the x axis.
+
+    x2 : float[]
+        the y axis.
+
+    y2 : float[]
+        integral along the y axis.
+    """
     def __init__(self, x1, y1, x2, y2):
-        """
-        The constructor of the class
-
-        Parameters
-        ----------
-        x1 : array of float
-            the x axis
-        y1 : array of float
-            integral along the x axis
-        x2 : array of float
-            the y axis
-        y2 : array of float
-            integral along the y axis
-
-        """
         super().__init__()
         self.fitfunc = two_gaussian_offset
         self.labels = ["Ampli 1", "Center1", "Sigma 1", "Ampli 2", "Center2",
@@ -466,22 +573,25 @@ class TwoGaussians(FitInterface):
 
     def do_fit(self, x1, y1, x2, y2):
         """
-        To do the fit y = f(x)
+        To do the fit y = f(x).
 
         Parameters
         ----------
-        x1 : array of float
-            the first x input data 
-        y1 : array of float
-            the first y input data
-        x2 : array of float, optional
-            the second x input data 
-        y2 : array of float, optional
-            the second y input data 
+        x1 : float[]
+            the first x input data.
+
+        y1 : float[]
+            the first y input data.
+
+        x2 : float[]
+            the second x input data.
+
+        y2 : float[]
+            the second y input data.
 
         Returns
         -------
-        None.
+        None
 
         """
         popt, pcov = curve_fit(two_gaussian, x1, y1, bounds=(0, np.inf))
@@ -500,78 +610,310 @@ class TwoGaussians(FitInterface):
 ###############################################################################
 
 
+class MCPParams:
+    """
+    Class to store the parameters of the MCP to adapt the analysis.
+
+    Parameters
+    ----------
+    name: string
+        (optional) the name of the MCP.
+
+    R: float
+        (optional) radius of the mirror in mm.
+
+    x0: int
+        (optional) x position of the center of the mirror in pixels.
+
+    y0: int
+        (optional) y position of the center of the mirror in pixels.
+
+    R0: int
+        (optional) radius of the mirror in pixels.
+
+    ratio: int
+        (optional) mm/pixels ratio.
+        If R and R0 have been defined, then ratio is defined automatically.
+
+    Attributes
+    ----------
+    name: string
+        the name of the MCP.
+
+    R: float
+        radius of the mirror in mm.
+
+    x0: int
+        x position of the center of the mirror in pixels.
+
+    y0: int
+        y position of the center of the mirror in pixels.
+
+    R0: int
+        radius of the mirror in pixels.
+
+    ratio: float
+        mm/pixels ratio.
+
+    canBePlot: bool
+        boolean to know if the mirror can be plot.
+
+    ratioIsSet: bool
+        boolean to know if a ratio has been defined.
+    """
+
+    def __init__(self, name=None, r=None, x0=None, y0=None, r0=None, ratio=None):
+        self.name = name
+        self.R = r
+        self.x0 = x0
+        self.y0 = y0
+        self.R0 = r0
+        self.ratio = ratio
+        if r is not None and r0 is not None:
+            self.ratio = r / r0
+        self.ratioIsSet = False
+        self.check_ratio_is_set()
+
+    def __repr__(self):
+        """
+        To translate the object as a string.
+
+        Returns
+        -------
+        res : str
+            The parameters as a string.
+        """
+        res = "MCP Parameters\n"
+        res += "name: " + str(self.name) + "\n"
+        res += "R: " + str(self.R) + "\n"
+        res += "x0: " + str(self.x0) + "\n"
+        res += "y0: " + str(self.y0) + "\n"
+        res += "R0: " + str(self.R0) + "\n"
+        res += "ratio: " + str(self.ratio) + "\n"
+        return res
+
+    def define_ratio(self, mm, pix):
+        """
+        To define the ratio mm vs pixels.
+
+        Parameters
+        ----------
+        mm : float
+            A distance in mm.
+
+        pix : float
+            The equivalent distance in pixels.
+
+        Returns
+        -------
+        None
+        """
+        try:
+            r = mm / pix
+            self.ratio = r
+            self.check_ratio_is_set()
+        except (Exception,):
+            print("The setting of the ratio has failed")
+
+    def check_ratio_is_set(self):
+        """
+        To check is the ratio has been set.
+
+        Returns
+        -------
+        result: boolean
+            True if the ratio has been set.
+        """
+        if self.ratio is None:
+            self.ratioIsSet = False
+        else:
+            self.ratioIsSet = True
+        return self.ratioIsSet
+
+    def check_all_set(self):
+        """
+        To check is all has been set.
+
+        Returns
+        -------
+        result: boolean
+            True if all the parameters have been set.
+        """
+        if self.R is None:
+            return False
+        if self.x0 is None:
+            return False
+        if self.y0 is None:
+            return False
+        if self.R0 is None:
+            return False
+        if self.ratio is None:
+            return False
+        return True
+
+    def save_conf(self, fname):
+        """
+        To save the parameters of the MCP as a binary file.
+        Use .mcp extension.
+
+        Parameters
+        ----------
+        fname : string
+            The name of the binary file.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        ```python
+        params = MCPParams()
+        params.save_config("config.mcp")
+        ```
+        """
+        with open(fname, 'wb') as f1:
+            dill.dump(self, f1)
+        print("Parameters saved as", fname)
+
+
+###############################################################################
+
+
+def import_config(fname):
+    """
+    To import the MCP parameters from a binary file.
+
+    Parameters
+    ----------
+    fname : str
+        The file's name.
+
+    Returns
+    -------
+    mcpp : GBARpy.MCPPicture.MCPParams
+        The MCP parameters.
+    """
+    mcpp = None
+    try:
+        with open(fname, 'rb') as f1:
+            mcpp = dill.load(f1)
+    except (Exception,):
+        print("Importation of", fname, "has failed")
+    return mcpp
+
+
 def gaussian_offset(x, a, x0, s0, c):
     """
-    Gaussian distribution with an offset
-    f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2) + offset
-    
-    * Parameters
-        * x:  an np array
-        * a:  the amplitude
-        * s0: floating number, the standard deviation
-        * x0: floating number, the mean value, center of the distribution
-        * c:  the offset
-    * Returns
-        * the value of the distribution
+    Gaussian distribution with an offset.
+
+    Parameters
+    ----------
+    x : numpy.array(float[])
+        The input.
+
+    a : float
+        The amplitude.
+
+    x0 : float
+        The standard deviation.
+
+    s0 : float
+        The mean value, center of the distribution.
+
+    c : float
+        The offset.
+
+    Returns
+    -------
+    result : numpy.array(float[])
+        The value of the distribution.
     """
     return a * normal_distribution(x, s0, x0) + c
 
 
 def gaussian(x, a, x0, s0):
     """
-    Gaussian distribution
+    Gaussian distribution.
     f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
-    
-    * Parameters
-        * x:  an np array
-        * a:  the amplitude
-        * s0: floating number, the standard deviation
-        * x0: floating number, the mean value, center of the distribution
-    * Returns
-        * the value of the distribution
+
+    Parameters
+    ----------
+    x : numpy.array(float[])
+        The input.
+
+    a : float
+        The amplitude.
+
+    x0 : float
+        The standard deviation.
+
+    s0 : float
+        The mean value, center of the distribution.
+
+    Returns
+    -------
+    result : numpy.array(float[])
+        The value of the distribution.
     """
     return gaussian_offset(x, a, x0, s0, 0)
 
 
 def normal_distribution(x, s0, x0):
     """
-    Normal distribution 
+    Normal distribution.
     f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
-    * Parameters
-        * x:  an np array
-        * s0: floating number, the standard deviation
-        * x0: floating number, the mean value, center of the distribution
-    * Returns
-        the value of the distribution
+
+    Parameters
+    ----------
+    x : numpy.array(float[])
+        The input.
+
+    s0 : float
+        The standard deviation.
+
+    x0 : float
+        The mean value, center of the distribution.
+
+    Returns
+    -------
+    result : numpy.array(float[])
+        The value of the distribution.
     """
     return 1 / np.sqrt(2 * np.pi) / s0 * np.exp(-(((x - x0) / s0) ** 2) / 2)
 
 
 def two_gaussian(x, a1, x1, s1, a2, x2, s2):
     """
-    Sum of two gaussian distribution
+    Sum of two gaussian distribution.
 
     Parameters
     ----------
-    x : float, numpy array
-        the variable.
+    x : float or numpy.array(float[])
+        The variable.
+
     a1 : float
         Amplitude of the first distribution.
+
     x1 : float
         Mean value of the first distribution.
+
     s1 : float
         Standard deviation of the first distribution.
+
     a2 : float
         Amplitude of the second distribution.
+
     x2 : float
         Mean value of the second distribution.
+
     s2 : float
         Standard deviation of the second distribution.
 
     Returns
     -------
-    float, numpy array
-        Value of the distribution.
+    result: float or numpy.array(float[])
+        Value(s) of the distribution.
 
     """
     return a1 * normal_distribution(x, s1, x1) + a2 * normal_distribution(x, s2, x2)
@@ -579,52 +921,58 @@ def two_gaussian(x, a1, x1, s1, a2, x2, s2):
 
 def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
     """
-    Sum of two gaussian distribution with an offset
+    Sum of two gaussian distribution with an offset.
 
     Parameters
     ----------
-    x : float, numpy array
-        the variable.
+    x : float or numpy.array(float[])
+        The variable(s).
+
     a1 : float
         Amplitude of the first distribution.
+
     x1 : float
         Mean value of the first distribution.
+
     s1 : float
         Standard deviation of the first distribution.
+
     a2 : float
         Amplitude of the second distribution.
+
     x2 : float
         Mean value of the second distribution.
+
     s2 : float
         Standard deviation of the second distribution.
+
     c : float
         The offset.
 
     Returns
     -------
-    float, numpy array
-        Value of the distribution.
-
+    result: float or numpy.array(float[])
+        Value(s) of the distribution.
     """
     return a1 * normal_distribution(x, s1, x1) + a2 * normal_distribution(x, s2, x2) + c
 
 
 def num2str(a, n=3):
     """
-    To turn a number into a string
+    To turn a number into a string.
 
     Parameters
     ----------
     a : float
-        the number to convert.
-    n : int, optional
-        number of significant digits. The default is 3.
+        The number to convert.
+
+    n : int, default=3
+        (optional) Number of significant digits.
 
     Returns
     -------
-    str
-        the string.
-
+    result : str
+        The string.
     """
     n = str(n)
     y = '%.' + n + 'g'
@@ -634,11 +982,19 @@ def num2str(a, n=3):
 def fit_gaussian_offset_filtered(x, y):
     """
     Fit with the function gaussian_offset.
-    * Parameters
-        * x: numpy array
-        * y: numpy array
-    * Returns
-        * popt,perr: numpy arrays, the parameters and the error of the fit
+
+    Parameters
+    ----------
+    x : np.array(float[])
+        x-coordinates.
+
+    y : np.array(float[])
+        y-coordinates.
+
+    Returns
+    -------
+    popt,perr: np.array(float[]), np.array(float[])
+        The parameters and the error of the fit.
     """
     x = np.array(x)
     y = np.array(y)
@@ -672,14 +1028,26 @@ def fit_gaussian_offset_filtered(x, y):
 
 def reshape_img(img, ix, iy, lm):
     """
-    To reshape an image to a squared one
-    * Parameters
-        * img: np.array([np.array]) the image array
-        * ix: the index of the center of the square
-        * iy: the index of the center of the square
-        * lm: the half length of the square
-    *Returns
-        * The reshaped picture as an array
+    To reshape an image to a squared one.
+
+    Parameters
+    ----------
+    img : float[float[]]
+        The picture as 2D array.
+
+    ix : int
+        The index of the center of the square.
+
+    iy : int
+        The index of the center of the square.
+
+    lm : int
+        The half length of the square.
+
+    Returns
+    -------
+    img : np.array(float[float[])
+        The reshaped image.
     """
     ix, iy, lm = int(ix), int(iy), int(lm)
     max_x, max_y = len(img.T), len(img)
@@ -700,6 +1068,31 @@ def reshape_img(img, ix, iy, lm):
 
 
 def reshape_image_2(image, x1, y1, x2, y2):
+    """
+    To reshape the image as a rectangle.
+
+    Parameters
+    ----------
+    image : float[float[]]
+        The picture as 2D array.
+
+    x1 : int
+        The first x-coordinate of the rectangle.
+
+    y1 : int
+        The first y-coordinate of the rectangle.
+
+    x2 : int
+        The second x-coordinate of the rectangle.
+
+    y2 : int
+        The second y-coordinate of the rectangle.
+
+    Returns
+    -------
+    new_image : np.array(float[float[])
+        The reshaped image.
+    """
     a1 = min(y1, y2)
     a2 = max(y1, y2)
     img = image[a1:a2]
@@ -714,12 +1107,20 @@ def reshape_image_2(image, x1, y1, x2, y2):
 
 def import_image(fname, reshape=[]):
     """
-    To import the picture as an array
-    * Parameters
-        * fname: string, name of the file
-        * reshape: array, to reshape the picture as a square [ix,iy,l]
-    * Returns
-        * the picture as 2D array
+    To import the picture as an array.
+
+    Parameters
+    ----------
+    fname : string
+        Name of the file.
+
+    reshape : int[3] or int[4]
+        [ix,iy,l] to reshape the picture as a square or [x1,x2,y1,y2] to reshape as a rectangle.
+
+    Returns
+    -------
+    img : np.array(float[float[])
+        The picture as 2D array.
     """
     file_format = ["tif", "jpg", "jpeg", "asc", "png", "bmp"]
     ext = fname.split('.')[len(fname.split('.')) - 1]
@@ -747,12 +1148,17 @@ def import_image(fname, reshape=[]):
 
 def integrate_picture_along_y(img):
     """
-    To integrate the picture along th Y axis
-    * Parameters
-        * img: image as a 2D numpy array
-    * Returns
-        * (pix,integral): A tuple with pix the pixel numbers as a numpy array
-        and 'integral' the integral as a numpy array
+    To integrate the picture along th Y-axis.
+
+    Parameters
+    ----------
+    img : float[float[]]
+        Image as a 2D numpy array.
+
+    Returns
+    -------
+    (pix,integral) : (numpy.array(int[]),numpy.array(float[]))
+        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array.
     """
     integral = np.zeros_like(img[0])
     for line in img:
@@ -764,16 +1170,17 @@ def integrate_picture_along_y(img):
 
 def integrate_picture_along_x(img):
     """
-    To integrate the picture along th X axis
+    To integrate the picture along th X axis.
+
     Parameters
     ----------
-    img: numpy.array(float[float[]])
-        image as a 2D numpy array
+    img : numpy.array(float[float[]])
+        Image as a 2D numpy array.
 
     Returns
     -------
-    (pix,integral): (numpy.array(int[]),numpy.array(int[]))
-        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array
+    (pix,integral) : (numpy.array(int[]),numpy.array(float[]))
+        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array.
     """
     pix, ix = integrate_picture_along_y(np.transpose(img))
     integral = np.array([])
@@ -784,19 +1191,20 @@ def integrate_picture_along_x(img):
 
 def get_index_str(n, i):
     """
-    To convert an int 'i' to a string
+    To convert an int 'i' to a string.
+
     Parameters
     ----------
     n : int
-        order to put 0 if necessary
+        Order to put 0 if necessary.
 
     i : int
-        the number to convert
+        The number to convert.
 
     Returns
     -------
     res : str
-        the number as a string
+        The number as a string.
 
     Examples
     --------
@@ -821,208 +1229,20 @@ def get_index_str(n, i):
 
 def significant(x, sig=4):
     """
-    To turn a float as a str with a certain number of significant digits
+    To turn a float as a str with a certain number of significant digits.
+
     Parameters
     ----------
     x: float
-        the input number
+        The input number.
 
     sig: int, default=4
-        number of significant digits
+        Number of significant digits.
+
     Returns
     -------
     res: float
-        the result
-    """
-    """
-    
-    @return: Nothing
+        The result.
     """
     res = np.round(x, sig - int(np.floor(np.log10(np.abs(x)))) - 1)
     return str(res)
-
-
-###################################################################################
-
-
-class MCPParams:
-    """
-    Class to store the parameters of the MCP to adapt the analysis
-
-    Parameters
-    ----------
-    name: string
-        (optional) the name of the MCP
-
-    R: float
-        (optional) radius of the mirror in mm
-
-    x0: int
-        (optional) x position of the center of the mirror in pixels
-
-    y0: int
-        (optional) y position of the center of the mirror in pixels
-
-    R0: int
-        (optional) radius of the mirror in pixels
-
-    ratio: int
-        (optional) mm/pixels ratio
-        if R and R0 have been defined, then ratio is defined automatically
-
-    Attributes
-    ----------
-    name: string
-        the name of the MCP
-
-    R: float
-        radius of the mirror in mm
-
-    x0: int
-        x position of the center of the mirror in pixels
-
-    y0: int
-        y position of the center of the mirror in pixels
-
-    R0: int
-        radius of the mirror in pixels
-
-    ratio: float
-        mm/pixels ratio
-
-    canBePlot: bool
-        boolean to know if the mirror can be plot
-
-    ratioIsSet: bool
-        boolean to know if a ratio has been defined
-    """
-
-    def __init__(self, name=None, r=None, x0=None, y0=None, r0=None, ratio=None):
-        self.name = name
-        self.R = r
-        self.x0 = x0
-        self.y0 = y0
-        self.R0 = r0
-        self.ratio = ratio
-        if r is not None and r0 is not None:
-            self.ratio = r / r0
-        self.ratioIsSet = False
-        self.check_ratio_is_set()
-
-    def __repr__(self):
-        """
-        To translate the object as a string
-        Returns
-        -------
-        res : str
-            the parameters as a string
-        """
-        res = "MCP Parameters\n"
-        res += "name: " + str(self.name) + "\n"
-        res += "R: " + str(self.R) + "\n"
-        res += "x0: " + str(self.x0) + "\n"
-        res += "y0: " + str(self.y0) + "\n"
-        res += "R0: " + str(self.R0) + "\n"
-        res += "ratio: " + str(self.ratio) + "\n"
-        return res
-
-    def define_ratio(self, mm, pix):
-        """
-        To define the ratio mm vs pixels
-        Parameters
-        ----------
-        mm : float
-            a distance in mm
-
-        pix : float
-            the equivalent distance in pixels
-        Returns
-        -------
-        None
-        """
-        try:
-            r = mm / pix
-            self.ratio = r
-            self.check_ratio_is_set()
-        except (Exception,):
-            print("The setting of the ratio has failed")
-
-    def check_ratio_is_set(self):
-        """
-        To check is the ratio has been set
-        Returns
-        -------
-        result: boolean
-            True if the ratio has been set
-        """
-        if self.ratio is None:
-            self.ratioIsSet = False
-        else:
-            self.ratioIsSet = True
-        return self.ratioIsSet
-
-    def check_all_set(self):
-        """
-        To check is all has been set
-        Returns
-        -------
-        result: boolean
-            True if all the parameters have been set
-        """
-        if self.R is None:
-            return False
-        if self.x0 is None:
-            return False
-        if self.y0 is None:
-            return False
-        if self.R0 is None:
-            return False
-        if self.ratio is None:
-            return False
-        return True
-
-    def save_conf(self, fname):
-        """
-        To save the parameters of the MCP as a binary file
-        Use .mcp extension
-        Parameters
-        ----------
-        fname : string
-            the name of the binary file
-        Returns
-        -------
-        None
-        Examples
-        --------
-        ```python
-        params = MCPParams()
-        params.save_config("config.mcp")
-        ```
-        """
-        with open(fname, 'wb') as f1:
-            dill.dump(self, f1)
-        print("Parameters saved as", fname)
-
-
-###############################################################################
-
-
-def import_config(fname):
-    """
-    To import the MCP parameters from a binary file
-    Parameters
-    ----------
-    fname : str
-        the file's name
-    Returns
-    -------
-    mcpp : GBARpy.MCPPicture.MCPParams
-        the MCP parameters
-    """
-    mcpp = None
-    try:
-        with open(fname, 'rb') as f1:
-            mcpp = dill.load(f1)
-    except (Exception,):
-        print("Importation of", fname, "has failed")
-    return mcpp
