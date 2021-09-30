@@ -15,7 +15,9 @@ This library is made to work with python 3.
     * [BeamSpot class](#beamspot-class)
         * [Attributes](#attributes)
         * [Methods](#methods)
-    
+
+[test][MCPPicture_doc.md]
+
 ## Installation
 ### Procedure for Unix and MacOS
 1. Install [python 3](https://www.python.org/downloads/)
