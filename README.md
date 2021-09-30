@@ -16,7 +16,7 @@ This library is made to work with python 3.
         * [Attributes](#attributes)
         * [Methods](#methods)
 
-[test][MCPPicture_doc.md]
+[test][https://github.com/sniang/GBARpy/MCPPicture_doc.md]
 
 ## Installation
 ### Procedure for Unix and MacOS
