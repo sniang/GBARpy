@@ -65,9 +65,9 @@ py -m pip uninstall GBARpy
 ```
 ## Graphical User Interface
 ### How to do an analysis
-[GUI_1](https://github.com/sniang/GBARpy/blob/main/example/GUI_1.png)
+[GUI_1](GUI_1.png)
 
-![GUI_1](https://github.com/sniang/GBARpy/blob/main/example/GUI_1.png)
+![GUI_1](GUI_1.png)
 
 1. Button to open an MCP picture.
 2. Button to analyse the opened picture. 
@@ -85,17 +85,17 @@ py -m pip uninstall GBARpy
 12. The opened picture.
 13. The result of the analysis.
 
-[GUI_2](https://github.com/sniang/GBARpy/blob/main/example/GUI_2.png)
+[GUI_2](GUI_2.png)
 
-![GUI_2](https://github.com/sniang/GBARpy/blob/main/example/GUI_2.png)
+![GUI_2](GUI_2.png)
 
-[GUI_3](https://github.com/sniang/GBARpy/blob/main/example/GUI_3.png)
+[GUI_3](GUI_3.png)
 
-![GUI_3](https://github.com/sniang/GBARpy/blob/main/example/GUI_3.png)
+![GUI_3](GUI_3.png)
 
-[GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
+[GUI_4](GUI_4.png)
 
-![GUI_4](https://github.com/sniang/GBARpy/blob/main/example/GUI_4.png)
+![GUI_4](GUI_4.png)
 
 ### Set the MCP parameters
 The different parameters are
@@ -106,11 +106,11 @@ The different parameters are
 * R0: the radius of the phosphore screen in pixels (to define in the end the ratio mm/pixels)
 * ratio: the mm/pixels ratio; if R and R0 are defined, the ratio is automatically defined (ratio = R/R0)
 
-To try the setting of the parameters, you can use the picture [lumosmax.tif](https://github.com/sniang/GBARpy/blob/main/example/lumosmax.tif) and the parameter file [BGT_in.mcp](https://github.com/sniang/GBARpy/blob/main/example/BGT_in.mcp). It is obviously better to have a picture where the border of your MCP are clearly visible to be able to set the parameters. In the future, a tool will be developped the find more easily these parameters.
+To try the setting of the parameters, you can use the picture [lumosmax.tif](lumosmax.tif) and the parameter file [BGT_in.mcp](BGT_in.mcp). It is obviously better to have a picture where the border of your MCP are clearly visible to be able to set the parameters. In the future, a tool will be developped the find more easily these parameters.
 
-[GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
+[GUI_5](GUI_5.png)
 
-![GUI_5](https://github.com/sniang/GBARpy/blob/main/example/GUI_5.png)
+![GUI_5](GUI_5.png)
 
 The window posses 4 buttons:
 * Set: to set the parameters and use them in the future analysis
@@ -120,24 +120,24 @@ The window posses 4 buttons:
 
 Be careful: if you do not press the "set" buttons and close the MCP parameter windows, what you filled in the form is lost. On the contrary, pressing "remove" by accident is not a problem if you didn't press "set", in that case, close and re-open the window.
 
-[GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
+[GUI_6](GUI_6.png)
 
-![GUI_6](https://github.com/sniang/GBARpy/blob/main/example/GUI_6.png)
+![GUI_6](GUI_6.png)
 
 One ce parameters has been set, press "Analyse the picture". If "ratio" has been set, then the pixels are converted in mm. If all the parameters are set, then the border of your phosphore screen will be draw. In the future, these parameters will be used to improve the fitting of the pictures.
 
 ### Reshape the pictures
-[reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_1.png)
+[reshape_1](reshape/reshape_1.png)
 
-![reshape_1](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_1.png)
+![reshape_1](reshape/reshape_1.png)
 
-[reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_2.png)
+[reshape_2](reshape/reshape_2.png)
 
-![reshape_2](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_2.png)
+![reshape_2](reshape/reshape_2.png)
 
-[reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_3.png)
+[reshape_3](reshape/reshape_3.png)
 
-![reshape_3](https://github.com/sniang/GBARpy/blob/main/example/reshape/reshape_3.png)
+![reshape_3](reshape/reshape_3.png)
 
 
 ## MCPpicture library
@@ -145,14 +145,14 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 All the classes and the methods in this library are presented [here](MCPPicture_doc.md).
 
 ### Basic code for an analysis
-The examples corresponds to the python scripts [MCP_example_basic.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_basic.py) and [MCP_example_small_functions.py](https://github.com/sniang/GBARpy/blob/main/example/MCP_example_small_functions.py).
+The examples corresponds to the python scripts [MCP_example_basic.py](MCP_example_basic.py) and [MCP_example_small_functions.py](MCP_example_small_functions.py).
 
 ```python
 # Import the library
 import GBARpy.MCPPicture as mcp
 import matplotlib.pyplot as plt
 ```
-Let's see how to import a beam spot picture (you can try with the file [IMG0008.bmp](https://github.com/sniang/GBARpy/blob/main/example/IMG0008.bmp)):
+Let's see how to import a beam spot picture (you can try with the file [IMG0008.bmp](IMG0008.bmp)):
 ```python
 # reshape analyse the beam spot
 pic = mcp.BeamSpot("IMG0008.bmp",reshape=[1250,1000,600])
@@ -168,9 +168,9 @@ fig1 = plt.figure(figsize=(5,5))
 plt.imshow(pic.img)
 fig1.savefig("fig_example_1.pdf")
 ```
-[Example_1](https://github.com/sniang/GBARpy/blob/main/example/fig_example_1.png)
+[Example_1](fig_example_1.png)
 
-![Example_1](https://github.com/sniang/GBARpy/blob/main/example/fig_example_1.png)
+![Example_1](fig_example_1.png)
 
 Even if it can be written manually, there are line codes to plot the intgrals along the x-axis and the y-axis:
 ```python
@@ -180,18 +180,18 @@ pic.plot_X_int()
 pic.plot_Y_int()
 fig2.savefig("fig_example_2.pdf")
 ```
-[Example_2](https://github.com/sniang/GBARpy/blob/main/example/fig_example_2.png)
+[Example_2](fig_example_2.png)
 
-![Example_2](https://github.com/sniang/GBARpy/blob/main/example/fig_example_2.png)
+![Example_2](fig_example_2.png)
 
 or to plot a summary of the fit:
 ```python
 #plot all
 pic.plot("fig_example_3.pdf")
 ```
-[Example_3](https://github.com/sniang/GBARpy/blob/main/example/fig_example_3.png)
+[Example_3](fig_example_3.png)
 
-![Example_3](https://github.com/sniang/GBARpy/blob/main/example/fig_example_3.png)
+![Example_3](fig_example_3.png)
 
 ### More examples
 To import the required librairies for the following examples:
@@ -209,9 +209,9 @@ fig4 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig4.savefig("fig_example_4.png")
 ```
-[Example_4](https://github.com/sniang/GBARpy/blob/main/example/fig_example_4.png)
+[Example_4](fig_example_4.png)
 
-![Example_4](https://github.com/sniang/GBARpy/blob/main/example/fig_example_4.png)
+![Example_4](fig_example_4.png)
 
 ```python
 ### Import the Picture and reshape
@@ -220,9 +220,9 @@ fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
 fig5.savefig("fig_example_5.png")
 ```
-[Example_5](https://github.com/sniang/GBARpy/blob/main/example/fig_example_5.png)
+[Example_5](fig_example_5.png)
 
-![Example_5](https://github.com/sniang/GBARpy/blob/main/example/fig_example_5.png)
+![Example_5](fig_example_5.png)
 
 Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ```python
@@ -237,9 +237,9 @@ plt.plot(Px,Ix)
 plt.plot(Py,Iy)
 fig6.savefig("fig_example_6.png")
 ```
-[Example_6](https://github.com/sniang/GBARpy/blob/main/example/fig_example_6.png)
+[Example_6](fig_example_6.png)
 
-![Example_6](https://github.com/sniang/GBARpy/blob/main/example/fig_example_6.png)
+![Example_6](fig_example_6.png)
 
 and then, using the fit function defined in the library
 ```python
@@ -253,9 +253,9 @@ plt.plot(Py,Iy,'.',color='tab:blue',ms=1)
 plt.plot(Py,mcp.gaussian_offset(Py,*poptY),color='tab:blue')
 fig7.savefig("fig_example_7.png")
 ```
-[Example_7](https://github.com/sniang/GBARpy/blob/main/example/fig_example_7.png)
+[Example_7](fig_example_7.png)
 
-![Example_7](https://github.com/sniang/GBARpy/blob/main/example/fig_example_7.png)
+![Example_7](fig_example_7.png)
 
 ### BeamSpot class
 #### Attributes
