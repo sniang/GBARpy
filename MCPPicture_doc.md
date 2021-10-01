@@ -102,14 +102,14 @@ Class to analyse the pictures coming from the MCP.
     </tbody>
 </table>
 
-#### Examples
+### Examples
 
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 ```
 
-#### Methods
+### Methods
 
 
 
