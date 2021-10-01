@@ -20,8 +20,7 @@ import dill
 
 
 class BeamSpot:
-    """
-    Class to analyse the pictures coming from the MCP.
+    """Class to analyse the pictures coming from the MCP.
 
     Parameters
     ----------
@@ -87,8 +86,7 @@ class BeamSpot:
     """
 
     def __init__(self, fname, reshape=[], mcpp=None, fit="Filtered gaussian"):
-        """
-        Constructor of the class.
+        """Constructor of the class.
 
         Parameters
         ----------
@@ -142,8 +140,7 @@ class BeamSpot:
         self.offsety = self.fit.params2[-1]
 
     def __repr__(self):
-        """
-        To represent the object as a string.
+        """To represent the object as a string.
 
         Returns
         -------
@@ -165,8 +162,7 @@ class BeamSpot:
         return res+self.fit.__repr__()
 
     def plot_y_int(self, label=""):
-        """
-        To plot the integral of the picture along the y-axis.
+        """To plot the integral of the picture along the y-axis.
 
         Parameters
         ----------
@@ -199,8 +195,7 @@ class BeamSpot:
             plt.legend()
 
     def plot_x_int(self, label=""):
-        """
-        To plot the integral of the picture along the x-axis.
+        """To plot the integral of the picture along the x-axis.
 
         Parameters
         ----------
@@ -389,8 +384,7 @@ class FitInterface:
     """
 
     def __init__(self):
-        """
-        Constructor of the class.
+        """Constructor of the class.
 
         Attributes
         ----------
@@ -462,8 +456,7 @@ class FitInterface:
                 self.labels.append("")
 
     def __repr__(self):
-        """
-        To turn the parameters of the fit to a string.
+        """To turn the parameters of the fit to a string.
 
         Returns
         -------
@@ -506,8 +499,7 @@ class SimpleGaussian(FitInterface):
     """
 
     def __init__(self, x1, y1, x2, y2):
-        """
-        Constructor of the class.
+        """Constructor of the class.
 
         Parameters
         ----------
@@ -536,8 +528,7 @@ class SimpleGaussian(FitInterface):
             self.errors2 = self.params1
 
     def do_fit(self, x1, y1, x2, y2):
-        """
-        To do the fit y = f(x).
+        """To do the fit y = f(x).
 
         Parameters
         ----------
@@ -680,8 +671,7 @@ class TwoGaussians(FitInterface):
             self.errors2 = self.params1
 
     def do_fit(self, x1, y1, x2, y2):
-        """
-        To do the fit y = f(x).
+        """To do the fit y = f(x).
 
         Parameters
         ----------
@@ -719,8 +709,7 @@ class TwoGaussians(FitInterface):
 
 
 class MCPParams:
-    """
-    Class to store the parameters of the MCP to adapt the analysis.
+    """Class to store the parameters of the MCP to adapt the analysis.
 
     Parameters
     ----------
@@ -807,8 +796,7 @@ class MCPParams:
         self.check_ratio_is_set()
 
     def __repr__(self):
-        """
-        To translate the object as a string.
+        """To translate the object as a string.
 
         Returns
         -------
@@ -825,8 +813,7 @@ class MCPParams:
         return res
 
     def define_ratio(self, mm, pix):
-        """
-        To define the ratio mm vs pixels.
+        """To define the ratio mm vs pixels.
 
         Parameters
         ----------
@@ -848,8 +835,7 @@ class MCPParams:
             print("The setting of the ratio has failed")
 
     def check_ratio_is_set(self):
-        """
-        To check is the ratio has been set.
+        """To check is the ratio has been set.
 
         Returns
         -------
@@ -863,8 +849,7 @@ class MCPParams:
         return self.ratioIsSet
 
     def check_all_set(self):
-        """
-        To check is all has been set.
+        """To check is all has been set.
 
         Returns
         -------
@@ -884,8 +869,7 @@ class MCPParams:
         return True
 
     def save_conf(self, fname):
-        """
-        To save the parameters of the MCP as a binary file (.mcp).
+        """To save the parameters of the MCP as a binary file (.mcp).
 
         Parameters
         ----------
@@ -912,8 +896,7 @@ class MCPParams:
 
 
 def import_config(fname):
-    """
-    To import the MCP parameters from a binary file.
+    """To import the MCP parameters from a binary file.
 
     Parameters
     ----------
@@ -935,8 +918,7 @@ def import_config(fname):
 
 
 def gaussian_offset(x, a, x0, s0, c):
-    """
-    Gaussian distribution with an offset.
+    """Gaussian distribution with an offset.
 
     Parameters
     ----------
@@ -1015,8 +997,7 @@ def normal_distribution(x, s0, x0):
 
 
 def two_gaussian(x, a1, x1, s1, a2, x2, s2):
-    """
-    Sum of two gaussian distribution.
+    """Sum of two gaussian distribution.
 
     Parameters
     ----------
@@ -1052,8 +1033,7 @@ def two_gaussian(x, a1, x1, s1, a2, x2, s2):
 
 
 def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
-    """
-    Sum of two gaussian distribution with an offset.
+    """Sum of two gaussian distribution with an offset.
 
     Parameters
     ----------
@@ -1092,8 +1072,7 @@ def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
 
 
 def num2str(a, n=3):
-    """
-    To turn a number into a string.
+    """To turn a number into a string.
 
     Parameters
     ----------
@@ -1114,8 +1093,7 @@ def num2str(a, n=3):
 
 
 def fit_gaussian_offset_filtered(x, y):
-    """
-    Fit with the function gaussian_offset.
+    """Fit with the function gaussian_offset.
 
     Parameters
     ----------
@@ -1165,8 +1143,7 @@ def fit_gaussian_offset_filtered(x, y):
 
 
 def reshape_img(img, ix, iy, lm):
-    """
-    To reshape an image to a squared one.
+    """To reshape an image to a squared one.
 
     Parameters
     ----------
@@ -1206,8 +1183,7 @@ def reshape_img(img, ix, iy, lm):
 
 
 def reshape_image_2(image, x1, y1, x2, y2):
-    """
-    To reshape the image as a rectangle.
+    """To reshape the image as a rectangle.
 
     Parameters
     ----------
@@ -1244,8 +1220,7 @@ def reshape_image_2(image, x1, y1, x2, y2):
 
 
 def import_image(fname, reshape=[]):
-    """
-    To import the picture as an array.
+    """To import the picture as an array.
 
     Parameters
     ----------
@@ -1287,8 +1262,7 @@ def import_image(fname, reshape=[]):
 
 
 def integrate_picture_along_y(img):
-    """
-    To integrate the picture along th Y-axis.
+    """To integrate the picture along th Y-axis.
 
     Parameters
     ----------
@@ -1310,8 +1284,7 @@ def integrate_picture_along_y(img):
 
 
 def integrate_picture_along_x(img):
-    """
-    To integrate the picture along th X axis.
+    """To integrate the picture along th X axis.
 
     Parameters
     ----------
@@ -1332,8 +1305,7 @@ def integrate_picture_along_x(img):
 
 
 def get_index_str(n, i):
-    """
-    To convert an int 'i' to a string.
+    """To convert an int 'i' to a string.
 
     Parameters
     ----------
@@ -1370,8 +1342,7 @@ def get_index_str(n, i):
 
 
 def significant(x, sig=4):
-    """
-    To turn a float as a str with a certain number of significant digits.
+    """To turn a float as a str with a certain number of significant digits.
 
     Parameters
     ----------
