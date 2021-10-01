@@ -22,6 +22,9 @@
 </style>Python code to analyse MCP Pictures.
 
 In the framework of the GBAR experiment.
+
+Checked with pycodestyle, pep257, and pep8.
+
 @author: Samuel Niang
 @email: samuel.niang@cern.ch
 
@@ -38,7 +41,7 @@ In the framework of the GBAR experiment.
 ##MCPPicture.**BeamSpot**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>BeamSpot</b>(<i>fname, reshape=[], mcpp=None, fit='Filtered gaussian'</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L19">[source]</a>
+    <i>class</i> MCPPicture.<b>BeamSpot</b>(<i>fname, reshape=[], mcpp=None, fit='Filtered gaussian'</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22">[source]</a>
 </p>
 
 Class to analyse the pictures coming from the MCP.
@@ -132,7 +135,7 @@ bs = mcp.BeamSpot("name.tif")
 
 
 <p class="func-header">
-    <i></i> <b>plot_y_int</b>(<i>self, label=''</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L164">[source]</a>
+    <i></i> <b>plot_y_int</b>(<i>self, label=''</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L167">[source]</a>
 </p>
 
 To plot the integral of the picture along the y-axis.
@@ -169,7 +172,7 @@ bs.plot_Y_int("Integral along the x-axis")
 
 
 <p class="func-header">
-    <i></i> <b>plot_x_int</b>(<i>self, label=''</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L198">[source]</a>
+    <i></i> <b>plot_x_int</b>(<i>self, label=''</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L201">[source]</a>
 </p>
 
 To plot the integral of the picture along the x-axis.
@@ -206,7 +209,7 @@ bs.plot_X_int("Integral along the x-axis")
 
 
 <p class="func-header">
-    <i></i> <b>plot_x_int_revert</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L232">[source]</a>
+    <i></i> <b>plot_x_int_revert</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L235">[source]</a>
 </p>
 
 Reverse & plot the integral along the x-axis.
@@ -236,7 +239,7 @@ bs.plot_X_int("Integral along the x-axis")
 
 
 <p class="func-header">
-    <i></i> <b>plot</b>(<i>self, fname='', figsize=(12, 10), fontsize=12, ftsizeticks=12</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L259">[source]</a>
+    <i></i> <b>plot</b>(<i>self, fname='', figsize=(12, 10), fontsize=12, ftsizeticks=12</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L262">[source]</a>
 </p>
 
 To plot the picture and the analysis.
@@ -288,7 +291,7 @@ fig.savefig("analysis.pdf")
 ##MCPPicture.**FitInterface**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>FitInterface</b>(<i>def __init__(self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L358">[source]</a>
+    <i>class</i> MCPPicture.<b>FitInterface</b>(<i>def __init__(self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L361">[source]</a>
 </p>
 
 Super class to do the fit of the MCP pictures.
@@ -342,7 +345,7 @@ Super class to do the fit of the MCP pictures.
 
 
 <p class="func-header">
-    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2=[], y2=[], p0=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L426">[source]</a>
+    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2=[], y2=[], p0=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L429">[source]</a>
 </p>
 
 To do the fit y = f(x).
@@ -373,7 +376,7 @@ To do the fit y = f(x).
 ##MCPPicture.**SimpleGaussian**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>SimpleGaussian</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L485">[source]</a>
+    <i>class</i> MCPPicture.<b>SimpleGaussian</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L488">[source]</a>
 </p>
 
 A gaussian fit of the integral along the x and y axis.
@@ -413,7 +416,7 @@ Inherit from FitInterface.
 
 
 <p class="func-header">
-    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L535">[source]</a>
+    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L538">[source]</a>
 </p>
 
 To do the fit y = f(x).
@@ -456,7 +459,7 @@ To do the fit y = f(x).
 ##MCPPicture.**FilteredGaussian**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>FilteredGaussian</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L575">[source]</a>
+    <i>class</i> MCPPicture.<b>FilteredGaussian</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L578">[source]</a>
 </p>
 
 To fit with a filtered gaussian.
@@ -496,7 +499,7 @@ Inherit from FitInterface.
 ##MCPPicture.**TwoGaussians**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>TwoGaussians</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L629">[source]</a>
+    <i>class</i> MCPPicture.<b>TwoGaussians</b>(<i>x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L632">[source]</a>
 </p>
 
 To fit with a sum of two gaussians.
@@ -536,7 +539,7 @@ Inherits from FitInterface.
 
 
 <p class="func-header">
-    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L679">[source]</a>
+    <i></i> <b>do_fit</b>(<i>self, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L682">[source]</a>
 </p>
 
 To do the fit y = f(x).
@@ -579,7 +582,7 @@ To do the fit y = f(x).
 ##MCPPicture.**MCPParams**
 
 <p class="func-header">
-    <i>class</i> MCPPicture.<b>MCPParams</b>(<i>name=None, r=None, x0=None, y0=None, r0=None, ratio=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L718">[source]</a>
+    <i>class</i> MCPPicture.<b>MCPParams</b>(<i>name=None, r=None, x0=None, y0=None, r0=None, ratio=None</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L721">[source]</a>
 </p>
 
 Class to store the parameters of the MCP to adapt the analysis.
@@ -660,7 +663,7 @@ Class to store the parameters of the MCP to adapt the analysis.
 
 
 <p class="func-header">
-    <i></i> <b>define_ratio</b>(<i>self, mm, pix</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L824">[source]</a>
+    <i></i> <b>define_ratio</b>(<i>self, mm, pix</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L827">[source]</a>
 </p>
 
 To define the ratio mm vs pixels.
@@ -695,7 +698,7 @@ To define the ratio mm vs pixels.
 
 
 <p class="func-header">
-    <i></i> <b>check_ratio_is_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L847">[source]</a>
+    <i></i> <b>check_ratio_is_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L850">[source]</a>
 </p>
 
 To check is the ratio has been set.
@@ -719,7 +722,7 @@ To check is the ratio has been set.
 
 
 <p class="func-header">
-    <i></i> <b>check_all_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L862">[source]</a>
+    <i></i> <b>check_all_set</b>(<i>self</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L865">[source]</a>
 </p>
 
 To check is all has been set.
@@ -743,7 +746,7 @@ To check is all has been set.
 
 
 <p class="func-header">
-    <i></i> <b>save_conf</b>(<i>self, fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L883">[source]</a>
+    <i></i> <b>save_conf</b>(<i>self, fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L886">[source]</a>
 </p>
 
 To save the parameters of the MCP as a binary file (.mcp).
@@ -779,7 +782,7 @@ params.save_config("config.mcp")
 ##MCPPicture.**import_config**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>import_config</b>(<i>fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L911">[source]</a>
+    <i>def</i> MCPPicture.<b>import_config</b>(<i>fname</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L914">[source]</a>
 </p>
 
 To import the MCP parameters from a binary file.
@@ -810,7 +813,7 @@ To import the MCP parameters from a binary file.
 ##MCPPicture.**gaussian_offset**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>gaussian_offset</b>(<i>x, a, x0, s0, c</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L934">[source]</a>
+    <i>def</i> MCPPicture.<b>gaussian_offset</b>(<i>x, a, x0, s0, c</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L937">[source]</a>
 </p>
 
 Gaussian distribution with an offset.
@@ -857,7 +860,7 @@ Gaussian distribution with an offset.
 ##MCPPicture.**gaussian**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>gaussian</b>(<i>x, a, x0, s0</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L963">[source]</a>
+    <i>def</i> MCPPicture.<b>gaussian</b>(<i>x, a, x0, s0</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L966">[source]</a>
 </p>
 
 Gaussian distribution.
@@ -902,7 +905,7 @@ f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 ##MCPPicture.**normal_distribution**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>normal_distribution</b>(<i>x, s0, x0</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L990">[source]</a>
+    <i>def</i> MCPPicture.<b>normal_distribution</b>(<i>x, s0, x0</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L993">[source]</a>
 </p>
 
 Normal distribution.
@@ -943,7 +946,7 @@ f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 ##MCPPicture.**two_gaussian**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>two_gaussian</b>(<i>x, a1, x1, s1, a2, x2, s2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1014">[source]</a>
+    <i>def</i> MCPPicture.<b>two_gaussian</b>(<i>x, a1, x1, s1, a2, x2, s2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1017">[source]</a>
 </p>
 
 Sum of two gaussian distribution.
@@ -998,7 +1001,7 @@ Sum of two gaussian distribution.
 ##MCPPicture.**two_gaussian_offset**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>two_gaussian_offset</b>(<i>x, a1, x1, s1, a2, x2, s2, c</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1051">[source]</a>
+    <i>def</i> MCPPicture.<b>two_gaussian_offset</b>(<i>x, a1, x1, s1, a2, x2, s2, c</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1054">[source]</a>
 </p>
 
 Sum of two gaussian distribution with an offset.
@@ -1057,7 +1060,7 @@ Sum of two gaussian distribution with an offset.
 ##MCPPicture.**num2str**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>num2str</b>(<i>a, n=3</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1091">[source]</a>
+    <i>def</i> MCPPicture.<b>num2str</b>(<i>a, n=3</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1094">[source]</a>
 </p>
 
 To turn a number into a string.
@@ -1092,7 +1095,7 @@ To turn a number into a string.
 ##MCPPicture.**fit_gaussian_offset_filtered**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>fit_gaussian_offset_filtered</b>(<i>x, y</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1113">[source]</a>
+    <i>def</i> MCPPicture.<b>fit_gaussian_offset_filtered</b>(<i>x, y</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1116">[source]</a>
 </p>
 
 Fit with the function gaussian_offset.
@@ -1127,7 +1130,7 @@ Fit with the function gaussian_offset.
 ##MCPPicture.**reshape_img**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>reshape_img</b>(<i>img, ix, iy, lm</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1164">[source]</a>
+    <i>def</i> MCPPicture.<b>reshape_img</b>(<i>img, ix, iy, lm</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1167">[source]</a>
 </p>
 
 To reshape an image to a squared one.
@@ -1170,7 +1173,7 @@ To reshape an image to a squared one.
 ##MCPPicture.**reshape_image_2**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>reshape_image_2</b>(<i>image, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1205">[source]</a>
+    <i>def</i> MCPPicture.<b>reshape_image_2</b>(<i>image, x1, y1, x2, y2</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1208">[source]</a>
 </p>
 
 To reshape the image as a rectangle.
@@ -1217,7 +1220,7 @@ To reshape the image as a rectangle.
 ##MCPPicture.**import_image**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>import_image</b>(<i>fname, reshape=[]</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1243">[source]</a>
+    <i>def</i> MCPPicture.<b>import_image</b>(<i>fname, reshape=[]</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1246">[source]</a>
 </p>
 
 To import the picture as an array.
@@ -1252,7 +1255,7 @@ To import the picture as an array.
 ##MCPPicture.**integrate_picture_along_y**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>integrate_picture_along_y</b>(<i>img</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1286">[source]</a>
+    <i>def</i> MCPPicture.<b>integrate_picture_along_y</b>(<i>img</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1289">[source]</a>
 </p>
 
 To integrate the picture along th Y-axis.
@@ -1283,7 +1286,7 @@ To integrate the picture along th Y-axis.
 ##MCPPicture.**integrate_picture_along_x**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>integrate_picture_along_x</b>(<i>img</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1309">[source]</a>
+    <i>def</i> MCPPicture.<b>integrate_picture_along_x</b>(<i>img</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1312">[source]</a>
 </p>
 
 To integrate the picture along th X axis.
@@ -1314,7 +1317,7 @@ To integrate the picture along th X axis.
 ##MCPPicture.**get_index_str**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>get_index_str</b>(<i>n, i</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1331">[source]</a>
+    <i>def</i> MCPPicture.<b>get_index_str</b>(<i>n, i</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1334">[source]</a>
 </p>
 
 To convert an int 'i' to a string.
@@ -1359,7 +1362,7 @@ Out:
 ##MCPPicture.**significant**
 
 <p class="func-header">
-    <i>def</i> MCPPicture.<b>significant</b>(<i>x, sig=4</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1369">[source]</a>
+    <i>def</i> MCPPicture.<b>significant</b>(<i>x, sig=4</i>) <a class="src-href" target="_blank" href="https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L1372">[source]</a>
 </p>
 
 To turn a float as a str with a certain number of significant digits.

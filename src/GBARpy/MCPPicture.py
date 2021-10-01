@@ -3,6 +3,9 @@
 """Python code to analyse MCP Pictures.
 
 In the framework of the GBAR experiment.
+
+Checked with pycodestyle, pep257, and pep8.
+
 @author: Samuel Niang
 @email: samuel.niang@cern.ch
 """
