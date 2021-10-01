@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-@author: samuel.niang@cern.ch
+"""Python code to analyse MCP Pictures.
+
+In the framework of the GBAR experiment.
+@author: Samuel Niang
+@email: samuel.niang@cern.ch
 """
 
 import matplotlib.image as mpimg
@@ -20,13 +23,16 @@ class BeamSpot:
     Parameters
     ----------
     fname : str
-        file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"].
+        file name of the picture
+        the accepted file format["tif","jpg","jpeg","png","asc","bmp"].
 
     reshape : int[3] or int[4]
-        [ix,iy,l] to reshape the picture as a square or [x1,x2,y1,y2] to reshape as a rectangle.
+        [ix,iy,l] to reshape the picture as a square
+        or [x1,x2,y1,y2] to reshape as a rectangle.
 
     fit : str
-        The kind of fit. Choose between "Filtered gaussian", "Simple gaussian", "Two gaussians".
+        The kind of fit.
+        Choose between "Filtered gaussian", "Simple gaussian", "Two gaussians".
 
     Attributes
     ----------
@@ -78,6 +84,24 @@ class BeamSpot:
     """
 
     def __init__(self, fname, reshape=[], mcpp=None, fit="Filtered gaussian"):
+        """
+        Constructor of the class.
+
+        Parameters
+        ----------
+        fname : str
+            file name of the picture
+            the accepted file format["tif","jpg","jpeg","png","asc","bmp"].
+
+        reshape : int[3] or int[4]
+            [ix,iy,l] to reshape the picture as a square
+            or [x1,x2,y1,y2] to reshape as a rectangle.
+
+        fit : str
+            The kind of fit.
+            Choose between "Filtered gaussian",
+            "Simple gaussian", "Two gaussians".
+        """
         # define ratio
         ratio = 1.
         if mcpp is None:
@@ -133,7 +157,8 @@ class BeamSpot:
         print(bs)
         ```
         """
-        res = "Total integral: I = "+str(np.around(self.total_integral,2))+'\n'
+        res = "Total integral: I = "
+        res += str(np.around(self.total_integral, 2))+'\n'
         return res+self.fit.__repr__()
 
     def plot_y_int(self, label=""):
@@ -164,7 +189,8 @@ class BeamSpot:
         else:
             D = self.Iy - self.offsety
             p = plt.plot(self.piy, D, '.', ms=1, label=label)
-            plt.plot(self.piy, self.fit.fitfunc(self.piy, *popt), color=p[0].get_color())
+            plt.plot(self.piy, self.fit.fitfunc(self.piy, *popt),
+                     color=p[0].get_color())
         plt.xlim([0, np.max(self.piy)])
         if len(label) != 0:
             plt.legend()
@@ -197,14 +223,14 @@ class BeamSpot:
         else:
             D = self.Ix - self.offsetx
             p = plt.plot(self.pix, D, '.', ms=1, label=label)
-            plt.plot(self.pix, self.fit.fitfunc(self.pix, *popt), color=p[0].get_color())
+            plt.plot(self.pix, self.fit.fitfunc(self.pix, *popt),
+                     color=p[0].get_color())
         plt.xlim([0, np.max(self.pix)])
         if len(label) != 0:
             plt.legend()
 
     def plot_x_int_revert(self):
-        """
-        To plot the integral of the picture along the "x" axis and reverse the picture.
+        """Reverse & plot the integral along the x-axis.
 
         Returns
         -------
@@ -275,7 +301,8 @@ class BeamSpot:
         fig = plt.figure(figsize=figsize)
 
         plt.subplot(223)
-        plt.text(0, 0, self.fit.__repr__().replace('\t', ' '), fontsize=fontsize)
+        plt.text(0, 0, self.fit.__repr__().replace('\t', ' '),
+                 fontsize=fontsize)
         plt.axis('off')
 
         plt.subplot(221)
@@ -329,9 +356,7 @@ class BeamSpot:
 
 
 class FitInterface:
-    """
-    Super class to do the fit of the MCP pictures
-    Need to be define
+    """Super class to do the fit of the MCP pictures.
 
     Attributes
     ----------
@@ -361,6 +386,35 @@ class FitInterface:
     """
 
     def __init__(self):
+        """
+        Constructor of the class.
+
+        Attributes
+        ----------
+        fitfunc : function
+            the fit function
+
+        labels : str[]
+            the names the parameters
+
+        params1 : float[]
+            parameters of the fit along the x-axis
+
+        errors1 : float[]
+            errors parameters of the fit along the x-axis
+
+        params2 : float[]
+            parameters of the fit along the y-axis
+
+        errors2 : float[]
+            errors parameters of the fit along the y-axis
+
+        title1 : str
+            title for the fit along the x-axis
+
+        title2 : str
+            title for the fit along the y-axis
+        """
         self.params1 = []
         self.errors1 = []
         self.params2 = []
@@ -370,17 +424,16 @@ class FitInterface:
         self.title2 = "\nIntegral along the y-axis\n"
 
     def do_fit(self, x1, y1, x2=[], y2=[], p0=None):
-        """
-        To do the fit y = f(x)
+        """To do the fit y = f(x).
 
         Parameters
         ----------
         x1 : array of float
-            the first x input data 
+            the first x input data
         y1 : array of float
             the first y input data
         x2 : array of float, optional
-            the second x input data 
+            the second x input data
         y2 : array of float, optional
             the second y input data
         p0 : array of floats
@@ -389,9 +442,7 @@ class FitInterface:
         Returns
         -------
         None.
-
         """
-
         # self.fitfunc has te be defined
         popt, pcov = curve_fit(self.fitfunc, x1, y1)
         self.params1 = popt
@@ -409,13 +460,12 @@ class FitInterface:
 
     def __repr__(self):
         """
-        To turn the parameters of the fit to a string 
+        To turn the parameters of the fit to a string.
 
         Returns
         -------
         res : str
             the string containing the result of the fit
-
         """
         res = self.title1
         for i in np.arange(len(self.params1)):
@@ -433,8 +483,9 @@ class FitInterface:
 
 
 class SimpleGaussian(FitInterface):
-    """
-    A gaussian fit of the integral along the x and y axis. Inherit from FitInterface.
+    """A gaussian fit of the integral along the x and y axis.
+
+    Inherit from FitInterface.
 
     Parameters
     ----------
@@ -452,7 +503,23 @@ class SimpleGaussian(FitInterface):
     """
 
     def __init__(self, x1, y1, x2, y2):
+        """
+        Constructor of the class.
 
+        Parameters
+        ----------
+        x1 : float[]
+            the x axis.
+
+        y1 : float[]
+            integral along the x axis.
+
+        x2 : float[]
+            the y axis.
+
+        y2 : float[]
+            integral along the y axis.
+        """
         super().__init__()
         self.labels = ["Ampli", "Center", "Sigma", "Offset"]
         self.fitfunc = gaussian_offset
@@ -489,13 +556,15 @@ class SimpleGaussian(FitInterface):
         """
         popt, pcov = curve_fit(gaussian, x1, y1, bounds=(0, np.inf))
         p0 = np.concatenate([popt, [min(y1)]])
-        popt, pcov = curve_fit(gaussian_offset, x1, y1, bounds=(0, np.inf), p0=p0)
+        popt, pcov = curve_fit(gaussian_offset, x1, y1,
+                               bounds=(0, np.inf), p0=p0)
         self.params1 = popt
         self.errors1 = np.diag(pcov)
 
         popt, pcov = curve_fit(gaussian, x2, y2, bounds=(0, np.inf))
         p0 = np.concatenate([popt, [min(y2)]])
-        popt, pcov = curve_fit(gaussian_offset, x2, y2, bounds=(0, np.inf), p0=p0)
+        popt, pcov = curve_fit(gaussian_offset, x2, y2,
+                               bounds=(0, np.inf), p0=p0)
         self.params2 = popt
         self.errors2 = np.diag(pcov)
 
@@ -504,8 +573,9 @@ class SimpleGaussian(FitInterface):
 
 
 class FilteredGaussian(FitInterface):
-    """
-    To fit with a filtered gaussian. Inherit from FitInterface.
+    """To fit with a filtered gaussian.
+
+    Inherit from FitInterface.
 
     Parameters
     ----------
@@ -521,7 +591,24 @@ class FilteredGaussian(FitInterface):
     y2 : float[]
         integral along the y axis.
     """
+
     def __init__(self, x1, y1, x2, y2):
+        """Constructor of the class.
+
+        Parameters
+        ----------
+        x1 : float[]
+            the x axis.
+
+        y1 : float[]
+            integral along the x axis.
+
+        x2 : float[]
+            the y axis.
+
+        y2 : float[]
+            integral along the y axis.
+        """
         super().__init__()
         self.labels = ["Ampli", "Center", "Sigma", "Offset"]
         self.fitfunc = gaussian_offset
@@ -540,8 +627,9 @@ class FilteredGaussian(FitInterface):
 
 
 class TwoGaussians(FitInterface):
-    """
-    To fit with a sum of two gaussians. Inherits from FitInterface.
+    """To fit with a sum of two gaussians.
+
+    Inherits from FitInterface.
 
     Parameters
     ----------
@@ -557,7 +645,24 @@ class TwoGaussians(FitInterface):
     y2 : float[]
         integral along the y axis.
     """
+
     def __init__(self, x1, y1, x2, y2):
+        """Constructor of the class.
+
+        Parameters
+        ----------
+        x1 : float[]
+            the x axis.
+
+        y1 : float[]
+            integral along the x axis.
+
+        x2 : float[]
+            the y axis.
+
+        y2 : float[]
+            integral along the y axis.
+        """
         super().__init__()
         self.fitfunc = two_gaussian_offset
         self.labels = ["Ampli 1", "Center1", "Sigma 1", "Ampli 2", "Center2",
@@ -662,7 +767,31 @@ class MCPParams:
         boolean to know if a ratio has been defined.
     """
 
-    def __init__(self, name=None, r=None, x0=None, y0=None, r0=None, ratio=None):
+    def __init__(self, name=None, r=None, x0=None,
+                 y0=None, r0=None, ratio=None):
+        """Constructor of the class.
+
+        Parameters
+        ----------
+        name: string
+            (optional) the name of the MCP.
+
+        R: float
+            (optional) radius of the mirror in mm.
+
+        x0: int
+            (optional) x position of the center of the mirror in pixels.
+
+        y0: int
+            (optional) y position of the center of the mirror in pixels.
+
+        R0: int
+            (optional) radius of the mirror in pixels.
+
+        ratio: int
+            (optional) mm/pixels ratio.
+            If R and R0 have been defined, then ratio is defined automatically.
+        """
         self.name = name
         self.R = r
         self.x0 = x0
@@ -753,8 +882,7 @@ class MCPParams:
 
     def save_conf(self, fname):
         """
-        To save the parameters of the MCP as a binary file.
-        Use .mcp extension.
+        To save the parameters of the MCP as a binary file (.mcp).
 
         Parameters
         ----------
@@ -833,8 +961,8 @@ def gaussian_offset(x, a, x0, s0, c):
 
 
 def gaussian(x, a, x0, s0):
-    """
-    Gaussian distribution.
+    """Gaussian distribution.
+
     f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
     Parameters
@@ -860,8 +988,8 @@ def gaussian(x, a, x0, s0):
 
 
 def normal_distribution(x, s0, x0):
-    """
-    Normal distribution.
+    """Normal distribution.
+
     f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
     Parameters
@@ -914,9 +1042,10 @@ def two_gaussian(x, a1, x1, s1, a2, x2, s2):
     -------
     result: float or numpy.array(float[])
         Value(s) of the distribution.
-
     """
-    return a1 * normal_distribution(x, s1, x1) + a2 * normal_distribution(x, s2, x2)
+    result = a1 * normal_distribution(x, s1, x1)
+    result += a2 * normal_distribution(x, s2, x2)
+    return result
 
 
 def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
@@ -954,7 +1083,9 @@ def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
     result: float or numpy.array(float[])
         Value(s) of the distribution.
     """
-    return a1 * normal_distribution(x, s1, x1) + a2 * normal_distribution(x, s2, x2) + c
+    result = a1 * normal_distribution(x, s1, x1)
+    result += a2 * normal_distribution(x, s2, x2) + c
+    return result
 
 
 def num2str(a, n=3):
@@ -1004,22 +1135,26 @@ def fit_gaussian_offset_filtered(x, y):
     c = min(y)
     p0 = [a, x0, s, c]
     try:
-        popt, pcov = curve_fit(gaussian_offset, x, y, p0=p0, bounds=(0, np.inf))
+        popt, pcov = curve_fit(gaussian_offset, x, y,
+                               p0=p0, bounds=(0, np.inf))
         mask = np.logical_or(np.abs(y - y.max()) / y.max() < 0.2,
                              np.abs((y - popt[3]) / popt[3]) < 0.2)
         x0 = x[mask]
         y0 = y[mask]
-        popt, pcov = curve_fit(gaussian_offset, x0, y0, p0=popt, bounds=(0, np.inf))
+        popt, pcov = curve_fit(gaussian_offset, x0, y0,
+                               p0=popt, bounds=(0, np.inf))
         mask = np.logical_or(np.abs(x - popt[1]) / popt[1] < 0.1,
                              np.abs((y - popt[3]) / popt[3]) < 0.05)
         x0 = x[mask]
         y0 = y[mask]
-        popt, pcov = curve_fit(gaussian_offset, x0, y0, p0=popt, bounds=(0, np.inf))
+        popt, pcov = curve_fit(gaussian_offset, x0, y0,
+                               p0=popt, bounds=(0, np.inf))
         mask = np.logical_or(np.abs(x - popt[1]) / popt[1] < 0.1,
                              np.abs((y - popt[3]) / popt[3]) < 0.1)
         x0 = x[mask]
         y0 = y[mask]
-        popt, pcov = curve_fit(gaussian_offset, x0, y0, p0=popt, bounds=(0, np.inf))
+        popt, pcov = curve_fit(gaussian_offset, x0, y0,
+                               p0=popt, bounds=(0, np.inf))
         perr = np.sqrt(np.diag(pcov))
     except (Exception,):
         print("The fit failed")
@@ -1115,7 +1250,8 @@ def import_image(fname, reshape=[]):
         Name of the file.
 
     reshape : int[3] or int[4]
-        [ix,iy,l] to reshape the picture as a square or [x1,x2,y1,y2] to reshape as a rectangle.
+        [ix,iy,l] to reshape the picture as a square
+        or [x1,x2,y1,y2] to reshape as a rectangle.
 
     Returns
     -------
@@ -1137,7 +1273,8 @@ def import_image(fname, reshape=[]):
     if len(reshape) == 3:
         img = reshape_img(img, reshape[0], reshape[1], reshape[2])
     if len(reshape) == 4:
-        img = reshape_image_2(img, reshape[0], reshape[1], reshape[2], reshape[3])
+        img = reshape_image_2(img, reshape[0], reshape[1],
+                              reshape[2], reshape[3])
 
     n_index = np.concatenate(img).size
     n_index = int(0.01 * n_index)
@@ -1158,7 +1295,8 @@ def integrate_picture_along_y(img):
     Returns
     -------
     (pix,integral) : (numpy.array(int[]),numpy.array(float[]))
-        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array.
+        A tuple with pix the pixel numbers as a numpy array
+        and 'integral' the integral as a numpy array.
     """
     integral = np.zeros_like(img[0])
     for line in img:
@@ -1180,7 +1318,8 @@ def integrate_picture_along_x(img):
     Returns
     -------
     (pix,integral) : (numpy.array(int[]),numpy.array(float[]))
-        A tuple with pix the pixel numbers as a numpy array and 'integral' the integral as a numpy array.
+        A tuple with pix the pixel numbers as a numpy array
+        and 'integral' the integral as a numpy array.
     """
     pix, ix = integrate_picture_along_y(np.transpose(img))
     integral = np.array([])
