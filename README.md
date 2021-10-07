@@ -258,6 +258,10 @@ fig7.savefig("fig_example_7.png")
 ![Example_7](example/fig_example_7.png)
 
 ### BeamSpot class
+```python
+class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')
+```
+Class to analyse the pictures coming from the MCP.
 #### Attributes
 * fname: str  
 file name of the picture.
@@ -285,23 +289,20 @@ errors on the parameters of the fit along the y-axis.
 the parameters to reshape, see help(import_image).
 * Fit: GBARpy.MCPPicture.FitInterface  
 The fit used for the analysis.
+### Parameters
+*fname : str  
+    file name of the picture. The accepted file format["tif","jpg","jpeg","png","asc","bmp"].
+* reshape : int[3] or int[4]  
+    [ix,iy,l] to reshape the picture as a square
+    or [x1,x2,y1,y2] to reshape as a rectangle.
+* fit : str  
+    The kind of fit. Choose between "Filtered gaussian", "Simple gaussian", "Two gaussians".
 ### Example
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 ```
 #### Methods
-```__init__(self,fname,reshape=[])```:  
-Constructor of the class
-* Parameters
-    * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
-    * reshape: array of 3 integers (optional), to reshape the pictures (square): x,y,length
-* Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    ```
-
 ```__repr__(self)```:
 To represent the object as a string
 * Returns
