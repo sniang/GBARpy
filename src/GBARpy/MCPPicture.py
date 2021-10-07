@@ -20,7 +20,8 @@ import dill
 
 
 class BeamSpot:
-    """Class to analyse the pictures coming from the MCP.
+    """
+    Class to analyse the pictures coming from the MCP.
 
     Parameters
     ----------
@@ -86,7 +87,8 @@ class BeamSpot:
     """
 
     def __init__(self, fname, reshape=[], mcpp=None, fit="Filtered gaussian"):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Parameters
         ----------
@@ -140,7 +142,8 @@ class BeamSpot:
         self.offsety = self.fit.params2[-1]
 
     def __repr__(self):
-        """To represent the object as a string.
+        """
+        To represent the object as a string.
 
         Returns
         -------
@@ -162,7 +165,8 @@ class BeamSpot:
         return res+self.fit.__repr__()
 
     def plot_y_int(self, label=""):
-        """To plot the integral of the picture along the y-axis.
+        """
+        To plot the integral of the picture along the y-axis.
 
         Parameters
         ----------
@@ -195,7 +199,8 @@ class BeamSpot:
             plt.legend()
 
     def plot_x_int(self, label=""):
-        """To plot the integral of the picture along the x-axis.
+        """
+        To plot the integral of the picture along the x-axis.
 
         Parameters
         ----------
@@ -228,7 +233,8 @@ class BeamSpot:
             plt.legend()
 
     def plot_x_int_revert(self):
-        """Reverse & plot the integral along the x-axis.
+        """
+        Reverse & plot the integral along the x-axis.
 
         Returns
         -------
