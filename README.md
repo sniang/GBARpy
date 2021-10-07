@@ -259,25 +259,32 @@ fig7.savefig("fig_example_7.png")
 
 ### BeamSpot class
 #### Attributes
-* BeamSpot.fname: string, file name of the picture
-* BeamSpot.img: 2D array, picture as an array
-* BeamSpot.pix: the pixels along the x axis
-* BeamSpot.piy: the pixels along the y axis
-* BeamSpot.Ix: array of floats, integral along the x axis
-* BeamSpot.Iy: array of floatt, integral along the y axis
-* BeamSpot.Ax: float, Amplitude, fit along the x axis
-* BeamSpot.Ay: float, Amplitude, fit along the y axis
-* BeamSpot.sigx: float, Sigma, fit along the x axis
-* BeamSpot.sigy: float, Sigma, fit along the x axis
-* BeamSpot.r0x: float, Center, fit along the x axis
-* BeamSpot.r0y: float, Center, fit along the x axis
-* BeamSpot.offsetx: float, offset, fit along the x axis
-* BeamSpot.offsety: float, offset, fit along the x axis
-* BeamSpot.poptx: array of floats, the parameters of the fit along the x-axis
-* BeamSpot.perrx: array of floats, errors on the parameters of the fit along the x-axis
-* BeamSpot.popty: array of floats, the parameters of the fit along the y-axis
-* BeamSpot.perry: array of floats, errors on the parameters of the fit along the y-axis
-* BeamSpot.reshape: array of int, the parameters to reshape, see help(import_image)
+* fname: str
+file name of the picture.
+* img: float[float[]]
+* picture as an array.
+pix: int[]
+* the pixels along the x axis.
+piy: int[]
+* the pixels along the y axis.
+* Ix: float[]
+integral along the x axis.
+* Iy: float[]
+integral along the y axis.
+* total_integral: float
+Total integral pf the image.
+* poptx: float[]
+the parameters of the fit along the x-axis.
+* perrx: float[]
+errors on the parameters of the fit along the x-axis.
+* popty: float[]
+the parameters of the fit along the y-axis.
+* perry: float[]
+errors on the parameters of the fit along the y-axis.
+* reshape: int[]
+the parameters to reshape, see help(import_image).
+* Fit: GBARpy.MCPPicture.FitInterface
+The fit used for the analysis.
 
 #### Methods
 ```__init__(self,fname,reshape=[])```:
