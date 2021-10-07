@@ -258,7 +258,10 @@ fig7.savefig("fig_example_7.png")
 ![Example_7](example/fig_example_7.png)
 
 ### BeamSpot class
-```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')``` [source][https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22]
+```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')```
+
+[source][https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22]
+
 Class to analyse the pictures coming from the MCP.
 #### Attributes
 * fname: str  
