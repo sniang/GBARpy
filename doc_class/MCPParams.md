@@ -1,6 +1,6 @@
 ## GBARpy.MCPPicture.MCPParams
 
-### `define_ratio(mm, pix)`
+#### `define_ratio(mm, pix)`
 
 To define the ratio mm vs pixels.
 
@@ -12,26 +12,26 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-#### Returns
+* Returns
    None
 
-### `check_ratio_is_set()`
+#### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-#### Returns
+* Returns
    result: boolean
 True if the ratio has been set.
 
-### `check_all_set()`
+#### `check_all_set()`
 
 To check is all has been set.
 
-#### Returns
+* Returns
    result: boolean
 True if all the parameters have been set.
 
-### `save_conf(fname)`
+#### `save_conf(fname)`
 
 To save the parameters of the MCP as a binary file (.mcp).
 
@@ -39,10 +39,10 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-#### Returns
+* Returns
    None
 
-#### Examples
+*Examples
    ```python
 params = MCPParams()
 params.save_config("config.mcp")
