@@ -258,7 +258,7 @@ fig7.savefig("fig_example_7.png")
 ![Example_7](example/fig_example_7.png)
 
 ### BeamSpot class
-```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')``` [source](https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22)
+```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')``` [[source]](https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22)
 
 Class to analyse the pictures coming from the MCP.
 #### Attributes
@@ -289,7 +289,7 @@ the parameters to reshape, see help(import_image).
 * Fit: GBARpy.MCPPicture.FitInterface  
 The fit used for the analysis.
 ### Parameters
-*fname : str  
+* fname : str  
     file name of the picture. The accepted file format["tif","jpg","jpeg","png","asc","bmp"].
 * reshape : int[3] or int[4]  
     [ix,iy,l] to reshape the picture as a square
