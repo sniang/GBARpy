@@ -1,7 +1,4 @@
-# GBARpy manual
-
-This library is made to work with python 3.
-## Table of Contents
+# Table of Contents
 * [Installation](#installation)
     * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
     * [Procedure for Windows](#procedure-for-windows)
@@ -12,8 +9,8 @@ This library is made to work with python 3.
 * [Basic code for an analysis](#basic-code-for-an-analysis)
 * [More examples](#more-examples)
 
-## Installation
-### Procedure for Unix and MacOS
+# Installation
+## Procedure for Unix and MacOS
 1. Install [python 3](https://www.python.org/downloads/)
 2. Check if pip is installed by entrering in the terminal
     ```
@@ -36,7 +33,7 @@ or to remove GBARpy
 ```
 python3 -m pip uninstall GBARpy
 ```
-### Procedure for Windows
+## Procedure for Windows
 1. Install [python 3](https://www.python.org/downloads/)
 2. Check if pip is installed by entrering in the command prompt
     ```
@@ -59,8 +56,8 @@ or to remove GBARpy
 ```
 py -m pip uninstall GBARpy
 ```
-## Graphical User Interface
-### How to do an analysis
+# Graphical User Interface
+## How to do an analysis
 [GUI_1](example/GUI_1.png)
 
 ![GUI_1](example/GUI_1.png)
@@ -93,7 +90,7 @@ py -m pip uninstall GBARpy
 
 ![GUI_4](example/GUI_4.png)
 
-### Set the MCP parameters
+## Set the MCP parameters
 The different parameters are
 * Name: the name of your MCP
 * R: the radius of the phosphore screen in mm (to define in the end the ratio mm/pixels)
@@ -122,7 +119,7 @@ Be careful: if you do not press the "set" buttons and close the MCP parameter wi
 
 One ce parameters has been set, press "Analyse the picture". If "ratio" has been set, then the pixels are converted in mm. If all the parameters are set, then the border of your phosphore screen will be draw. In the future, these parameters will be used to improve the fitting of the pictures.
 
-### Reshape the pictures
+## Reshape the pictures
 [reshape_1](example/reshape/reshape_1.png)
 
 ![reshape_1](example/reshape/reshape_1.png)
@@ -135,7 +132,7 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 
 ![reshape_3](example/reshape/reshape_3.png)
 
-### Basic code for an analysis
+## Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](example/MCP_example_basic.py) and [MCP_example_small_functions.py](example/MCP_example_small_functions.py).
 
 ```python
@@ -184,7 +181,7 @@ pic.plot("fig_example_3.pdf")
 
 ![Example_3](example/fig_example_3.png)
 
-### More examples
+## More examples
 To import the required librairies for the following examples:
 ```python
 # Import the library
@@ -194,7 +191,7 @@ import matplotlib.pyplot as plt
 
 For some reasons, you might desire to import the picture without analysing it:
 ```python
-### Import the Picture
+## Import the Picture
 img = mcp.import_image("IMG0008.bmp")
 fig4 = plt.figure(figsize=(5,5))
 plt.imshow(img)
@@ -205,7 +202,7 @@ fig4.savefig("fig_example_4.png")
 ![Example_4](example/fig_example_4.png)
 
 ```python
-### Import the Picture and reshape
+## Import the Picture and reshape
 img = mcp.import_image("IMG0008.bmp",reshape=[1250,1000,600])
 fig5 = plt.figure(figsize=(5,5))
 plt.imshow(img)
@@ -217,7 +214,7 @@ fig5.savefig("fig_example_5.png")
 
 Once the pictures imported as a 2D array, it it possible to get the integrals along the x or y axis
 ```python
-### Integrals along the X and Y axis
+## Integrals along the X and Y axis
 Px,Ix = mcp.integrate_picture_along_X(img)
 Py,Iy = mcp.integrate_picture_along_Y(img)
 fig6 = plt.figure(figsize=(10,5))
@@ -234,7 +231,7 @@ fig6.savefig("fig_example_6.png")
 
 and then, using the fit function defined in the library
 ```python
-### Fit of the integrals
+## Fit of the integrals
 poptX,perrX=mcp.fit_gaussian_offset_filtered(Px,Ix)
 poptY,perrY=mcp.fit_gaussian_offset_filtered(Py,Iy)
 fig7 = plt.figure(figsize=(5,5))
@@ -248,6 +245,7 @@ fig7.savefig("fig_example_7.png")
 
 ![Example_7](example/fig_example_7.png)
 
+# Classes of the library
 ## GBARpy.MCPPicture.MCPParams
 
 #### `define_ratio(mm, pix)`
@@ -292,7 +290,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 * Returns
    None
 
-*Examples
+* Examples
    ```python
 params = MCPParams()
 params.save_config("config.mcp")
