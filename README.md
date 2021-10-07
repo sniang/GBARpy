@@ -10,11 +10,11 @@ This library is made to work with python 3.
     * [Set the MCP parameters](#set-the-mcp-parameters)
     * [Reshape the pictures](#reshape-the-pictures)
 * [MCPpicture library](#mcppicture-library)
-    * [Basic code for an analysis](#basic-code-for-an-analysis)
-    * [More examples](#more-examples)
     * [BeamSpot class](#beamspot-class)
         * [Attributes](#attributes)
         * [Methods](#methods)
+    * [Basic code for an analysis](#basic-code-for-an-analysis)
+    * [More examples](#more-examples)
 
 ## Installation
 ### Procedure for Unix and MacOS
