@@ -285,9 +285,13 @@ errors on the parameters of the fit along the y-axis.
 the parameters to reshape, see help(import_image).
 * Fit: GBARpy.MCPPicture.FitInterface  
 The fit used for the analysis.
-
+### Example
+```python
+import GBARpy.MCPPicture as mcp
+bs = mcp.BeamSpot("name.tif")
+```
 #### Methods
-```__init__(self,fname,reshape=[])```:
+```__init__(self,fname,reshape=[])```:  
 Constructor of the class
 * Parameters
     * fname: string, file name of the picture, the accepted file format ["tif","jpg","jpeg","png","asc","bmp"]
