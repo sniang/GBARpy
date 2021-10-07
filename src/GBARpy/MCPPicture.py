@@ -360,7 +360,8 @@ class BeamSpot:
 
 
 class FitInterface:
-    """Super class to do the fit of the MCP pictures.
+    """
+    Super class to do the fit of the MCP pictures.
 
     Attributes
     ----------
@@ -390,7 +391,8 @@ class FitInterface:
     """
 
     def __init__(self):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Attributes
         ----------
@@ -427,7 +429,8 @@ class FitInterface:
         self.title2 = "\nIntegral along the y-axis\n"
 
     def do_fit(self, x1, y1, x2=[], y2=[], p0=None):
-        """To do the fit y = f(x).
+        """
+        To do the fit y = f(x).
 
         Parameters
         ----------
@@ -462,7 +465,8 @@ class FitInterface:
                 self.labels.append("")
 
     def __repr__(self):
-        """To turn the parameters of the fit to a string.
+        """
+        To turn the parameters of the fit to a string.
 
         Returns
         -------
@@ -485,7 +489,8 @@ class FitInterface:
 
 
 class SimpleGaussian(FitInterface):
-    """A gaussian fit of the integral along the x and y axis.
+    """
+    A gaussian fit of the integral along the x and y axis.
 
     Inherit from FitInterface.
 
@@ -505,7 +510,8 @@ class SimpleGaussian(FitInterface):
     """
 
     def __init__(self, x1, y1, x2, y2):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Parameters
         ----------
@@ -534,7 +540,8 @@ class SimpleGaussian(FitInterface):
             self.errors2 = self.params1
 
     def do_fit(self, x1, y1, x2, y2):
-        """To do the fit y = f(x).
+        """
+        To do the fit y = f(x).
 
         Parameters
         ----------
@@ -573,7 +580,8 @@ class SimpleGaussian(FitInterface):
 
 
 class FilteredGaussian(FitInterface):
-    """To fit with a filtered gaussian.
+    """
+    To fit with a filtered gaussian.
 
     Inherit from FitInterface.
 
@@ -593,7 +601,8 @@ class FilteredGaussian(FitInterface):
     """
 
     def __init__(self, x1, y1, x2, y2):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Parameters
         ----------
@@ -627,7 +636,8 @@ class FilteredGaussian(FitInterface):
 
 
 class TwoGaussians(FitInterface):
-    """To fit with a sum of two gaussians.
+    """
+    To fit with a sum of two gaussians.
 
     Inherits from FitInterface.
 
@@ -647,7 +657,8 @@ class TwoGaussians(FitInterface):
     """
 
     def __init__(self, x1, y1, x2, y2):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Parameters
         ----------
@@ -677,7 +688,8 @@ class TwoGaussians(FitInterface):
             self.errors2 = self.params1
 
     def do_fit(self, x1, y1, x2, y2):
-        """To do the fit y = f(x).
+        """
+        To do the fit y = f(x).
 
         Parameters
         ----------
@@ -909,7 +921,8 @@ class MCPParams:
 
 
 def import_config(fname):
-    """To import the MCP parameters from a binary file.
+    """
+    To import the MCP parameters from a binary file.
 
     Parameters
     ----------
@@ -931,7 +944,8 @@ def import_config(fname):
 
 
 def gaussian_offset(x, a, x0, s0, c):
-    """Gaussian distribution with an offset.
+    """
+    Gaussian distribution with an offset.
 
     Parameters
     ----------
@@ -959,7 +973,8 @@ def gaussian_offset(x, a, x0, s0, c):
 
 
 def gaussian(x, a, x0, s0):
-    """Gaussian distribution.
+    """
+    Gaussian distribution.
 
     f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
@@ -986,7 +1001,8 @@ def gaussian(x, a, x0, s0):
 
 
 def normal_distribution(x, s0, x0):
-    """Normal distribution.
+    """
+    Normal distribution.
 
     f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
@@ -1010,7 +1026,8 @@ def normal_distribution(x, s0, x0):
 
 
 def two_gaussian(x, a1, x1, s1, a2, x2, s2):
-    """Sum of two gaussian distribution.
+    """
+    Sum of two gaussian distribution.
 
     Parameters
     ----------
@@ -1046,7 +1063,8 @@ def two_gaussian(x, a1, x1, s1, a2, x2, s2):
 
 
 def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
-    """Sum of two gaussian distribution with an offset.
+    """
+    Sum of two gaussian distribution with an offset.
 
     Parameters
     ----------
@@ -1085,7 +1103,8 @@ def two_gaussian_offset(x, a1, x1, s1, a2, x2, s2, c):
 
 
 def num2str(a, n=3):
-    """To turn a number into a string.
+    """
+    To turn a number into a string.
 
     Parameters
     ----------
@@ -1106,7 +1125,8 @@ def num2str(a, n=3):
 
 
 def fit_gaussian_offset_filtered(x, y):
-    """Fit with the function gaussian_offset.
+    """
+    Fit with the function gaussian_offset.
 
     Parameters
     ----------
@@ -1156,7 +1176,8 @@ def fit_gaussian_offset_filtered(x, y):
 
 
 def reshape_img(img, ix, iy, lm):
-    """To reshape an image to a squared one.
+    """
+    To reshape an image to a squared one.
 
     Parameters
     ----------
@@ -1196,7 +1217,8 @@ def reshape_img(img, ix, iy, lm):
 
 
 def reshape_image_2(image, x1, y1, x2, y2):
-    """To reshape the image as a rectangle.
+    """
+    To reshape the image as a rectangle.
 
     Parameters
     ----------
@@ -1233,7 +1255,8 @@ def reshape_image_2(image, x1, y1, x2, y2):
 
 
 def import_image(fname, reshape=[]):
-    """To import the picture as an array.
+    """
+    To import the picture as an array.
 
     Parameters
     ----------
@@ -1275,7 +1298,8 @@ def import_image(fname, reshape=[]):
 
 
 def integrate_picture_along_y(img):
-    """To integrate the picture along th Y-axis.
+    """
+    To integrate the picture along th Y-axis.
 
     Parameters
     ----------
@@ -1297,7 +1321,8 @@ def integrate_picture_along_y(img):
 
 
 def integrate_picture_along_x(img):
-    """To integrate the picture along th X axis.
+    """
+    To integrate the picture along th X axis.
 
     Parameters
     ----------
@@ -1318,7 +1343,8 @@ def integrate_picture_along_x(img):
 
 
 def get_index_str(n, i):
-    """To convert an int 'i' to a string.
+    """
+    To convert an int 'i' to a string.
 
     Parameters
     ----------
@@ -1355,7 +1381,8 @@ def get_index_str(n, i):
 
 
 def significant(x, sig=4):
-    """To turn a float as a str with a certain number of significant digits.
+    """
+    To turn a float as a str with a certain number of significant digits.
 
     Parameters
     ----------

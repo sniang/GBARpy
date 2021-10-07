@@ -1,6 +1,6 @@
 more doc_class/README.md > README.md
 
-classname=('BeamSpot' 'MCPParams')
+classname=('BeamSpot' 'FitInterface' 'SimpleGaussian' 'FilteredGaussian' 'TwoGaussians' 'MCPParams')
 for name in "${classname[@]}"
 do
     md_name="doc_class/${name}.md"
