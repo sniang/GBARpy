@@ -1,4 +1,5 @@
 # GBARpy
+## Table of contents
 * [Installation](#installation)
     * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
     * [Procedure for Windows](#procedure-for-windows)
