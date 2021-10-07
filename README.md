@@ -1,14 +1,3 @@
-# Table of Contents
-* [Installation](#installation)
-    * [Procedure for Unix and MacOS](#procedure-for-unix-and-macos)
-    * [Procedure for Windows](#procedure-for-windows)
-* [Graphical User Interface](#graphical-user-interface)
-    * [How to do an analysis](#how-to-do-an-analysis)
-    * [Set the MCP parameters](#set-the-mcp-parameters)
-    * [Reshape the pictures](#reshape-the-pictures)
-* [Basic code for an analysis](#basic-code-for-an-analysis)
-* [More examples](#more-examples)
-
 # Installation
 ## Procedure for Unix and MacOS
 1. Install [python 3](https://www.python.org/downloads/)
