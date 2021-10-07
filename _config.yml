@@ -1,1 +1,18 @@
-theme: jekyll-theme-leap-day
+site_name: Docstring-Markdown
+docs_dir: docs_md
+site_dir: docs
+repo_url: https://github.com/dsbowen/docstr-md
+edit_uri: edit/master/docs_md
+nav:
+  - Home: index.md
+  - Test: test.md
+  - Linking to source code: src_href.md
+  - Python:
+    - Basic use: python/basic_use.md
+    - Soup objects: python/soup_objects.md
+    - Parsers: python/parsers.md
+    - Compilers: python/compilers.md
+  - Contribute: contribute.md
+theme: readthedocs
+extra_css:
+  - css/extra.css
