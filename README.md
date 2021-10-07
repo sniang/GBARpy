@@ -132,6 +132,7 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 
 ![reshape_3](example/reshape/reshape_3.png)
 
+# The library
 ## Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](example/MCP_example_basic.py) and [MCP_example_small_functions.py](example/MCP_example_small_functions.py).
 
@@ -245,7 +246,6 @@ fig7.savefig("fig_example_7.png")
 
 ![Example_7](example/fig_example_7.png)
 
-# Classes of the library
 ## GBARpy.MCPPicture.MCPParams
 
 #### `define_ratio(mm, pix)`
