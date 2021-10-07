@@ -11,8 +11,8 @@ To plot the integral of the picture along the y-axis.
 * Returns
    None
 
-Examples
-   ```python3
+* Examples
+```python3
  import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 bs.plot_Y_int("Integral along the x-axis")
@@ -29,8 +29,8 @@ To plot the integral of the picture along the x-axis.
 * Returns
    None
 
-Examples
-   ```python3
+* Examples
+```python3
  import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 bs.plot_X_int("Integral along the x-axis")
@@ -43,8 +43,8 @@ Reverse & plot the integral along the x-axis.
 * Returns
    None
 
-Examples
-   ```python
+* Examples
+```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 bs.plot_X_int("Integral along the x-axis")
@@ -74,8 +74,8 @@ To plot the picture and the analysis.
    fig: matplotlib.pyplot.Figure
 the figure
 
-Examples
-   ```python
+* Examples
+```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 fig = bs.plot("analysis.pdf")
@@ -193,8 +193,9 @@ To save the parameters of the MCP as a binary file (.mcp).
 * Returns
    None
 
-Examples
-   ```python
+* Examples
+```python
 params = MCPParams()
 params.save_config("config.mcp")
 ```
+
