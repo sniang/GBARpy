@@ -142,7 +142,7 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 
 ## MCPpicture library
 
-All the classes and the methods in this library are presented [here](https://github.com/sniang/GBARpy/blob/main/MCPPicture_doc.md).
+All the classes and the methods in this library are presented [here](https://github.com/sniang/GBARpy/blob/main/test.md).
 
 ### BeamSpot class
 ```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')``` [[source]](https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22)
