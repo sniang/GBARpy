@@ -259,31 +259,31 @@ fig7.savefig("fig_example_7.png")
 
 ### BeamSpot class
 #### Attributes
-* fname: str
+* fname: str  
 file name of the picture.
-* img: float[float[]]
+* img: float[float[]]  
 * picture as an array.
-pix: int[]
+pix: int[]  
 * the pixels along the x axis.
-piy: int[]
+piy: int[]  
 * the pixels along the y axis.
-* Ix: float[]
+* Ix: float[]  
 integral along the x axis.
-* Iy: float[]
+* Iy: float[]  
 integral along the y axis.
-* total_integral: float
+* total_integral: float  
 Total integral pf the image.
-* poptx: float[]
+* poptx: float[]  
 the parameters of the fit along the x-axis.
-* perrx: float[]
+* perrx: float[]  
 errors on the parameters of the fit along the x-axis.
-* popty: float[]
+* popty: float[]  
 the parameters of the fit along the y-axis.
-* perry: float[]
+* perry: float[]  
 errors on the parameters of the fit along the y-axis.
-* reshape: int[]
+* reshape: int[]  
 the parameters to reshape, see help(import_image).
-* Fit: GBARpy.MCPPicture.FitInterface
+* Fit: GBARpy.MCPPicture.FitInterface  
 The fit used for the analysis.
 
 #### Methods
