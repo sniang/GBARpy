@@ -247,8 +247,6 @@ fig7.savefig("fig_example_7.png")
 [Example_7](example/fig_example_7.png)
 
 ![Example_7](example/fig_example_7.png)
-
-## Classes of the library
 ## GBARpy.MCPPicture.BeamSpot
 
 #### `plot_y_int(label="")`
