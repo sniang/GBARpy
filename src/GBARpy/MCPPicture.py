@@ -709,7 +709,8 @@ class TwoGaussians(FitInterface):
 
 
 class MCPParams:
-    """Class to store the parameters of the MCP to adapt the analysis.
+    """
+    Class to store the parameters of the MCP to adapt the analysis.
 
     Parameters
     ----------
@@ -761,7 +762,8 @@ class MCPParams:
 
     def __init__(self, name=None, r=None, x0=None,
                  y0=None, r0=None, ratio=None):
-        """Constructor of the class.
+        """
+        Constructor of the class.
 
         Parameters
         ----------
@@ -796,7 +798,8 @@ class MCPParams:
         self.check_ratio_is_set()
 
     def __repr__(self):
-        """To translate the object as a string.
+        """
+        To translate the object as a string.
 
         Returns
         -------
@@ -813,7 +816,8 @@ class MCPParams:
         return res
 
     def define_ratio(self, mm, pix):
-        """To define the ratio mm vs pixels.
+        """
+        To define the ratio mm vs pixels.
 
         Parameters
         ----------
@@ -835,7 +839,8 @@ class MCPParams:
             print("The setting of the ratio has failed")
 
     def check_ratio_is_set(self):
-        """To check is the ratio has been set.
+        """
+        To check is the ratio has been set.
 
         Returns
         -------
@@ -849,7 +854,8 @@ class MCPParams:
         return self.ratioIsSet
 
     def check_all_set(self):
-        """To check is all has been set.
+        """
+        To check is all has been set.
 
         Returns
         -------
@@ -869,7 +875,8 @@ class MCPParams:
         return True
 
     def save_conf(self, fname):
-        """To save the parameters of the MCP as a binary file (.mcp).
+        """
+        To save the parameters of the MCP as a binary file (.mcp).
 
         Parameters
         ----------

@@ -9,12 +9,8 @@ This library is made to work with python 3.
     * [How to do an analysis](#how-to-do-an-analysis)
     * [Set the MCP parameters](#set-the-mcp-parameters)
     * [Reshape the pictures](#reshape-the-pictures)
-* [MCPpicture library](#mcppicture-library)
-    * [BeamSpot class](#beamspot-class)
-        * [Attributes](#attributes)
-        * [Methods](#methods)
-    * [Basic code for an analysis](#basic-code-for-an-analysis)
-    * [More examples](#more-examples)
+* [Basic code for an analysis](#basic-code-for-an-analysis)
+* [More examples](#more-examples)
 
 ## Installation
 ### Procedure for Unix and MacOS
@@ -139,174 +135,6 @@ One ce parameters has been set, press "Analyse the picture". If "ratio" has been
 
 ![reshape_3](example/reshape/reshape_3.png)
 
-## GBARpy.MCPPicture.MCPParams
-
-#### `define_ratio(mm, pix)`
-
-To define the ratio mm vs pixels.
-
-- **`mm`** `float`
-
-   A distance in mm.
-
-- **`pix`** `float`
-
-   The equivalent distance in pixels.
-
-Returns
--------
-   None
-
-#### `check_ratio_is_set()`
-
-To check is the ratio has been set.
-
-Returns
--------
-   result: boolean
-True if the ratio has been set.
-
-#### `check_all_set()`
-
-To check is all has been set.
-
-Returns
--------
-   result: boolean
-True if all the parameters have been set.
-
-#### `save_conf(fname)`
-
-To save the parameters of the MCP as a binary file (.mcp).
-
-- **`fname`** `string`
-
-   The name of the binary file.
-
-Returns
--------
-   None
-
-Examples
---------
-   ```python
-params = MCPParams()
-params.save_config("config.mcp")
-```
-
-
-## MCPpicture library
-
-All the classes and the methods in this library are presented [here](https://github.com/sniang/GBARpy/blob/main/MCPPicture_doc.md).
-
-### BeamSpot class
-```class MCPPicture.BeamSpot(fname, reshape=[], mcpp=None, fit='Filtered gaussian')``` [[source]](https://github.com/sniang/GBARpy/tree/main/src/GBARpy/MCPPicture.py#L22)
-
-Class to analyse the pictures coming from the MCP.
-#### Attributes
-* fname: str  
-file name of the picture.
-* img: float[float[]]  
-* picture as an array.
-pix: int[]  
-* the pixels along the x axis.
-piy: int[]  
-* the pixels along the y axis.
-* Ix: float[]  
-integral along the x axis.
-* Iy: float[]  
-integral along the y axis.
-* total_integral: float  
-Total integral pf the image.
-* poptx: float[]  
-the parameters of the fit along the x-axis.
-* perrx: float[]  
-errors on the parameters of the fit along the x-axis.
-* popty: float[]  
-the parameters of the fit along the y-axis.
-* perry: float[]  
-errors on the parameters of the fit along the y-axis.
-* reshape: int[]  
-the parameters to reshape, see help(import_image).
-* Fit: GBARpy.MCPPicture.FitInterface  
-The fit used for the analysis.
-#### Parameters
-* fname : str  
-    file name of the picture. The accepted file format["tif","jpg","jpeg","png","asc","bmp"].
-* reshape : int[3] or int[4]  
-    [ix,iy,l] to reshape the picture as a square
-    or [x1,x2,y1,y2] to reshape as a rectangle.
-* fit : str  
-    The kind of fit. Choose between "Filtered gaussian", "Simple gaussian", "Two gaussians".
-#### Example
-```python
-import GBARpy.MCPPicture as mcp
-bs = mcp.BeamSpot("name.tif")
-```
-#### Methods
-```__repr__(self)```:
-To represent the object as a string
-* Returns
-    * a string variable
-* Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    repr = bs.__repr__()
-    #or to print it in the python console
-    print(bs)
-    ```
-
-``` plot_Y_int(self,label="")```:
-To plot the integral of the picture along the "y" axis
-* Parameters
-    * label: (optional) a string
-* Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_Y_int("Integral along the y-axis")
-    ```
-
-```plot_X_int(self,label="")```:
-To plot the integral of the picture along the "x" axis
-* Parameters
-    * label: (optional) a string
-* Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_X_int("Integral along the x-axis")
-    ```
-    
-```plot_X_int_revert(self)```:
-To plot the integral of the picture along the "x" axis and reverse the picture
-*  Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_X_int("Integral along the x-axis")
-    ```
-
-```plot(self,fname="",figsize=(12,10),fontsize=12,ftsizeticks=12)```:
-To plot the picture and the analysis
-*  Parameters
-    * fname: string (optional), the name of the file to save the plot
-    * figsize: tuple (size in inch X, Y) (optional), size of the figure
-    * fontsize: int (optional), size of the font
-    * ftsizeticks: int (optional), size of the ticks' font
-* Returns
-    * fig: a matplotlib.pyplot.figure
-* Example
-    ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    fig = bs.plot("analysis.pdf")
-    # or
-    fig = bs.plot()
-    fig.savefig("analysis.pdf")
-    ```
-
 ### Basic code for an analysis
 The examples corresponds to the python scripts [MCP_example_basic.py](example/MCP_example_basic.py) and [MCP_example_small_functions.py](example/MCP_example_small_functions.py).
 
@@ -419,3 +247,53 @@ fig7.savefig("fig_example_7.png")
 [Example_7](example/fig_example_7.png)
 
 ![Example_7](example/fig_example_7.png)
+
+## GBARpy.MCPPicture.MCPParams
+
+### `define_ratio(mm, pix)`
+
+To define the ratio mm vs pixels.
+
+- **`mm`** `float`
+
+   A distance in mm.
+
+- **`pix`** `float`
+
+   The equivalent distance in pixels.
+
+#### Returns
+   None
+
+### `check_ratio_is_set()`
+
+To check is the ratio has been set.
+
+#### Returns
+   result: boolean
+True if the ratio has been set.
+
+### `check_all_set()`
+
+To check is all has been set.
+
+#### Returns
+   result: boolean
+True if all the parameters have been set.
+
+### `save_conf(fname)`
+
+To save the parameters of the MCP as a binary file (.mcp).
+
+- **`fname`** `string`
+
+   The name of the binary file.
+
+#### Returns
+   None
+
+#### Examples
+   ```python
+params = MCPParams()
+params.save_config("config.mcp")
+```
