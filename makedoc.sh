@@ -1,10 +1,15 @@
 more doc_class/README.md > README.md
 
-classname=('BeamSpot' 'FitInterface' 'SimpleGaussian' 'FilteredGaussian' 'TwoGaussians' 'MCPParams')
+classname=('BeamSpot' 'FitInterface' 'SimpleGaussian' 'FilteredGaussian' 'TwoGaussians' 'MCPParams' 'Others')
 for name in "${classname[@]}"
 do
     md_name="doc_class/${name}.md"
+    if [ $name = 'Others' ]
+    then
+    myopts src/GBARpy/MCPPicture.py -o $md_name -t "Other functions"
+    else
     myopts src/GBARpy/MCPPicture.py -o $md_name -c $name -s false -t "GBARpy.MCPPicture.${name}"
+    fi
     
     sed "s/Returns/* Returns/g" $md_name > doc_class/temp.md
     sed "/---/d" doc_class/temp.md > $md_name
