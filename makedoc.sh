@@ -19,3 +19,30 @@ do
     rm doc_class/temp.md
     more $md_name >> README.md
 done
+
+table="# GBARpy\n## Table of contents\n"
+input="README.md"
+hash1='^\# '
+pt1='* ['
+hash2="^\## "
+pt2='\t* ['
+
+while IFS= read -r line
+do
+    link="${line/'# '/}"
+    link="${link/'#'/}"
+    link="${link// /-}"
+    if [[ $line =~ $hash1 ]]
+    then
+        res="${line/'# '/$pt1}"
+        table+="${res}](#${link})\n"
+    fi
+    if [[ $line =~ $hash2 ]]
+    then
+        res="${line/'## '/$pt2}"
+        table+="${res}](#${link})\n"
+    fi
+done < "$input"
+
+echo "$table$(cat README.md)" > README.md
+

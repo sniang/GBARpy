@@ -81,8 +81,8 @@ class BeamSpot:
     Examples
     --------
     ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
+        import GBARpy.MCPPicture as mcp
+        bs = mcp.BeamSpot("name.tif")
     ```
     """
 
@@ -153,11 +153,11 @@ class BeamSpot:
         Examples
         --------
         ```python3
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        repr = bs.__repr__()
-        #or to print it in the python console
-        print(bs)
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            repr = bs.__repr__()
+            #or to print it in the python console
+            print(bs)
         ```
         """
         res = "Total integral: I = "
@@ -180,9 +180,9 @@ class BeamSpot:
         Examples
         --------
         ```python3
-         import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_Y_int("Integral along the x-axis")
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_Y_int("Integral along the x-axis")
         ```
         """
         popt = self.popty
@@ -214,9 +214,9 @@ class BeamSpot:
         Examples
         --------
         ```python3
-         import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_X_int("Integral along the x-axis")
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_X_int("Integral along the x-axis")
         ```
         """
         popt = self.poptx
@@ -243,9 +243,9 @@ class BeamSpot:
         Examples
         --------
         ```python
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        bs.plot_X_int("Integral along the x-axis")
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            bs.plot_X_int("Integral along the x-axis")
         ```
         """
         pix, Ix = self.pix, self.Ix
@@ -286,12 +286,12 @@ class BeamSpot:
         Examples
         -------
         ```python
-        import GBARpy.MCPPicture as mcp
-        bs = mcp.BeamSpot("name.tif")
-        fig = bs.plot("analysis.pdf")
-        # or
-        fig = bs.plot()
-        fig.savefig("analysis.pdf")
+            import GBARpy.MCPPicture as mcp
+            bs = mcp.BeamSpot("name.tif")
+            fig = bs.plot("analysis.pdf")
+            
+            fig = bs.plot()
+            fig.savefig("analysis.pdf")
         ```
         """
         def conv(a):
@@ -908,8 +908,8 @@ class MCPParams:
         Examples
         --------
         ```python
-        params = MCPParams()
-        params.save_config("config.mcp")
+            params = MCPParams()
+            params.save_config("config.mcp")
         ```
         """
         with open(fname, 'wb') as f1:
@@ -1362,13 +1362,13 @@ def get_index_str(n, i):
     Examples
     --------
     ```python
-    getIndexStr(100,15)
+        getIndexStr(100,15)
     ```
 
     Out:
 
     ```
-    '015'
+        '015'
     ```
     """
     if i < 0 or i > n:

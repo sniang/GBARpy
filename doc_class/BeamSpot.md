@@ -13,7 +13,7 @@ To plot the integral of the picture along the y-axis.
 
 * Examples
 ```python3
- import GBARpy.MCPPicture as mcp
+import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 bs.plot_Y_int("Integral along the x-axis")
 ```
@@ -31,7 +31,7 @@ To plot the integral of the picture along the x-axis.
 
 * Examples
 ```python3
- import GBARpy.MCPPicture as mcp
+import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 bs.plot_X_int("Integral along the x-axis")
 ```
@@ -79,7 +79,7 @@ the figure
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
 fig = bs.plot("analysis.pdf")
-# or
+
 fig = bs.plot()
 fig.savefig("analysis.pdf")
 ```
