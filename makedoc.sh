@@ -32,6 +32,7 @@ do
     link="${line/'# '/}"
     link="${link/'#'/}"
     link="${link// /-}"
+    link=$(echo "$link" | awk '{print tolower($0)}')
     if [[ $line =~ $hash1 ]]
     then
         res="${line/'# '/$pt1}"
