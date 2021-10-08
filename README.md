@@ -11,7 +11,7 @@
 	* [Basic code for an analysis](#basic-code-for-an-analysis)
 	* [More examples](#more-examples)
 	* [GBARpy.MCPPicture.BeamSpot](#gbarpy.mcppicture.beamspot)
-	* [GBARpy.MCPPicture.FitInterface](#gbarpy.mcppicture.fitinterface)
+	* [GBARpy.MCPPicture.FitInterface](#gbarpymcppicturefitinterface)
 	* [GBARpy.MCPPicture.SimpleGaussian](#gbarpy.mcppicture.simplegaussian)
 	* [GBARpy.MCPPicture.FilteredGaussian](#gbarpy.mcppicture.filteredgaussian)
 	* [GBARpy.MCPPicture.TwoGaussians](#gbarpy.mcppicture.twogaussians)
