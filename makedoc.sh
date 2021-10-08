@@ -31,6 +31,7 @@ while IFS= read -r line
 do
     link="${line/'# '/}"
     link="${link/'#'/}"
+    link="${link//['.']/}"
     link="${link// /-}"
     link=$(echo "$link" | awk '{print tolower($0)}')
     if [[ $line =~ $hash1 ]]

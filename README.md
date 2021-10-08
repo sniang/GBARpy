@@ -10,12 +10,12 @@
 * [The library](#the-library)
 	* [Basic code for an analysis](#basic-code-for-an-analysis)
 	* [More examples](#more-examples)
-	* [GBARpy.MCPPicture.BeamSpot](#gbarpy.mcppicture.beamspot)
+	* [GBARpy.MCPPicture.BeamSpot](#gbarpymcppicturebeamspot)
 	* [GBARpy.MCPPicture.FitInterface](#gbarpymcppicturefitinterface)
-	* [GBARpy.MCPPicture.SimpleGaussian](#gbarpy.mcppicture.simplegaussian)
-	* [GBARpy.MCPPicture.FilteredGaussian](#gbarpy.mcppicture.filteredgaussian)
-	* [GBARpy.MCPPicture.TwoGaussians](#gbarpy.mcppicture.twogaussians)
-	* [GBARpy.MCPPicture.MCPParams](#gbarpy.mcppicture.mcpparams)
+	* [GBARpy.MCPPicture.SimpleGaussian](#gbarpymcppicturesimplegaussian)
+	* [GBARpy.MCPPicture.FilteredGaussian](#gbarpymcppicturefilteredgaussian)
+	* [GBARpy.MCPPicture.TwoGaussians](#gbarpymcppicturetwogaussians)
+	* [GBARpy.MCPPicture.MCPParams](#gbarpymcppicturemcpparams)
 	* [Other functions](#other-functions)
 # Installation
 ## Procedure for Unix and MacOS
