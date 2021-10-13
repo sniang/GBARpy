@@ -334,7 +334,7 @@ the figure
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
-fig = bs.plot("analysis.pdf")
+fig = bs.plot("analysis.pdf") #or
 fig = bs.plot()
 fig.savefig("analysis.pdf")
 ```
