@@ -288,10 +288,9 @@ class BeamSpot:
         ```python
             import GBARpy.MCPPicture as mcp
             bs = mcp.BeamSpot("name.tif")
-            fig = bs.plot("analysis.pdf")
-            
-            fig = bs.plot()
-            fig.savefig("analysis.pdf")
+            fig = bs.plot("analysis.pdf") #open and save
+            fig = bs.plot() #open
+            fig.savefig("analysis.pdf") #then save
         ```
         """
         def conv(a):
