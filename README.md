@@ -268,10 +268,10 @@ To plot the integral of the picture along the y-axis.
    None
 
 * Examples
-```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_Y_int("Integral along the x-axis")
+```python3
+import GBARpy.MCPPicture as mcp
+bs = mcp.BeamSpot("name.tif")
+bs.plot_Y_int("Integral along the x-axis")
 ```
 
 #### `plot_x_int(label="")`
@@ -286,10 +286,10 @@ To plot the integral of the picture along the x-axis.
    None
 
 * Examples
-```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_X_int("Integral along the x-axis")
+```python3
+import GBARpy.MCPPicture as mcp
+bs = mcp.BeamSpot("name.tif")
+bs.plot_X_int("Integral along the x-axis")
 ```
 
 #### `plot_x_int_revert()`
@@ -301,9 +301,9 @@ Reverse & plot the integral along the x-axis.
 
 * Examples
 ```python
-    import GBARpy.MCPPicture as mcp
-    bs = mcp.BeamSpot("name.tif")
-    bs.plot_X_int("Integral along the x-axis")
+import GBARpy.MCPPicture as mcp
+bs = mcp.BeamSpot("name.tif")
+bs.plot_X_int("Integral along the x-axis")
 ```
 
 #### `plot(fname="", figsize=(12, 10), fontsize=12, ftsizeticks=12)`
