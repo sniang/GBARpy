@@ -89,7 +89,7 @@ To convert an int 'i' to a string.
 
 The number as a string.
 
-* Examples
+##### Examples
 ```python
 getIndexStr(100,15)
 ```

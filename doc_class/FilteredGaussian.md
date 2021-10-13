@@ -66,7 +66,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")

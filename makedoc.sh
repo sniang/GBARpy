@@ -13,7 +13,7 @@ do
     
     sed "s/Returns/##### Returns/g" $md_name > doc_class/temp.md
     sed "/---/d" doc_class/temp.md > $md_name
-    sed "s/Examples/* Examples/g" $md_name > doc_class/temp.md
+    sed "s/Examples/##### Examples/g" $md_name > doc_class/temp.md
     sed "s/   \`\`\`python/\`\`\`python/g" doc_class/temp.md > $md_name
     echo "\n" >>  $md_name
     rm doc_class/temp.md

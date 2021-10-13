@@ -267,7 +267,7 @@ To plot the integral of the picture along the y-axis.
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python3
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
@@ -285,7 +285,7 @@ To plot the integral of the picture along the x-axis.
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python3
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
@@ -299,7 +299,7 @@ Reverse & plot the integral along the x-axis.
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
@@ -330,7 +330,7 @@ To plot the picture and the analysis.
    fig: matplotlib.pyplot.Figure
 the figure
 
-* Examples
+##### Examples
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
@@ -451,7 +451,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -571,7 +571,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -668,7 +668,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -742,7 +742,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -816,7 +816,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -866,7 +866,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 ##### Returns
    None
 
-* Examples
+##### Examples
 ```python
 params = MCPParams()
 params.save_config("config.mcp")
@@ -963,7 +963,7 @@ To convert an int 'i' to a string.
 
 The number as a string.
 
-* Examples
+##### Examples
 ```python
 getIndexStr(100,15)
 ```
