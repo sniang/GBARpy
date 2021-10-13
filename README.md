@@ -264,7 +264,7 @@ To plot the integral of the picture along the y-axis.
 
    (optional) the label of the plot.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -282,7 +282,7 @@ To plot the integral of the picture along the x-axis.
 
    (optional) the label of the plot.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -296,7 +296,7 @@ bs.plot_X_int("Integral along the x-axis")
 
 Reverse & plot the integral along the x-axis.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -326,7 +326,7 @@ To plot the picture and the analysis.
 
    (optional) size of the ticks' font.
 
-* Returns
+##### Returns
    fig: matplotlib.pyplot.Figure
 the figure
 
@@ -334,7 +334,8 @@ the figure
 ```python
 import GBARpy.MCPPicture as mcp
 bs = mcp.BeamSpot("name.tif")
-fig = bs.plot("analysis.pdf") #or
+fig = bs.plot("analysis.pdf")
+
 fig = bs.plot()
 fig.savefig("analysis.pdf")
 ```
@@ -359,7 +360,7 @@ To do the fit y = f(x).
 
    the guessed parameters to help the fit
 
-* Returns
+##### Returns
    None.
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -382,7 +383,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -405,7 +406,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -421,14 +422,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -436,7 +437,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -448,7 +449,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -479,7 +480,7 @@ To do the fit y = f(x).
 
    the guessed parameters to help the fit
 
-* Returns
+##### Returns
    None.
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -502,7 +503,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -525,7 +526,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -541,14 +542,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -556,7 +557,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -568,7 +569,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -599,7 +600,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -622,7 +623,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -638,14 +639,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -653,7 +654,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -665,7 +666,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -696,7 +697,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -712,14 +713,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -727,7 +728,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -739,7 +740,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -770,7 +771,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -786,14 +787,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -801,7 +802,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -813,7 +814,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -836,14 +837,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -851,7 +852,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -863,7 +864,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -886,7 +887,7 @@ Fit with the function gaussian_offset.
 
    y-coordinates.
 
-* Returns
+##### Returns
    popt,perr: np.array(float[]), np.array(float[])
 The parameters and the error of the fit.
 
@@ -914,7 +915,7 @@ Gaussian distribution with an offset.
 
    The offset.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -941,7 +942,7 @@ f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
    The mean value, center of the distribution.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -958,7 +959,7 @@ To convert an int 'i' to a string.
 
    The number to convert.
 
-* Returns
+##### Returns
    - **`res`** `str`
 
 The number as a string.
@@ -982,7 +983,7 @@ To import the MCP parameters from a binary file.
 
    The file's name.
 
-* Returns
+##### Returns
    - **`mcpp`** `GBARpy.MCPPicture.MCPParams`
 
 The MCP parameters.
@@ -1000,7 +1001,7 @@ To import the picture as an array.
    [ix,iy,l] to reshape the picture as a square
 or [x1,x2,y1,y2] to reshape as a rectangle.
 
-* Returns
+##### Returns
    - **`img`** `np.array(float[float[])`
 
 The picture as 2D array.
@@ -1013,7 +1014,7 @@ To integrate the picture along th X axis.
 
    Image as a 2D numpy array.
 
-* Returns
+##### Returns
    - **`(pix,integral)`** `(numpy.array(int[]),numpy.array(float[]))`
 
 A tuple with pix the pixel numbers as a numpy array
@@ -1027,7 +1028,7 @@ To integrate the picture along th Y-axis.
 
    Image as a 2D numpy array.
 
-* Returns
+##### Returns
    - **`(pix,integral)`** `(numpy.array(int[]),numpy.array(float[]))`
 
 A tuple with pix the pixel numbers as a numpy array
@@ -1051,7 +1052,7 @@ f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
    The mean value, center of the distribution.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -1068,7 +1069,7 @@ To turn a number into a string.
 
    (optional) Number of significant digits.
 
-* Returns
+##### Returns
    - **`result`** `str`
 
 The string.
@@ -1097,7 +1098,7 @@ To reshape the image as a rectangle.
 
    The second y-coordinate of the rectangle.
 
-* Returns
+##### Returns
    - **`new_image`** `np.array(float[float[])`
 
 The reshaped image.
@@ -1122,7 +1123,7 @@ To reshape an image to a squared one.
 
    The half length of the square.
 
-* Returns
+##### Returns
    - **`img`** `np.array(float[float[])`
 
 The reshaped image.
@@ -1137,7 +1138,7 @@ The input number.
 sig: int, default=4
 Number of significant digits.
 
-* Returns
+##### Returns
    res: float
 The result.
 
@@ -1177,7 +1178,7 @@ Sum of two gaussian distribution with an offset.
 
    The offset.
 
-* Returns
+##### Returns
    result: float or numpy.array(float[])
 Value(s) of the distribution.
 
@@ -1213,6 +1214,6 @@ Sum of two gaussian distribution.
 
    Standard deviation of the second distribution.
 
-* Returns
+##### Returns
    result: float or numpy.array(float[])
 Value(s) of the distribution.

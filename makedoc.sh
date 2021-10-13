@@ -11,7 +11,7 @@ do
     myopts src/GBARpy/MCPPicture.py -o $md_name -c $name -s false -t "GBARpy.MCPPicture.${name}"
     fi
     
-    sed "s/Returns/* Returns/g" $md_name > doc_class/temp.md
+    sed "s/Returns/##### Returns/g" $md_name > doc_class/temp.md
     sed "/---/d" doc_class/temp.md > $md_name
     sed "s/Examples/* Examples/g" $md_name > doc_class/temp.md
     sed "s/   \`\`\`python/\`\`\`python/g" doc_class/temp.md > $md_name

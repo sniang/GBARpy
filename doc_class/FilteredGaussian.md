@@ -20,7 +20,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -36,14 +36,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -51,7 +51,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -63,7 +63,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples

@@ -8,7 +8,7 @@ To plot the integral of the picture along the y-axis.
 
    (optional) the label of the plot.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -26,7 +26,7 @@ To plot the integral of the picture along the x-axis.
 
    (optional) the label of the plot.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -40,7 +40,7 @@ bs.plot_X_int("Integral along the x-axis")
 
 Reverse & plot the integral along the x-axis.
 
-* Returns
+##### Returns
    None
 
 * Examples
@@ -70,7 +70,7 @@ To plot the picture and the analysis.
 
    (optional) size of the ticks' font.
 
-* Returns
+##### Returns
    fig: matplotlib.pyplot.Figure
 the figure
 
@@ -104,7 +104,7 @@ To do the fit y = f(x).
 
    the guessed parameters to help the fit
 
-* Returns
+##### Returns
    None.
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -127,7 +127,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 #### `do_fit(x1, y1, x2, y2)`
@@ -150,7 +150,7 @@ To do the fit y = f(x).
 
    the second y input data.
 
-* Returns
+##### Returns
    None
 
 
@@ -166,14 +166,14 @@ To define the ratio mm vs pixels.
 
    The equivalent distance in pixels.
 
-* Returns
+##### Returns
    None
 
 #### `check_ratio_is_set()`
 
 To check is the ratio has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if the ratio has been set.
 
@@ -181,7 +181,7 @@ True if the ratio has been set.
 
 To check is all has been set.
 
-* Returns
+##### Returns
    result: boolean
 True if all the parameters have been set.
 
@@ -193,7 +193,7 @@ To save the parameters of the MCP as a binary file (.mcp).
 
    The name of the binary file.
 
-* Returns
+##### Returns
    None
 
 * Examples

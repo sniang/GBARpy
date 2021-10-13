@@ -12,7 +12,7 @@ Fit with the function gaussian_offset.
 
    y-coordinates.
 
-* Returns
+##### Returns
    popt,perr: np.array(float[]), np.array(float[])
 The parameters and the error of the fit.
 
@@ -40,7 +40,7 @@ Gaussian distribution with an offset.
 
    The offset.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -67,7 +67,7 @@ f(x) = amplitude/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
    The mean value, center of the distribution.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -84,7 +84,7 @@ To convert an int 'i' to a string.
 
    The number to convert.
 
-* Returns
+##### Returns
    - **`res`** `str`
 
 The number as a string.
@@ -108,7 +108,7 @@ To import the MCP parameters from a binary file.
 
    The file's name.
 
-* Returns
+##### Returns
    - **`mcpp`** `GBARpy.MCPPicture.MCPParams`
 
 The MCP parameters.
@@ -126,7 +126,7 @@ To import the picture as an array.
    [ix,iy,l] to reshape the picture as a square
 or [x1,x2,y1,y2] to reshape as a rectangle.
 
-* Returns
+##### Returns
    - **`img`** `np.array(float[float[])`
 
 The picture as 2D array.
@@ -139,7 +139,7 @@ To integrate the picture along th X axis.
 
    Image as a 2D numpy array.
 
-* Returns
+##### Returns
    - **`(pix,integral)`** `(numpy.array(int[]),numpy.array(float[]))`
 
 A tuple with pix the pixel numbers as a numpy array
@@ -153,7 +153,7 @@ To integrate the picture along th Y-axis.
 
    Image as a 2D numpy array.
 
-* Returns
+##### Returns
    - **`(pix,integral)`** `(numpy.array(int[]),numpy.array(float[]))`
 
 A tuple with pix the pixel numbers as a numpy array
@@ -177,7 +177,7 @@ f(x) = 1/sqrt(2pi)/sigma * exp(-1/2 {(x-mu)/sigma}^2)
 
    The mean value, center of the distribution.
 
-* Returns
+##### Returns
    - **`result`** `numpy.array(float[])`
 
 The value of the distribution.
@@ -194,7 +194,7 @@ To turn a number into a string.
 
    (optional) Number of significant digits.
 
-* Returns
+##### Returns
    - **`result`** `str`
 
 The string.
@@ -223,7 +223,7 @@ To reshape the image as a rectangle.
 
    The second y-coordinate of the rectangle.
 
-* Returns
+##### Returns
    - **`new_image`** `np.array(float[float[])`
 
 The reshaped image.
@@ -248,7 +248,7 @@ To reshape an image to a squared one.
 
    The half length of the square.
 
-* Returns
+##### Returns
    - **`img`** `np.array(float[float[])`
 
 The reshaped image.
@@ -263,7 +263,7 @@ The input number.
 sig: int, default=4
 Number of significant digits.
 
-* Returns
+##### Returns
    res: float
 The result.
 
@@ -303,7 +303,7 @@ Sum of two gaussian distribution with an offset.
 
    The offset.
 
-* Returns
+##### Returns
    result: float or numpy.array(float[])
 Value(s) of the distribution.
 
@@ -339,7 +339,7 @@ Sum of two gaussian distribution.
 
    Standard deviation of the second distribution.
 
-* Returns
+##### Returns
    result: float or numpy.array(float[])
 Value(s) of the distribution.
 
